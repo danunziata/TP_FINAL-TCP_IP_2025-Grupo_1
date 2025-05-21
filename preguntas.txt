@@ -1,0 +1,10 @@
+- Que necesitan que hagamos?
+- Que datos quieren monitorear del equipo? 
+- Cada cuanto tiempo quieren que se tome/envie la informacion?
+- Tienen una computadora disponible para usar como servidor(tanto para la base de datos como para el envio de informacion)?
+- Por cuanto tiempo quieren guardar los datos? Quieren tener un backup? 
+- Quieren una aplicacion web? (Recomendado)
+- Que otros sensores necesitan?
+- Como quieren visualizar los datos? Quieren un display en algun lugar?
+- Cuales son los valores criticos que quieren ver? Necesitan alertas? 
+- 
