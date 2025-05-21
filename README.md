@@ -6,8 +6,8 @@
 
 **Objetivo:**
 Desarrollar una solución tecnológica al problema planteado aplicando lo aprendido durante
-el cursado de la materia y siguiendo el proceso estudiado de la ingeniería del software.
-**Deadline:** 17/06/
+el cursado de la materia y siguiendo el proceso estudiado de la ingeniería del software.  
+**Deadline:** 17/06/25  
 **Enunciado:**
 El Instituto de Protecciones de Sistemas Eléctricos de Potencia (IPSEP), dependiente de la
 Facultad de Ingeniería de la Universidad Nacional de Río Cuarto, lo ha contratado para
@@ -29,6 +29,7 @@ Llevar adelante el desarrollo del sistema en el marco del proceso de desarrollo 
 según el SWEBOK de la IEEE (Versión 3.0).
 Se debe entregar la documentación completa y presentar un demostrador tecnológico de la
 solución planteada.
+
 **Grupo** :
 
 ## Integrantes Actividad
