@@ -1,0 +1,31 @@
+name: Publicar cambios en Discord
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    name: Deploy on local server
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Get list of changed files
+      id: changes
+      run: |
+        echo "BRANCH_NAME=$(echo $GITHUB_REF | sed 's|refs/heads/||')" >> $GITHUB_OUTPUT
+        echo "FILES_CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | paste -sd ',' -)" >> $GITHUB_OUTPUT
+
+    - name: Notify on Discord
+      uses: Ilshidur/action-discord@master
+      with:
+        args: |
+          🧾 Archivos modificados: ${{ steps.changes.outputs.FILES_CHANGED }}
+          🌿 Rama: ${{ steps.changes.outputs.BRANCH_NAME }}
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
