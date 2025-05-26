@@ -43,8 +43,8 @@ Abdul, Aaron
 Torletti, Lautaro
 Nuñez, Damián
 Coranti, Elias
-Documentación:
 ```
+Documentación:
 - Requerimientos
 - Diseño
 - Implementación
