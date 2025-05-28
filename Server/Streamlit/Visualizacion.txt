@@ -1,0 +1,3 @@
+La pagina debe poder visualizar:
+Se debe poder visualizar Graficas de Corriente, Tensión, Potencia (Activa, Reactiva, Aparente), Factor de Potencia (en R, S y T).
+Descargar los datos segun la fecha de los datos.
