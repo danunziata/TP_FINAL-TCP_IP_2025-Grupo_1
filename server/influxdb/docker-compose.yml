@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  influxdb:
+    image: influxdb:2.7
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=ipsep
+      - DOCKER_INFLUXDB_INIT_PASSWORD=ipsep2025
+      - DOCKER_INFLUXDB_INIT_ORG=power_logic
+      - DOCKER_INFLUXDB_INIT_BUCKET=corriente
+      - DOCKER_INFLUXDB_INIT_RETENTION=180d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=token_telegraf
+    restart: unless-stopped
+
+  influxdb-init:
+    image: influxdb:2.7
+    depends_on:
+      - influxdb
+    volumes:
+      - ./init.sh:/init.sh:ro
+    entrypoint: [ "sh", "/init.sh" ]
+
+volumes:
+  influxdb-data:
