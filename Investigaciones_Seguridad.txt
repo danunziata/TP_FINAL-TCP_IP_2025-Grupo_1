@@ -1,0 +1,6 @@
+02/06/2025
+
+Se opta por usar la libreria "streamlint-authenticator" en Streamlit para implementar autenticación al ingresar a la 
+aplicación web desarrollada en Streamlit.
+
+Se tiene que definir usuario y contraseña para ingresar
