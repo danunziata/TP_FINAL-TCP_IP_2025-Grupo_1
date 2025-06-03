@@ -1,84 +1,67 @@
-# IPSEP - App de Prueba de Seguridad en Login
+# 🔐 IPSEP Login Demo (Seguridad - Etapa Inicial)
 
-Esta aplicación es un ejemplo funcional desarrollado en **Python con Streamlit**, con el objetivo de explorar y asegurar el proceso de **autenticación de usuarios** para proyectos internos del equipo de ciberseguridad de IPSEP.
+Este proyecto es un entorno de pruebas para implementar y testear la **seguridad del login** en una aplicación web usando [Streamlit](https://streamlit.io/) y [streamlit-authenticator](https://github.com/mkhorasani/streamlit-authenticator). Forma parte del trabajo colaborativo de nuestro equipo en la sección de **seguridad**.
 
----
-
-## 🔍 Objetivo del Proyecto
-
-Construir una app web ligera donde se pueda:
-
-* Implementar y probar autenticación de usuarios con contraseñas cifradas.
-* Validar la integridad del archivo de configuración (`config.yaml`).
-* Gestionar de forma segura los usuarios y contraseñas.
+> ⚠️ Las contraseñas actualmente están almacenadas en texto plano, solo con fines de prueba. Próximamente se integrará el hasheo seguro mediante `bcrypt`.
 
 ---
 
-## 🚀 Tecnologías utilizadas
-
-* **Python 3.11**
-* **Streamlit**
-* **Streamlit Authenticator** (`streamlit-authenticator`)
-* **bcrypt** (para hashing seguro de contraseñas)
-* **PyYAML** (lectura del archivo `config.yaml`)
-
----
-
-## 📂 Estructura del Proyecto
+## 📁 Estructura del proyecto
 
 ```
-tcp/
-├── app.py              # App principal de Streamlit
-├── config.yaml         # Usuarios, contraseñas y cookies
-├── hashgen.py          # Script para generar hashes bcrypt
-├── requirements.txt    # Dependencias del proyecto
-├── .gitignore          # Archivos que git ignora
-└── README.md           # Documentación del proyecto
+.
+├── app.py              # Código principal de la app Streamlit
+├── config.yaml         # Configuración de usuarios, cookies y credenciales
+├── hashgen.py          # Script para generar contraseñas hasheadas con bcrypt
+├── requirements.txt    # Dependencias necesarias
 ```
 
 ---
 
-## 🔐 Autenticación con Hash Bcrypt
+## 🚀 Cómo correr la app
 
-Las contraseñas se almacenan usando el algoritmo **bcrypt**. Se genera el hash mediante el script `hashgen.py`:
+1. **Clonar el repositorio y activar el entorno virtual:**
 
 ```bash
-$ python hashgen.py
-Ingresa la contraseña: admin123
-
-Hash bcrypt generado:
-"$2b$12$EIvVKFhrk4Tk4FZlNEm2vOGL9aRxxtcSblnW0xVYd6AHOMAx9eHE2"
-```
-
-Este valor se copia luego al archivo `config.yaml`.
-
----
-
-## 🔧 Cómo usar la aplicación
-
-### 1. Crear entorno virtual
-
-```bash
-python3 -m venv venv
-source venv/bin/activate  # En macOS/Linux
-# o .\venv\Scripts\activate en Windows
-```
-
-### 2. Instalar dependencias
-
-```bash
+git clone https://github.com/<usuario>/<repositorio>.git
+cd <repositorio>
+python3.11 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Ejecutar la aplicación
+2. **Ejecutar la app Streamlit:**
 
 ```bash
 streamlit run app.py
 ```
 
+3. **Acceso con usuarios de prueba:**
+
+| Usuario    | Contraseña |
+|------------|------------|
+| `admin`    | `admin`    |
+| `userview` | `userview` |
+
 ---
 
-## 💳 Estructura del `config.yaml`
+## 🧩 Descripción de archivos
+
+### `app.py`
+
+Contiene la lógica de autenticación y la interfaz de login:
+
+- Carga la configuración desde `config.yaml`.
+- Usa `streamlit_authenticator.Authenticate()` para gestionar login y cookies.
+- Muestra un formulario de login interactivo.
+- Al autenticar correctamente, muestra contenido protegido.
+
+### `config.yaml`
+
+Archivo YAML con la configuración de:
+
+- Usuarios (username, email, nombre, contraseña).
+- Cookies (nombre, clave secreta, duración).
 
 ```yaml
 credentials:
@@ -86,77 +69,42 @@ credentials:
     admin:
       email: admin@example.com
       name: Administrador
-      password: "$2b$12$..."
+      password: admin
     userview:
       email: userview@example.com
       name: Usuario View
-      password: "$2b$12$..."
-
+      password: userview
 cookie:
   expiry_days: 30
   key: some_secret_key
   name: ipsep_cookie
 ```
 
----
-
-## 📚 Detalle de los archivos principales
-
-### `app.py`
-
-Contiene:
-
-* Lectura de `config.yaml` con validación de estructura.
-* Configuración del autenticador con `streamlit_authenticator`.
-* Verificación de usuario/contraseña.
-* Vista de login e interfaz principal tras autenticación.
-
-**Fragmento clave:**
-
-```python
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
-)
-```
-
----
-
 ### `hashgen.py`
 
-Script independiente para generar hashes bcrypt:
+Script que permite generar hashes seguros para las contraseñas:
 
 ```python
 import streamlit_authenticator as stauth
 
-password = input("Ingresa la contraseña: ")
-hash = stauth.Hasher([password]).generate()[0]
+psw = input("Ingresa la contraseña: ")
+hash = stauth.Hasher([psw]).generate()[0]
 print("\nHash bcrypt generado:\n")
 print(f'"{hash}"')
 ```
 
 ---
 
-## 📖 Buenas prácticas de seguridad aplicadas
+## 🧪 Próximos pasos
 
-* No se almacenan contraseñas en texto plano.
-* Se validan claves de configuración antes de continuar.
-* Separamos el hash en un script externo (`hashgen.py`) para evitar errores humanos.
-* Se usa bcrypt con costo 12.
-
----
-
-## 🤔 TO-DO / Mejoras futuras
-
-* Implementar roles de acceso (admin, lector, etc).
-* Cifrado completo del `config.yaml` en producción.
-* Expiración forzada de sesión inactiva.
-* Logging de intentos fallidos.
+- ✅ Implementación básica con texto plano.
+- 🔒 Migrar a contraseñas **hasheadas con bcrypt**.
+- 🧾 Separar usuarios por roles.
+- 🔁 Integrar pruebas automáticas de login.
+- 📚 Documentar funcionalidades en español e inglés.
 
 ---
 
-## 📡 Licencia
+## ✍️ Comentarios de desarrollo
 
-Uso interno IPSEP. Proyecto de prueba sin fines comerciales.
+Estamos trabajando en una rama separada para no afectar el `README.md` ni la estructura del repositorio principal. Este entorno es únicamente para validar el **módulo de autenticación**, y se integrará al proyecto principal una vez finalizadas las pruebas.
