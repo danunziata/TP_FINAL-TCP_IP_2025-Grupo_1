@@ -12,7 +12,7 @@ services:
       - DOCKER_INFLUXDB_INIT_USERNAME=ipsep
       - DOCKER_INFLUXDB_INIT_PASSWORD=ipsep2025
       - DOCKER_INFLUXDB_INIT_ORG=power_logic
-      - DOCKER_INFLUXDB_INIT_BUCKET=corriente
+      - DOCKER_INFLUXDB_INIT_BUCKET=mensualx6
       - DOCKER_INFLUXDB_INIT_RETENTION=180d
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=token_telegraf
     restart: unless-stopped
