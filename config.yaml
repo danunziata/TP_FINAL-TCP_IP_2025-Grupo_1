@@ -1,0 +1,15 @@
+credentials:
+  usernames:
+    admin:
+      email: admin@example.com
+      name: Administrador
+      password: admin
+    userview:
+      email: userview@example.com
+      name: Usuario View
+      password: userview
+
+cookie:
+  expiry_days: 30
+  key: some_secret_key
+  name: ipsep_cookie
