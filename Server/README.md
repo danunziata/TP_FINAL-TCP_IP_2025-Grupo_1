@@ -1,4 +1,4 @@
-## Pasos para levantar en servidor:
+## Pasos para levantar el servidor:
 
 Antes de levantarlo revisar que no haya contenedores o procesos de linux que esten utilizando los mismos puertos que se van a utilizar para esto. Recomiendo borrar los containers, las network que no se utilicen o de trabajos previos, los volumenes (las imagenes dejarlas).
 
