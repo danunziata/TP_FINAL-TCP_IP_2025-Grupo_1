@@ -1,0 +1,13 @@
+# Ignorar entornos virtuales
+venv/
+ENV/
+env/
+
+# Ignorar archivos compilados de Python
+__pycache__/
+*.py[cod]
+
+# Otros típicos
+*.log
+.DS_Store
+
