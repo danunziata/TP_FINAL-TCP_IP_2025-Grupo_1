@@ -1,0 +1,20 @@
+cookie:
+  expiry_days: 30
+  key: your_cookie_key
+  name: your_cookie_name
+credentials:
+  usernames:
+    admin:
+      email: admin@example.com
+      failed_login_attempts: 0
+      first_name: Admin
+      last_name: User
+      logged_in: false
+      password: $2b$12$F6J/BHhqlmfpBWR/yucWxO9leAx/kbPmEXhbFEMWZ4PfvKVwdmSPe
+    invitado:
+      email: invitado@example.com
+      failed_login_attempts: 0
+      first_name: Guest
+      last_name: User
+      logged_in: false
+      password: $2b$12$jnlNuStgKiNTpl0ypkNcLuTPtkISjcff/Nx1FdiDq8YvrYJn/n0/C
