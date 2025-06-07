@@ -123,7 +123,10 @@ Estas métricas se enviarán a ambos buckets (`mensualx6` y `anualx4`).
 ***Nota:** Cada versión de Telegraf tiene una manera distinta de formar su estructura y de llamar a los registros, por ejemplo en algunas versiones en vez de usar: `[[inputs.modbus.holding_registers]]`, se usa: `[[inputs.modbus.fields]]`. Si no se configura de manera correcta, el Docker de Telegraf no se levanta y da error si se ven sus Logs*
 
 **Fuentes:**
-[Documentación de Telegraf](https://docs.influxdata.com/telegraf/v1/?_gl=1*u1cc7p*_ga*MTY0MTE3NTYyOC4xNzQ2NDcwOTgw*_ga_CNWQ54SDD8*czE3NDkyMzUxOTEkbzE3JGcwJHQxNzQ5MjM1MTkzJGo2MCRsMCRoNzc3NDQyMzY.*_gcl_au*Mjg2NzIzODc1LjE3NDY0NzA5ODM.)
-[github inputs.modbus](https://github.com/influxdata/telegraf/blob/release-1.34/plugins/inputs/modbus/README.md)
-[github outputs.influxdb](https://github.com/influxdata/telegraf/blob/release-1.34/plugins/outputs/influxdb_v2/README.md)
+
+- [Documentación de Telegraf](https://docs.influxdata.com/telegraf/v1/?_gl=1*u1cc7p*_ga*MTY0MTE3NTYyOC4xNzQ2NDcwOTgw*_ga_CNWQ54SDD8*czE3NDkyMzUxOTEkbzE3JGcwJHQxNzQ5MjM1MTkzJGo2MCRsMCRoNzc3NDQyMzY.*_gcl_au*Mjg2NzIzODc1LjE3NDY0NzA5ODM.)
+
+- [github inputs.modbus](https://github.com/influxdata/telegraf/blob/release-1.34/plugins/inputs/modbus/README.md)
+
+- [github outputs.influxdb](https://github.com/influxdata/telegraf/blob/release-1.34/plugins/outputs/influxdb_v2/README.md)
 
