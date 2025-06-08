@@ -2,4 +2,4 @@ streamlit
 influxdb-client
 pandas
 plotly
-pymodbus
+pymodbus>=2.5.0 
