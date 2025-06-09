@@ -1,5 +1,5 @@
 # Estructura
-Habrá un bucket principal llamado "mensualx6", el cual contendrá 6 meses de información con todos los datos que precisen de esta retención. Y habrá otro bucket llamado "anualx4", el cual tendrá 4 años de retención (para la demanda de potencia).
+Habrá un bucket principal llamado "mensualx6", el cual contendrá 6 meses de información con todos los datos que precisen de esta retención. Y habrá otro bucket llamado "anualx4", el cual tendrá 4 años de retención (para la demanda de potencia). Además un bucket llamado "promedios", que retendrá por siempre los datos. Este bucket trabaja junto a un Task Every (ver apartado Tasks) que se encuentra en init.sh, este Task hace un promedio cada 15 minutos de los valores con el tag "Potencia".
 
 # Tasks
 Cada cierto tiempo especifico, o de acuerdo a parametros de tiempo (a cierto día y hora), permiten realizar:  
@@ -9,6 +9,7 @@ Escritura automática: Guardar resultados procesados en otro bucket.
 Reenvío de datos: Mover datos de un bucket a otro, incluso con agregación.  
 Alarmas (usando http.post): Notificar si un valor supera un umbral  
 ## Every
+Cada cierto tiempo realiza una función
 
 ## Cron
 Formato: Minuto  -   Hora    -   Día (mes)   -   Mes     -   día (semana)    
