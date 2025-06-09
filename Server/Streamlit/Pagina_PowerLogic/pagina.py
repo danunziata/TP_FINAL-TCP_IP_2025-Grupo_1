@@ -73,8 +73,17 @@ def generate_simulated_data():
         st.error(f"Error generando datos simulados: {str(e)}")
         return None
 
+def get_file_modification_time():
+    """Obtiene la fecha de modificación del archivo CSV"""
+    try:
+        if os.path.exists(DATA_FILE):
+            return os.path.getmtime(DATA_FILE)
+        return None
+    except:
+        return None
+
 @st.cache_data
-def load_data():
+def load_data(_file_mod_time=None, _data_version=0):
     """Carga datos desde el archivo CSV simulado"""
     try:
         # Si el archivo no existe, generar datos
@@ -85,8 +94,21 @@ def load_data():
         else:
             # Intentar cargar el archivo existente
             try:
-                df = pd.read_csv(DATA_FILE, parse_dates=['timestamp'])
-            except (ValueError, KeyError) as e:
+                df = pd.read_csv(DATA_FILE)
+                # Convertir timestamp a datetime si es string
+                if df['timestamp'].dtype == 'object':
+                    df['timestamp'] = pd.to_datetime(df['timestamp'])
+                
+                # Verificar si el archivo cargado tiene datos válidos
+                if len(df) == 0:
+                    st.warning("El archivo CSV está vacío. Regenerando datos...")
+                    if os.path.exists(DATA_FILE):
+                        os.remove(DATA_FILE)
+                    df = generate_simulated_data()
+                    if df is None:
+                        return None
+                        
+            except (ValueError, KeyError, pd.errors.EmptyDataError) as e:
                 # Si hay error con el archivo existente, regenerar
                 st.warning("Archivo CSV corrupto o con formato incorrecto. Regenerando datos...")
                 if os.path.exists(DATA_FILE):
@@ -107,16 +129,19 @@ def load_data():
             if df is None:
                 return None
         
-        # Renombrar columnas a español
-        df = df.rename(columns={
-            'Active_Power': 'Potencia Activa (kW)',
-            'Reactive_Power': 'Potencia Reactiva (kVAR)',
-            'Apparent_Power': 'Potencia Aparente (kVA)',
-            'Voltage': 'Tensión (V)',
-            'Current': 'Corriente (A)',
-            'Power_Factor': 'Factor de Potencia',
-            'Active_Power_Demand': 'Demanda Activa (kW)'
-        })
+        # Si el archivo fue cargado exitosamente, NO renombrar las columnas aquí
+        # Solo renombrar si son datos generados internamente
+        if 'Active_Power' in df.columns and 'Potencia Activa (kW)' not in df.columns:
+            # Renombrar columnas a español solo si vienen del formato original
+            df = df.rename(columns={
+                'Active_Power': 'Potencia Activa (kW)',
+                'Reactive_Power': 'Potencia Reactiva (kVAR)',
+                'Apparent_Power': 'Potencia Aparente (kVA)',
+                'Voltage': 'Tensión (V)',
+                'Current': 'Corriente (A)',
+                'Power_Factor': 'Factor de Potencia',
+                'Active_Power_Demand': 'Demanda Activa (kW)'
+            })
         
         return df
         
@@ -156,8 +181,15 @@ st.title("📊 Sistema de Monitoreo PowerLogic 4000")
 st.markdown("**Visualización de parámetros eléctricos** | Schneider Electric™")
 st.divider()
 
-# Cargar datos
-df = load_data()
+# Inicializar session state para controlar actualizaciones
+if 'data_version' not in st.session_state:
+    st.session_state.data_version = 0
+
+# Obtener tiempo de modificación del archivo para forzar recarga
+file_mod_time = get_file_modification_time()
+
+# Cargar datos (el parámetro _file_mod_time hace que se recargue cuando cambia el archivo)
+df = load_data(file_mod_time, st.session_state.data_version)
 
 if df is None or df.empty:
     st.error("❌ No se pudieron cargar los datos. Por favor, verifica la configuración.")
@@ -167,35 +199,65 @@ if df is None or df.empty:
 with st.sidebar:
     st.header("⚙️ Configuración")
     
-    # Selector de fechas
+    # Mostrar información del archivo
+    if os.path.exists(DATA_FILE):
+        file_stats = os.stat(DATA_FILE)
+        file_mod_date = datetime.fromtimestamp(file_stats.st_mtime)
+        st.info(f"📄 Última actualización del archivo:\n{file_mod_date.strftime('%d/%m/%Y %H:%M:%S')}")
+        st.info(f"📊 Total de registros: {len(df)}")
+        
+        # Mostrar rango de fechas disponibles
+        min_date_available = df['timestamp'].min().strftime('%d/%m/%Y')
+        max_date_available = df['timestamp'].max().strftime('%d/%m/%Y')
+        st.info(f"📅 Datos disponibles:\nDesde: {min_date_available}\nHasta: {max_date_available}")
+    
+    st.divider()
+    st.info("💡 Si has actualizado el archivo CSV externamente, presiona 'Actualizar Datos' para ver los cambios")
+    
+    # Botones de control ANTES del selector de fechas
+    col_btn1, col_btn2 = st.columns(2)
+    
+    with col_btn1:
+        if st.button("🔄 Actualizar Datos", type="primary", use_container_width=True):
+            # Incrementar versión para forzar recarga
+            st.session_state.data_version += 1
+            # Limpiar el caché de la función load_data específicamente
+            load_data.clear()
+            st.success("✅ Datos actualizados correctamente!")
+            st.rerun()
+    
+    with col_btn2:
+        if st.button("🗑️ Regenerar Datos", use_container_width=True):
+            if os.path.exists(DATA_FILE):
+                os.remove(DATA_FILE)
+            st.session_state.data_version += 1
+            load_data.clear()
+            st.rerun()
+    
+    st.divider()
+    
+    # Obtener fechas mínimas y máximas DESPUÉS de cargar los datos
     min_date = df['timestamp'].min().date()
     max_date = df['timestamp'].max().date()
+    
+    # Selector de fechas con key único basado en las fechas para forzar actualización
+    date_range_key = f"date_range_{min_date}_{max_date}_{st.session_state.data_version}"
     
     date_range = st.date_input(
         "Seleccionar rango de fechas:",
         value=(min_date, max_date),
         min_value=min_date,
-        max_value=max_date
+        max_value=max_date,
+        key=date_range_key
     )
     
     # Selector de fases
     selected_phases = st.multiselect(
         "Fases a mostrar:",
         options=['R', 'S', 'T'],
-        default=['R', 'S', 'T']
+        default=['R', 'S', 'T'],
+        key=f"phases_{st.session_state.data_version}"
     )
-    
-    st.divider()
-    st.info("💡 Seleccione un rango de fechas y presione 'Actualizar Datos'")
-    if st.button("🔄 Actualizar Datos", type="primary", use_container_width=True):
-        st.cache_data.clear()
-        st.rerun()
-    
-    if st.button("🗑️ Regenerar Datos", use_container_width=True):
-        if os.path.exists(DATA_FILE):
-            os.remove(DATA_FILE)
-        st.cache_data.clear()
-        st.rerun()
 
 # Filtrar datos por fecha y fase
 if len(date_range) == 2:
