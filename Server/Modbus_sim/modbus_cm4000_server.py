@@ -1,9 +1,10 @@
 import random
-from pymodbus.server.sync import StartTcpServer
+from pymodbus.server import StartAsyncTcpServer
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
 from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.device import ModbusDeviceIdentification
 import logging
+import asyncio
 
 # Configuración de logging
 logging.basicConfig()
@@ -27,7 +28,6 @@ REGISTERS = {
 }
 
 # Generador de datos aleatorios realistas
-
 def generate_cm4000_data():
     return [
         int(random.uniform(220.0, 240.0) * 10),  # voltage_l1n (escala x10)
@@ -43,33 +43,34 @@ def generate_cm4000_data():
         int(random.uniform(10000.0, 100000.0)),  # energy (Wh)
     ]
 
-# Callback para actualizar los registros periódicamente
-from threading import Timer
+async def update_registers(context, interval=2):
+    while True:
+        values = generate_cm4000_data()
+        context[0x00].setValues(3, 0, values)  # 3 = holding registers
+        await asyncio.sleep(interval)
 
-def update_registers(context, interval=2):
-    values = generate_cm4000_data()
-    context[0x00].setValues(3, 0, values)  # 3 = holding registers
-    Timer(interval, update_registers, [context, interval]).start()
+async def run_server():
+    # Crear el contexto del servidor
+    store = ModbusSlaveContext(
+        hr=ModbusSequentialDataBlock(0, generate_cm4000_data()),
+        zero_mode=True
+    )
+    context = ModbusServerContext(slaves=store, single=True)
 
-# Crear el contexto del servidor
-store = ModbusSlaveContext(
-    hr=ModbusSequentialDataBlock(0, generate_cm4000_data()),
-    zero_mode=True
-)
-context = ModbusServerContext(slaves=store, single=True)
+    # Identificación del dispositivo
+    identity = ModbusDeviceIdentification()
+    identity.VendorName = 'Schneider Electric'
+    identity.ProductCode = 'CM4000'
+    identity.VendorUrl = 'https://www.se.com/'
+    identity.ProductName = 'PowerLogic Circuit Monitor Series 4000'
+    identity.ModelName = 'CM4000'
+    identity.MajorMinorRevision = '1.0'
 
-# Identificación del dispositivo
-identity = ModbusDeviceIdentification()
-identity.VendorName = 'Schneider Electric'
-identity.ProductCode = 'CM4000'
-identity.VendorUrl = 'https://www.se.com/'
-identity.ProductName = 'PowerLogic Circuit Monitor Series 4000'
-identity.ModelName = 'CM4000'
-identity.MajorMinorRevision = '1.0'
+    # Iniciar actualización periódica de registros
+    asyncio.create_task(update_registers(context))
 
-# Iniciar actualización periódica de registros
-update_registers(context)
+    print("Servidor Modbus TCP PowerLogic CM4000 simulado corriendo en 0.0.0.0:5020")
+    await StartAsyncTcpServer(context, identity=identity, address=("0.0.0.0", 5020))
 
 if __name__ == "__main__":
-    print("Servidor Modbus TCP PowerLogic CM4000 simulado corriendo en 0.0.0.0:5020")
-    StartTcpServer(context, identity=identity, address=("0.0.0.0", 5020)) 
+    asyncio.run(run_server()) 

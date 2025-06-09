@@ -1,5 +1,0 @@
-streamlit
-influxdb-client
-pandas
-plotly
-pymodbus>=2.5.0 

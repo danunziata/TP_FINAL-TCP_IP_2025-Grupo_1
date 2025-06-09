@@ -3,12 +3,10 @@ FROM python:3.9-slim
 WORKDIR /app
 
 COPY requirements.txt .
-
-# Instala todos los paquetes del requirements.txt, incluyendo la versión correcta de pymodbus
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY modbus_cm4000_server.py .
 
 EXPOSE 5020
 
-CMD ["python", "modbus_cm4000_server.py"]
+CMD ["python", "modbus_cm4000_server.py"] 
