@@ -56,3 +56,14 @@ influxdb-data/
 
 # Telegraf
 telegraf.conf.local
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Archivos de sistema
+Thumbs.db
+desktop.ini
