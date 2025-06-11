@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # PowerLogic 4000 Monitor - Dependencias de Python
 # Instalar con: pip install -r requirements.txt
 
@@ -15,26 +14,9 @@ plotly>=5.15.0
 # Exportación de datos
 openpyxl>=3.1.0
 
-# Utilidades de fecha y tiempo (incluidas en Python estándar)
-# datetime - Librería estándar
-=======
-# PowerLogic 4000 Monitor - Dependencias de Python
-# Instalar con: pip install -r requirements.txt
-
-# Framework principal
-streamlit>=1.28.0
-
-# Manipulación de datos
-pandas>=2.0.0
-numpy>=1.24.0
-
-# Visualización
-plotly>=5.15.0
-
-# Exportación de datos
-openpyxl>=3.1.0
+# Base de datos
+influxdb-client>=1.36.0
 
 # Utilidades de fecha y tiempo (incluidas en Python estándar)
 # datetime - Librería estándar
->>>>>>> bb7f761b1fe8c713249ab87d0753ed0f4860f6a1
 # os - Librería estándar
