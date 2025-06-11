@@ -1,0 +1,88 @@
+Resumen de cambios y correcciones para integración Streamlit + InfluxDB
+============================================================
+
+1. **Docker y dependencias**
+   - Se creó un Dockerfile para Streamlit y se corrigieron conflictos en el Dockerfile de Modbus_sim.
+   - Se ajustó la instalación de dependencias del sistema (por ejemplo, netcat-openbsd).
+
+2. **Variables de entorno y conexión**
+   - Se verificó que las variables de entorno en docker-compose.yml para el servicio streamlit fueran correctas:
+     - INFLUXDB_URL=http://influxdb:8086
+     - INFLUXDB_TOKEN=token_telegraf
+     - INFLUXDB_ORG=power_logic
+     - INFLUXDB_BUCKET=mensualx6
+
+3. **Measurement y estructura de datos**
+   - Se detectó que los datos reales en InfluxDB estaban bajo el measurement "modbus" y no "power_metrics".
+   - Se modificó la consulta Flux en pagina.py para buscar en "modbus".
+
+4. **Columnas y pivoteo**
+   - El código original intentaba hacer pivot usando la columna/tag "phase", pero los datos reales no tienen ese tag.
+   - Se adaptó la consulta para hacer pivot solo por "_field" y se eliminaron referencias a "phase".
+   - Se renombraron los fields a nombres descriptivos por fase: Corriente L1 (A), Corriente L2 (A), Corriente L3 (A), Voltaje L1N (V), etc.
+
+5. **Conversión de fechas**
+   - Se corrigió un error de comparación de fechas eliminando la zona horaria de la columna timestamp con:
+     df['timestamp'] = df['timestamp'].dt.tz_localize(None)
+
+6. **Visualización y selección de fases**
+   - Se eliminó el filtrado por columna "phase" y se adaptó la interfaz para que el usuario pueda seleccionar qué fases (L1, L2, L3) visualizar.
+   - Se grafican corriente y voltaje para cada fase seleccionada.
+
+7. **Exportación y datos crudos**
+   - Se mantiene la exportación a CSV y Excel, y la visualización de los datos crudos filtrados por fecha.
+
+Cómo Streamlit lee los datos desde InfluxDB
+===========================================
+
+1. **Configuración de conexión**
+   - En el archivo `pagina.py`, se definen las variables de entorno para la conexión:
+     - INFLUXDB_URL, INFLUXDB_TOKEN, INFLUXDB_ORG, INFLUXDB_BUCKET
+   - Estas variables se configuran en el `docker-compose.yml` y permiten que el código se conecte al servidor de InfluxDB.
+
+2. **Creación del cliente InfluxDB**
+   - Se crea un cliente con la librería `influxdb_client`:
+     ```python
+     def get_influx_client():
+         return InfluxDBClient(
+             url=INFLUX_URL,
+             token=INFLUX_TOKEN,
+             org=INFLUX_ORG
+         )
+     ```
+
+3. **Consulta de datos con Flux**
+   - En la función `load_data()`, se arma una consulta Flux para traer los datos del measurement `modbus`:
+     ```python
+     query = f'''
+     from(bucket: "{INFLUX_BUCKET}")
+         |> range(start: -30d)
+         |> filter(fn: (r) => r["_measurement"] == "modbus")
+         |> filter(fn: (r) => r["host"] == "telegraf")
+         |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+     '''
+     ```
+   - Esto trae los datos de los últimos 30 días, solo del measurement y host indicados, y los pivotea para que cada field sea una columna.
+
+4. **Ejecución de la consulta y obtención del DataFrame**
+   - Se ejecuta la consulta y se obtiene un DataFrame de pandas:
+     ```python
+     result = query_api.query_data_frame(query)
+     ```
+
+5. **Procesamiento y limpieza**
+   - Se renombran las columnas para que sean más descriptivas.
+   - Se convierte la columna `timestamp` a formato datetime y se elimina la zona horaria para evitar errores de comparación.
+   - El DataFrame resultante tiene columnas como:
+     - `timestamp`
+     - `Potencia Activa (W)`
+     - `Corriente L1 (A)`, `Corriente L2 (A)`, `Corriente L3 (A)`
+     - `Voltaje L1N (V)`, `Voltaje L2N (V)`, `Voltaje L3N (V)`
+
+6. **Visualización**
+   - El usuario selecciona el rango de fechas y las fases (L1, L2, L3) desde la interfaz de Streamlit.
+   - Se filtran los datos por fecha.
+   - Se grafican las columnas correspondientes a cada fase seleccionada.
+
+**Resumen:**
+Streamlit se conecta a InfluxDB, consulta los datos con Flux, los convierte a un DataFrame, los procesa y permite al usuario visualizarlos y exportarlos desde la interfaz web. 

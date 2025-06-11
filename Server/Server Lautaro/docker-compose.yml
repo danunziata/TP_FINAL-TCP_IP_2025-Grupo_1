@@ -49,37 +49,25 @@ services:
     restart: unless-stopped
     networks:
       - default
-
-  cargar-historico:
+      
+  streamlit:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
-    command: ["python", "cargar_historico.py"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./Streamlit:/app
     depends_on:
       - influxdb
-    volumes:
-      - ./Streamlit/Pagina_PowerLogic/powerlogic_simulated_data.csv:/app/powerlogic_simulated_data.csv
-    restart: "no"
-
-streamlit:
-  build:
-    context: ./Streamlit
-    dockerfile: Dockerfile
-  ports:
-    - "8501:8501"
-  volumes:
-    - ./Streamlit:/app           # Monta el código fuente
-    - ./Streamlit/data:/app/data  # Para persistir datos generados
-  depends_on:
-    - influxdb
-  environment:
-    - INFLUXDB_URL=http://influxdb:8086
-    - INFLUXDB_TOKEN=token_telegraf
-    - INFLUXDB_ORG=power_logic
-    - INFLUXDB_BUCKET=mensualx6
-  command: ["streamlit", "run", "pagina.py", "--server.port=8501", "--server.address=0.0.0.0"]
-  restart: unless-stopped
-
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=token_telegraf
+      - INFLUXDB_ORG=power_logic
+      - INFLUXDB_BUCKET=mensualx6
+    restart: unless-stopped
+    networks:
+      - default
 
 volumes:
   influxdb-data:
