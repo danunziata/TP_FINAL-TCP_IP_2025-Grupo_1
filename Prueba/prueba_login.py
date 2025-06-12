@@ -6,10 +6,15 @@ import pandas as pd  # pip install pandas openpyxl
 import plotly.express as px  # pip install plotly-express
 import streamlit as st  # pip install streamlit
 import streamlit_authenticator as stauth  # pip install streamlit-authenticator
+from pagina_final import main as app_final
 
 
-# emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
-st.set_page_config(page_title="Prueba de LogIn", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(
+        page_title="PowerLogic 4000 Monitor",
+        page_icon="📊",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
 
 
 # --- USER AUTHENTICATION ---
@@ -40,9 +45,7 @@ if st.session_state["authentication_status"]:
     # El botón de logout usa el estado de autenticación de st.session_state automáticamente
     authenticator.logout("Logout", "sidebar")
     
-    """
-    INSERTAR AQUI EL CODIGO PARA LA APLICACION
-    """
+    app_final()
 
 # Si la autenticación falla
 elif st.session_state["authentication_status"] is False:
