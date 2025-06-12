@@ -4,3 +4,11 @@ cookie:
   name: your_cookie_name
 credentials:
   usernames:
+    aaron4a:
+      email: aabdul@ing.unrc.edu.ar
+      first_name: Aaron
+      last_name: Abdul
+      logged_in: false
+      notificaciones: true
+      password: $2b$12$tsXaGQCDn.zC28Aq9CHxReQobXe58.dUkNkjpo92ZXrfpk.H9Z7Vu
+      roles: null

@@ -2,7 +2,7 @@ FROM python:3-slim
 
 WORKDIR /app
 
-COPY prueba_login.py config.yaml requirements.txt ./
+COPY prueba_login.py pagina_final.py config.yaml requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
