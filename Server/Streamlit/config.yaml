@@ -1,0 +1,22 @@
+cookie:
+  expiry_days: 30
+  key: your_cookie_key
+  name: your_cookie_name
+credentials:
+  usernames:
+    aaron4a:
+      email: aabdul@ing.unrc.edu.ar
+      first_name: Aaron
+      last_name: Abdul
+      logged_in: false
+      notificaciones: true
+      password: $2b$12$N1Vi3bbsQIE1h99abmKHm.6TeoN3pUHt47rG09u6dsI3Cv5O/ZBI2
+      roles: null
+    fedebal:
+      email: fbal@ing.unrc.edu.ar
+      first_name: Fede
+      last_name: Bal
+      logged_in: false
+      notificaciones: false
+      password: $2b$12$Hv3UqCTON5ggxosNsIMcv.U.qMJgJPNpcDdSeLlJYAHIs4OszqSq2
+      roles: null
