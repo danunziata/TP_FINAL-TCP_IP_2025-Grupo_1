@@ -43,7 +43,7 @@ def generate_cm4000_data():
         int(random.uniform(10000.0, 100000.0)),  # energy (Wh)
     ]
 
-async def update_registers(context, interval=2):
+async def update_registers(context, interval=30): #edite esto
     while True:
         values = generate_cm4000_data()
         context[0x00].setValues(3, 0, values)  # 3 = holding registers

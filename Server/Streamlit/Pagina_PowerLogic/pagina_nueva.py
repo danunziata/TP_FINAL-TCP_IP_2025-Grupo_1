@@ -1,12 +1,15 @@
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
 from datetime import datetime, timedelta
 import os
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 import time
+from tzlocal import get_localzone
 
 # Configuración de InfluxDB desde variables de entorno
 INFLUX_URL = os.getenv('INFLUXDB_URL', 'http://influxdb:8086')
@@ -22,16 +25,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Refrescar cada 5 minutos (300 segundos)
-REFRESH_INTERVAL = 300  # segundos
-
-if "last_refresh" not in st.session_state:
-    st.session_state["last_refresh"] = time.time()
-
-# Si pasaron más de 5 minutos, recarga la página
-if time.time() - st.session_state["last_refresh"] > REFRESH_INTERVAL:
-    st.session_state["last_refresh"] = time.time()
-    st.experimental_rerun()
+# Mensaje informativo sobre la frecuencia de actualización
+st.info("⚡ Los datos se actualizan cada 15 minutos. No es posible ver datos en tiempo real.")
 
 def get_influx_client():
     """Crea y retorna un cliente de InfluxDB"""
@@ -76,6 +71,17 @@ def load_data():
         })
         df['timestamp'] = pd.to_datetime(df['timestamp'])
         df['timestamp'] = df['timestamp'].dt.tz_localize(None)
+
+        # Obtener la zona horaria local
+        local_tz = get_localzone()
+
+        # Si tus timestamps están en UTC, conviértelos a la zona local
+        if df['timestamp'].dt.tz is None:
+            # Si no tienen zona, primero localiza como UTC
+            df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+        df['timestamp'] = df['timestamp'].dt.tz_convert(local_tz)
+        df['timestamp'] = df['timestamp'].dt.tz_localize(None)  # Si quieres quitar la info de zona y trabajar como naive local
+
         return df
         
     except Exception as e:
@@ -125,13 +131,14 @@ if df is None or df.empty:
 with st.sidebar:
     st.header("⚙️ Configuración")
     
-    # Selector de fechas
+    # Selector de fechas: por defecto, mostrar solo el día de hoy
+    hoy = datetime.now().date()
     min_date = df['timestamp'].min().date()
     max_date = df['timestamp'].max().date()
     
     date_range = st.date_input(
         "Seleccionar rango de fechas:",
-        value=(min_date, max_date),
+        value=(hoy, hoy),
         min_value=min_date,
         max_value=max_date
     )
@@ -153,54 +160,66 @@ with st.sidebar:
     if st.button("🔄 Actualizar Datos", type="primary", use_container_width=True):
         st.rerun()
 
-# Filtrar datos por fecha
+# Obtener el rango de fechas seleccionado
 if len(date_range) == 2:
     start_date, end_date = date_range
-    start_dt = pd.Timestamp(start_date)
-    end_dt = pd.Timestamp(end_date) + timedelta(days=1)
-    
-    filtered_df = df[(df['timestamp'] >= start_dt) & (df['timestamp'] <= end_dt)]
-    
-    if not filtered_df.empty:
-        # Gráficos por fase seleccionada
-        st.subheader("Gráficos por Fase")
-        for phase in selected_phases:
-            col_corr, col_volt = phase_options[phase]
-            st.markdown(f"### Fase {phase}")
-            st.line_chart(filtered_df.set_index('timestamp')[col_corr], use_container_width=True)
-            st.line_chart(filtered_df.set_index('timestamp')[col_volt], use_container_width=True)
-        
-        st.subheader("Datos Crudos")
-        st.dataframe(filtered_df, height=400)
-        
-        # Exportación de datos
-        st.divider()
-        st.subheader("Exportar Datos")
-        csv = filtered_df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="📥 Descargar CSV",
-            data=csv,
-            file_name=f"power_data_{start_date}_{end_date}.csv",
-            mime='text/csv',
-            use_container_width=True
-        )
-        from io import BytesIO
-        excel_buffer = BytesIO()
-        filtered_df.to_excel(excel_buffer, index=False, engine='openpyxl')
-        excel_buffer.seek(0)
-        st.download_button(
-            label="💾 Descargar Excel",
-            data=excel_buffer.getvalue(),
-            file_name=f"power_data_{start_date}_{end_date}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            use_container_width=True
-        )
-        st.metric("Registros encontrados", len(filtered_df))
-        st.info(f"Datos del {start_date} al {end_date} (fases: {', '.join(selected_phases)})")
+    hoy = datetime.now().date()
+    if start_date == end_date == hoy:
+        # Solo mostrar desde las 00:00 hasta la última medición de hoy
+        start_dt = pd.Timestamp(hoy)
+        ultimo_dato_hoy = df[df['timestamp'].dt.date == hoy]['timestamp'].max()
+        if pd.isna(ultimo_dato_hoy):
+            filtered_df = df.iloc[0:0]
+        else:
+            filtered_df = df[(df['timestamp'] >= start_dt) & (df['timestamp'] <= ultimo_dato_hoy)]
     else:
-        st.warning("⚠️ No se encontraron datos para el rango seleccionado")
+        # Si el usuario seleccionó otro rango, usar ese rango completo
+        start_dt = pd.Timestamp(start_date)
+        end_dt = pd.Timestamp(end_date) + timedelta(days=1)
+        filtered_df = df[(df['timestamp'] >= start_dt) & (df['timestamp'] < end_dt)]
+
+if not filtered_df.empty:
+    # Gráficos por fase seleccionada
+    st.subheader("Gráficos por Fase")
+    for phase in selected_phases:
+        col_corr, col_volt = phase_options[phase]
+        st.markdown(f"### Fase {phase}")
+        # Gráfica de Corriente con zoom
+        fig_corr = px.line(filtered_df, x='timestamp', y=col_corr, title=f"{col_corr} - {phase}")
+        st.plotly_chart(fig_corr, use_container_width=True)
+        # Gráfica de Voltaje con zoom
+        fig_volt = px.line(filtered_df, x='timestamp', y=col_volt, title=f"{col_volt} - {phase}")
+        st.plotly_chart(fig_volt, use_container_width=True)
+    
+    st.subheader("Datos Crudos")
+    st.dataframe(filtered_df, height=400)
+    
+    # Exportación de datos
+    st.divider()
+    st.subheader("Exportar Datos")
+    csv = filtered_df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="📥 Descargar CSV",
+        data=csv,
+        file_name=f"power_data_{start_date}_{end_date}.csv",
+        mime='text/csv',
+        use_container_width=True
+    )
+    from io import BytesIO
+    excel_buffer = BytesIO()
+    filtered_df.to_excel(excel_buffer, index=False, engine='openpyxl')
+    excel_buffer.seek(0)
+    st.download_button(
+        label="💾 Descargar Excel",
+        data=excel_buffer.getvalue(),
+        file_name=f"power_data_{start_date}_{end_date}.xlsx",
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        use_container_width=True
+    )
+    st.metric("Registros encontrados", len(filtered_df))
+    st.info(f"Datos del {start_date} al {end_date} (fases: {', '.join(selected_phases)})")
 else:
-    st.error("Por favor seleccione un rango de fechas válido")
+    st.warning("⚠️ No se encontraron datos para el rango seleccionado")
 
 # Footer
 st.divider()
