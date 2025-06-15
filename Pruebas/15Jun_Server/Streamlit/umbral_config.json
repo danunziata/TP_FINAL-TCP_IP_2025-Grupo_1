@@ -1,0 +1,14 @@
+{
+    "voltaje": {
+        "min": 200.0,
+        "max": 240.0
+    },
+    "current_l1": {
+        "min": 0.0,
+        "max": 100.0
+    },
+    "active_power": {
+        "min": 0.0,
+        "max": 1000.0
+    }
+}

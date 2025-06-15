@@ -1,0 +1,20 @@
+[
+    {
+        "login_email": "eliascoranti3@gmail.com",
+        "nombre": "elias",
+        "alert_email": "elias.a.coranti@gmail.com",
+        "recibir_notificaciones": true
+    },
+    {
+        "login_email": "admin@ing.unrc.edu.ar",
+        "nombre": "IPSEP Admin",
+        "alert_email": null,
+        "recibir_notificaciones": false
+    },
+    {
+        "login_email": "vmora@ing.unrc.edu.ar",
+        "nombre": "Vale Mora",
+        "alert_email": "vmora@ing.unrc.edu.ar",
+        "recibir_notificaciones": false
+    }
+]

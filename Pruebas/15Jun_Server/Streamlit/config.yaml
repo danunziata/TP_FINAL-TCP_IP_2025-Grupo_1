@@ -1,0 +1,31 @@
+alert_digest_interval_minutes: 1440
+cookie:
+  expiry_days: 30
+  key: your_cookie_key
+  name: your_cookie_name
+credentials:
+  usernames:
+    eliascoranti:
+      email: eliascoranti3@gmail.com
+      first_name: elias
+      last_name: coranti
+      logged_in: false
+      password: $2b$12$O1C5OBg/Tu7A5u9VrC301.C3RdvQszar9kYyw24JPZnEzrV4Fjeau
+      password_hint: 1234Elias!
+      roles: null
+    ipsepadmin:
+      email: admin@ing.unrc.edu.ar
+      first_name: IPSEP
+      last_name: Admin
+      logged_in: false
+      password: $2b$12$TMf663cyCcRiyphXU7I94.SbmN8hhDQHx.wp8R2BGhMSsSzzfyUqK
+      roles: admin
+    vmora:
+      email: vmora@ing.unrc.edu.ar
+      first_name: Vale
+      last_name: Mora
+      logged_in: false
+      password: $2b$12$hgjtlaei.y2mtqkPSpAWIu0vg50Bx9ZtpLIznDLBPJHkx51TKiZl2
+      password_hint: 2422321Elias!
+      roles: null
+notificaciones_generales: true

@@ -1,0 +1,112 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=ipsep
+      - DOCKER_INFLUXDB_INIT_PASSWORD=ipsep2025
+      - DOCKER_INFLUXDB_INIT_ORG=power_logic
+      - DOCKER_INFLUXDB_INIT_BUCKET=mensualx6
+      - DOCKER_INFLUXDB_INIT_RETENTION=180d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=token_telegraf
+    restart: unless-stopped
+
+  influxdb-init:
+    image: influxdb:2.7
+    depends_on:
+      - influxdb
+    volumes:
+      - ./influxdb/init.sh:/init.sh:ro
+    entrypoint: [ "sh", "/init.sh" ]
+
+  telegraf:
+    image: telegraf:1.28
+    volumes:
+      - ./Telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      - INFLUX_TOKEN=token_telegraf
+      - INFLUX_ORG=power_logic
+    depends_on:
+      - influxdb
+      - modbus-sim
+    restart: unless-stopped
+    networks:
+      - default
+
+  telegraf-warnings: # Servicio para recolectar datos de alta frecuencia para alertas
+    image: telegraf:1.28
+    volumes:
+      - ./Telegraf/telegraf_warnings.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      - INFLUX_TOKEN=token_telegraf
+      - INFLUX_ORG=power_logic
+    depends_on:
+      - influxdb
+      - modbus-sim
+    restart: unless-stopped
+    networks:
+      - default
+
+  modbus-sim:
+    build:
+      context: ./Modbus_sim
+      dockerfile: Dockerfile
+    command: ["sh", "-c", "while true; do python modbus_cm4000_server.py; sleep 900; done"]
+    ports:
+      - "5020:5020"
+    restart: unless-stopped
+    networks:
+      - default
+      
+  streamlit:
+    build:
+      context: ./Streamlit
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501" # Puerto expuesto para acceso local
+    volumes:
+      - ./Streamlit:/app
+    depends_on:
+      - influxdb
+      - telegraf-warnings
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=token_telegraf
+      - INFLUXDB_ORG=power_logic
+      - INFLUXDB_BUCKET=mensualx6
+      - RESEND_API_KEY=re_T2f6KPsP_NNRYnqEFC5JffPL7rWxXgiYa
+      - RESEND_FROM=alertas@galasandbox.com.ar
+    restart: unless-stopped
+    networks:
+      - default
+
+  checker_service: # Servicio para ejecutar checker.py automáticamente
+    build:
+      context: ./Streamlit
+      dockerfile: Dockerfile
+    command: ["sh", "-c", "while true; do python checker.py; sleep 60; done"]
+    depends_on:
+      - influxdb
+      - telegraf-warnings
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=token_telegraf
+      - INFLUXDB_ORG=power_logic
+      - RESEND_API_KEY=re_T2f6KPsP_NNRYnqEFC5JffPL7rWxXgiYa
+      - RESEND_FROM=alertas@galasandbox.com.ar
+    volumes:
+      - ./Streamlit:/app
+    networks:
+      - default
+    restart: unless-stopped
+
+volumes:
+  influxdb-data:
+
+networks:
+  default:
+    driver: bridge
