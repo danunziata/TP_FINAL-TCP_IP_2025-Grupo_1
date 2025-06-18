@@ -1,0 +1,85 @@
+alert_digest_interval_minutes: 1440
+cookie:
+  expiry_days: 30
+  key: your_cookie_key
+  name: your_cookie_name
+credentials:
+  usernames:
+    ipsepadmin:
+      email: admin@ing.unrc.edu.ar
+      first_name: IPSEP
+      last_name: Admin
+      logged_in: false
+      password: $2b$12$icwHPZERS/eqJdXWVGj5IekYET8jeXKsjFKCrl9nvxdnx.B5ytdEq
+      roles: admin
+    usuariomate:
+      email: mate@ing.unrc.edu.ar
+      first_name: mate
+      last_name: mates
+      logged_in: false
+      password: $2b$12$QpN06a/7Zos/FVWSc5CMR.GiwuQ2P9Wet4qAsoYqXtVuNzutCo1/6
+      password_hint: 1234Admin!
+      roles: null
+    vmora:
+      email: vmora@ing.unrc.edu.ar
+      first_name: Vale
+      last_name: Mora
+      logged_in: false
+      password: $2b$12$hgjtlaei.y2mtqkPSpAWIu0vg50Bx9ZtpLIznDLBPJHkx51TKiZl2
+      password_hint: 2422321Elias!
+      roles: null
+default_franjas_horarias:
+  DIA:
+    fin_hora: '20:00'
+    inicio_hora: 08:00
+    umbrales:
+      active_power:
+        max: 8000.0
+        min: 500.0
+      current_l1:
+        max: 40.0
+        min: 5.0
+      voltaje:
+        max: 235.0
+        min: 210.0
+  NOCHE:
+    fin_hora: 07:59
+    inicio_hora: '20:01'
+    umbrales:
+      active_power:
+        max: 3000.0
+        min: 100.0
+      current_l1:
+        max: 20.0
+        min: 1.0
+      voltaje:
+        max: 225.0
+        min: 200.0
+franjas_horarias:
+  DIA:
+    fin_hora: '20:00'
+    inicio_hora: 08:00
+    umbrales:
+      active_power:
+        max: 8000.0
+        min: 500.0
+      current_l1:
+        max: 40.0
+        min: 5.0
+      voltaje:
+        max: 235.0
+        min: 210.0
+  NOCHE:
+    fin_hora: 07:59
+    inicio_hora: '20:01'
+    umbrales:
+      active_power:
+        max: 3000.0
+        min: 100.0
+      current_l1:
+        max: 20.0
+        min: 1.0
+      voltaje:
+        max: 225.0
+        min: 200.0
+notificaciones_generales: true
