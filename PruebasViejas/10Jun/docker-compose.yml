@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  login-streamlit:
+    image: prueba-login-streamlit
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: login-streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - login_config_data:/app
+    restart: always
+
+volumes:
+  login_config_data:
+    name: login_config_data
