@@ -10,7 +10,7 @@ credentials:
       first_name: elias
       last_name: coranti
       logged_in: false
-      password: $2b$12$O1C5OBg/Tu7A5u9VrC301.C3RdvQszar9kYyw24JPZnEzrV4Fjeau
+      password: $2b$12$9..DFexnaQBByCaB/j4EF.jzjvNkugx1J5DmSmacGuMAD7.A/p4C2
       password_hint: 1234Elias!
       roles: null
     ipsepadmin:
@@ -18,7 +18,7 @@ credentials:
       first_name: IPSEP
       last_name: Admin
       logged_in: false
-      password: $2b$12$TMf663cyCcRiyphXU7I94.SbmN8hhDQHx.wp8R2BGhMSsSzzfyUqK
+      password: $2b$12$9..DFexnaQBByCaB/j4EF.jzjvNkugx1J5DmSmacGuMAD7.A/p4C2
       roles: admin
     vmora:
       email: vmora@ing.unrc.edu.ar
