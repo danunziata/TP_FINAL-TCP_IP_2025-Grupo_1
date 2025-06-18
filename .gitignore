@@ -1,1 +1,20 @@
+# Ignorar carpetas no deseadas
+Prueba/
+10Jun/
+backups/
+Documentacion_Progresos/
+
+# Ignorar archivos de sistema y cachés
+__pycache__/
+*.pyc
+*.log
+*.csv
 .DS_Store
+
+# Ignorar archivos temporales o sensibles
+*.zip
+reset_tokens.json
+usuarios.json
+logs_alertas.json
+last_digest_sent_state.json
+alert_cooldown_state.json
