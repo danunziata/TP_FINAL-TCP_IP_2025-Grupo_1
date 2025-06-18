@@ -1,20 +1,23 @@
-# Ignorar carpetas no deseadas
-Prueba/
-10Jun/
-backups/
-Documentacion_Progresos/
-
-# Ignorar archivos de sistema y cachés
-__pycache__/
-*.pyc
-*.log
-*.csv
+# Ignorar archivos del sistema
 .DS_Store
 
-# Ignorar archivos temporales o sensibles
+# Caché de Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Archivos de backup
 *.zip
-reset_tokens.json
-usuarios.json
-logs_alertas.json
-last_digest_sent_state.json
-alert_cooldown_state.json
+*.tar
+*.tar.gz
+*.bak
+
+# Archivos de entorno / local
+.env
+*.swp
+
+# Carpetas viejas fuera del release oficial
+PruebasViejas/
+Prueba/
+Pruebas/backups/
+Pruebas/10Jun/
