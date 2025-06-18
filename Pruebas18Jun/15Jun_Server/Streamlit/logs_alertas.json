@@ -1,26 +1,5 @@
 [
     {
-        "timestamp": "2025-06-15T16:57:57.703542",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-15T16:58:57.837109",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-15T16:59:59.420262",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
         "timestamp": "2025-06-15T17:00:59.556037",
         "variable": "voltaje",
         "valor": 1.0,
@@ -694,6 +673,27 @@
     },
     {
         "timestamp": "2025-06-15T21:00:50.451926",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 200.0, Max: 240.0",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-18T19:57:26.022611",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 200.0, Max: 240.0",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-18T19:58:27.512347",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 200.0, Max: 240.0",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-18T19:59:27.656780",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 200.0, Max: 240.0",
