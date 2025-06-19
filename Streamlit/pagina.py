@@ -148,19 +148,20 @@ def load_data(_file_mod=None, data_version=0):
 def mostrar_alertas_activas(logs_file="logs_alertas.json"):
     """
     Muestra una tabla con el historial de alertas, permitiendo filtrar por fecha.
+    Devuelve el DataFrame filtrado.
     """
     st.subheader("📋 Historial de Alertas")
     try:
         if not os.path.exists(logs_file):
             st.info("Aún no se han registrado alertas.")
-            return
+            return pd.DataFrame() # Devolver DataFrame vacío
 
         with open(logs_file, "r", encoding="utf-8") as f:
             logs = json.load(f)
         
         if not logs:
             st.info("El historial de alertas está vacío.")
-            return
+            return pd.DataFrame() # Devolver DataFrame vacío
 
         df_logs = pd.DataFrame(logs)
         df_logs['timestamp'] = pd.to_datetime(df_logs['timestamp'], errors='coerce')
@@ -168,6 +169,7 @@ def mostrar_alertas_activas(logs_file="logs_alertas.json"):
         df_logs.sort_values(by='timestamp', ascending=False, inplace=True)
 
         st.sidebar.header("Filtrar Alertas")
+        # --- El resto de tu código de filtrado permanece igual ---
         fecha_minima = df_logs['timestamp'].min().date()
         fecha_maxima = df_logs['timestamp'].max().date()
 
@@ -176,9 +178,8 @@ def mostrar_alertas_activas(logs_file="logs_alertas.json"):
 
         if fecha_inicio > fecha_fin:
             st.sidebar.error("Error: La fecha de inicio no puede ser posterior a la fecha de fin.")
-            return
+            return pd.DataFrame() # Devolver DataFrame vacío
 
-        # Gracias a la importación correcta, time.min y time.max funcionan
         fecha_inicio_dt = datetime.combine(fecha_inicio, time.min)
         fecha_fin_dt = datetime.combine(fecha_fin, time.max)
         
@@ -196,8 +197,16 @@ def mostrar_alertas_activas(logs_file="logs_alertas.json"):
                 file_name=f"historial_alertas_{fecha_inicio}_a_{fecha_fin}.csv",
                 mime="text/csv",
             )
+        
+        # --- AÑADIR ESTA LÍNEA ---
+        return df_filtrado
+        # -------------------------
+
     except Exception as e:
         st.error(f"Error al leer el historial de alertas: {e}")
+        # --- AÑADIR ESTA LÍNEA ---
+        return pd.DataFrame()
+        # -------------------------
 
 # Mapeo de nombres internos a nombres amigables para el usuario
 display_names = {
@@ -763,7 +772,100 @@ def create_metrics_dashboard(data):
         max_power = data['Potencia Activa (W)'].max()
         col3.metric("Potencia Promedio", f"{avg_power:.0f} W")
         col4.metric("Potencia Máxima", f"{max_power:.0f} W")
+        
+def crear_dashboard_alertas(df_alertas):
+    """
+    Crea y muestra un dashboard con gráficos sobre las alertas filtradas.
+    Incluye una vista diaria y una vista detallada por minuto con zoom interactivo.
+    """
+    st.divider()
+    st.subheader("📊 Dashboard de Alertas")
 
+    if df_alertas.empty:
+        st.info("No hay alertas en el rango seleccionado para generar gráficos.")
+        return
+
+    # --- Gráfico 1: Vista General (Alertas por Día) ---
+    st.markdown("<h5>Conteo General de Alertas por Día</h5>", unsafe_allow_html=True)
+    df_alertas['fecha'] = pd.to_datetime(df_alertas['timestamp']).dt.date
+    alertas_por_dia = df_alertas.groupby('fecha').size().reset_index(name='conteo')
+    
+    fig_bar_dia = go.Figure(go.Bar(
+        x=alertas_por_dia['fecha'],
+        y=alertas_por_dia['conteo'],
+        marker_color='#FF4B4B',
+        text=alertas_por_dia['conteo'],
+        textposition='auto'
+    ))
+    fig_bar_dia.update_layout(
+        title='Total de Alertas Agrupadas por Día',
+        xaxis_title='Fecha',
+        yaxis_title='Cantidad de Alertas',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig_bar_dia, use_container_width=True)
+    st.divider()
+
+    # --- Gráfico 2: Vista Detallada (Alertas por Minuto con Zoom) ---
+    st.markdown("<h5>Análisis Detallado de Alertas por Minuto</h5>", unsafe_allow_html=True)
+    st.info("💡 Haz clic y arrastra sobre el gráfico para hacer zoom. Usa el control deslizante de abajo para navegar en el tiempo.")
+
+    # Agrupar alertas por minuto
+    df_alertas_minuto = df_alertas.copy()
+    df_alertas_minuto['timestamp'] = pd.to_datetime(df_alertas_minuto['timestamp'])
+    df_alertas_minuto['timestamp_minuto'] = df_alertas_minuto['timestamp'].dt.floor('T') # 'T' agrupa por minuto
+    alertas_por_minuto = df_alertas_minuto.groupby('timestamp_minuto').size().reset_index(name='conteo')
+
+    fig_minuto = go.Figure(go.Bar(
+        x=alertas_por_minuto['timestamp_minuto'],
+        y=alertas_por_minuto['conteo'],
+        marker_color='#EF553B',
+        name='Alertas'
+    ))
+
+    fig_minuto.update_layout(
+        title='Detalle de Alertas Minuto a Minuto',
+        xaxis_title='Fecha y Hora',
+        yaxis_title='Cantidad de Alertas',
+        template='plotly_white',
+        # Habilitar el "Range Slider" para zoom y filtro interactivo
+        xaxis=dict(
+            rangeslider=dict(
+                visible=True
+            ),
+            type="date"
+        )
+    )
+    st.plotly_chart(fig_minuto, use_container_width=True)
+    st.divider()
+
+    # --- Gráficos 3 y 4: Distribución de Alertas ---
+    st.markdown("<h5>Distribución de las Alertas Filtradas</h5>", unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("<h6>Por Variable</h6>", unsafe_allow_html=True)
+        dist_variable = df_alertas['variable'].value_counts().reset_index(name='conteo')
+        fig_pie_var = go.Figure(go.Pie(
+            labels=dist_variable['variable'],
+            values=dist_variable['conteo'],
+            hole=.3
+        ))
+        fig_pie_var.update_layout(title='Proporción por Variable', margin=dict(l=20, r=20, t=40, b=20))
+        st.plotly_chart(fig_pie_var, use_container_width=True)
+
+    with col2:
+        st.markdown("<h6>Por Franja Horaria</h6>", unsafe_allow_html=True)
+        if 'franja_horaria' in df_alertas.columns:
+            dist_franja = df_alertas['franja_horaria'].value_counts().reset_index(name='conteo')
+            fig_pie_franja = go.Figure(go.Pie(
+                labels=dist_franja['franja_horaria'],
+                values=dist_franja['conteo'],
+                hole=.3
+            ))
+            fig_pie_franja.update_layout(title='Proporción por Franja', margin=dict(l=20, r=20, t=40, b=20))
+            st.plotly_chart(fig_pie_franja, use_container_width=True)
+        
 def main():
     # Inicializar session state
     if 'data_version' not in st.session_state:
@@ -1052,30 +1154,39 @@ def main():
         else:
             st.error("❌ Por favor selecciona un rango de fechas válido")
 
+
+
     elif seccion == "🔔 Alertas y Logs":
         st.title("🛎️ Sistema de Alertas y Logs")
         st.markdown("**Administra umbrales de alerta y configuración general de notificaciones**")
         st.divider()
 
-        mostrar_alertas_activas()
+        # 1. Mostrar historial y filtro de fechas (modificada para devolver el df)
+        df_alertas_filtradas = mostrar_alertas_activas()
+
+        # 2. Mostrar el nuevo dashboard de visualización (con la corrección del error)
+        if df_alertas_filtradas is not None and not df_alertas_filtradas.empty:
+            crear_dashboard_alertas(df_alertas_filtradas)
+
         st.divider()
         
-        # Llama a la función de configuración de umbrales
+        # 3. MOSTRAR LA CONFIGURACIÓN DE UMBRALES Y FRANJAS (el código que había desaparecido)
         config_data_for_thresholds = load_config()
         if config_data_for_thresholds:
-            # Pasa la sección 'franjas_horarias' si existe, si no, pasa los defaults
             franjas_to_display = config_data_for_thresholds.get('franjas_horarias')
-            if not franjas_to_display: # Si 'franjas_horarias' no existe o está vacío
-                franjas_to_display = config_data_for_thresholds.get('default_franjas_horarias', {}) # Usar defaults
+            if not franjas_to_display:
+                franjas_to_display = config_data_for_thresholds.get('default_franjas_horarias', {})
 
             display_franja_config_form(config_data_for_thresholds, franjas_to_display)
         else:
             st.error("No se pudo cargar la configuración de franjas horarias.")
 
-
         st.divider()
+        
+        # 4. Mostrar el botón para ejecutar el checker manualmente
         ejecutar_checker_manual()
         st.divider()
+
 
     elif seccion == "👤 Editar Perfil":
         editar_perfil_usuario()

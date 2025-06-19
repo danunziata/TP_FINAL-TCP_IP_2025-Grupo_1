@@ -1,4 +1,4 @@
-alert_digest_interval_minutes: 10
+alert_digest_interval_minutes: 20
 cookie:
   expiry_days: 30
   key: your_cookie_key
