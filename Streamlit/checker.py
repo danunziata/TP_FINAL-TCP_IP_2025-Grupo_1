@@ -76,10 +76,6 @@ def registrar_alerta(variable, valor, umbral_info, franja_horaria, tipo_ejecucio
 
     logs.append(entrada)
 
-    MAX_LOG_ENTRIES = 100
-    if len(logs) > MAX_LOG_ENTRIES:
-        logs = logs[-MAX_LOG_ENTRIES:]
-
     try:
         with open(LOG_FILE, "w", encoding="utf-8") as f:
             json.dump(logs, f, indent=4)

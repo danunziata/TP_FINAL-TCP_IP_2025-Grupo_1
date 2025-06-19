@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from datetime import datetime, timedelta, time # Importar time específicamente
+from datetime import datetime, timedelta, time # Aseguramos la importación correcta de 'time'
 import os
 from influxdb_client import InfluxDBClient
 import json
@@ -12,7 +12,7 @@ import yaml
 from yaml.loader import SafeLoader
 from pathlib import Path
 import bcrypt
-import time
+import time as time_module # ### CAMBIO 1/3: Importamos 'time' con un alias para evitar conflictos ###
 
 # --- Configuración de InfluxDB desde variables de entorno ---
 INFLUX_URL = os.getenv('INFLUXDB_URL', 'http://influxdb:8086')
@@ -144,25 +144,58 @@ def load_data(_file_mod=None, data_version=0):
     return df
 
 # --- Funciones para Alertas y Configuración ---
-def mostrar_alertas_activas():
-    st.subheader("📋 Últimas Alertas Registradas")
+### CAMBIO 2/3: Reemplazo completo de la función de alertas para añadir filtros de fecha ###
+def mostrar_alertas_activas(logs_file="logs_alertas.json"):
+    """
+    Muestra una tabla con el historial de alertas, permitiendo filtrar por fecha.
+    """
+    st.subheader("📋 Historial de Alertas")
     try:
-        if os.path.exists("logs_alertas.json"):
-            with open("logs_alertas.json", "r", encoding="utf-8") as f:
-                logs = json.load(f)
-            if not logs:
-                st.info("No se han detectado alertas aún.")
-            else:
-                df_logs = pd.DataFrame(logs)
-                df_logs['timestamp'] = pd.to_datetime(df_logs['timestamp'])
-                # Reorganizar columnas para mostrar franja_horaria
-                columns_order = ['timestamp', 'variable', 'valor', 'umbral', 'franja_horaria', 'tipo_ejecucion']
-                # Asegurarse de que todas las columnas existan antes de reordenar
-                existing_columns = [col for col in columns_order if col in df_logs.columns]
-                st.dataframe(df_logs[existing_columns].tail(10).sort_values(by='timestamp', ascending=False),
-                             use_container_width=True, height=250)
-        else:
-            st.info("El archivo 'logs_alertas.json' no existe. No hay alertas registradas.")
+        if not os.path.exists(logs_file):
+            st.info("Aún no se han registrado alertas.")
+            return
+
+        with open(logs_file, "r", encoding="utf-8") as f:
+            logs = json.load(f)
+        
+        if not logs:
+            st.info("El historial de alertas está vacío.")
+            return
+
+        df_logs = pd.DataFrame(logs)
+        df_logs['timestamp'] = pd.to_datetime(df_logs['timestamp'], errors='coerce')
+        df_logs.dropna(subset=['timestamp'], inplace=True)
+        df_logs.sort_values(by='timestamp', ascending=False, inplace=True)
+
+        st.sidebar.header("Filtrar Alertas")
+        fecha_minima = df_logs['timestamp'].min().date()
+        fecha_maxima = df_logs['timestamp'].max().date()
+
+        fecha_inicio = st.sidebar.date_input("Fecha de Inicio", value=fecha_minima, min_value=fecha_minima, max_value=fecha_maxima, key="filtro_fecha_inicio")
+        fecha_fin = st.sidebar.date_input("Fecha de Fin", value=fecha_maxima, min_value=fecha_minima, max_value=fecha_maxima, key="filtro_fecha_fin")
+
+        if fecha_inicio > fecha_fin:
+            st.sidebar.error("Error: La fecha de inicio no puede ser posterior a la fecha de fin.")
+            return
+
+        # Gracias a la importación correcta, time.min y time.max funcionan
+        fecha_inicio_dt = datetime.combine(fecha_inicio, time.min)
+        fecha_fin_dt = datetime.combine(fecha_fin, time.max)
+        
+        df_filtrado = df_logs[(df_logs['timestamp'] >= fecha_inicio_dt) & (df_logs['timestamp'] <= fecha_fin_dt)]
+        
+        st.write(f"Mostrando {len(df_filtrado)} de {len(df_logs)} alertas totales.")
+        df_filtrado_vista = df_filtrado.reset_index(drop=True)
+        st.dataframe(df_filtrado_vista, use_container_width=True)
+
+        if not df_filtrado.empty:
+            csv = df_filtrado.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Descargar historial filtrado (CSV)",
+                data=csv,
+                file_name=f"historial_alertas_{fecha_inicio}_a_{fecha_fin}.csv",
+                mime="text/csv",
+            )
     except Exception as e:
         st.error(f"Error al leer el historial de alertas: {e}")
 
@@ -180,22 +213,23 @@ default_thresholds_for_display = {
     'active_power': {'min': 0.0, 'max': 0.0}
 }
 
+### CAMBIO 3/3: Lógica de permisos por rol en el formulario de configuración ###
 def display_franja_config_form(current_config, franjas_horarias_data):
     """
     Muestra el formulario para configurar o editar las franjas horarias y sus umbrales.
-    `franjas_horarias_data` son los datos actuales de las franjas (pueden ser los default).
+    Aplica lógica de permisos por rol de usuario.
     """
     st.subheader("⚙️ Configuración de Umbrales por Franja Horaria")
     
     if not franjas_horarias_data:
         st.warning("No se encontraron franjas horarias configuradas. Por favor, asegúrate de que config.yaml tenga la sección 'franjas_horarias' o 'default_franjas_horarias' para iniciar.")
-        return False # Indicar que la configuración no pudo proceder
+        return
     
     franjas_names = list(franjas_horarias_data.keys())
     
     if not franjas_names:
         st.error("No hay franjas horarias definidas en la configuración. Por favor, define al menos una en 'config.yaml'.")
-        return False
+        return
 
     selected_franja = st.selectbox(
         "Seleccionar Franja Horaria a configurar:",
@@ -206,34 +240,22 @@ def display_franja_config_form(current_config, franjas_horarias_data):
     current_franja_details = franjas_horarias_data.get(selected_franja, {})
     current_umbrales = current_franja_details.get("umbrales", {})
 
-    # --- INPUTS PARA HORAS DE FRANJA (Solo para Administradores) ---
+    es_admin = st.session_state.get('roles') == 'admin'
+
+    # --- INPUTS PARA HORAS DE FRANJA ---
     st.markdown(f"**Horario de la franja '{selected_franja}'**")
     col_inicio_hora, col_fin_hora = st.columns(2)
     
-    # Intentar parsear las horas, si no existen, usar un valor por defecto o 00:00
-    try:
-        initial_inicio_time = datetime.strptime(current_franja_details.get('inicio_hora', '00:00'), "%H:%M").time()
-    except ValueError:
-        initial_inicio_time = time(0, 0)
+    try: initial_inicio_time = datetime.strptime(current_franja_details.get('inicio_hora', '00:00'), "%H:%M").time()
+    except ValueError: initial_inicio_time = time(0, 0)
     
-    try:
-        initial_fin_time = datetime.strptime(current_franja_details.get('fin_hora', '00:00'), "%H:%M").time()
-    except ValueError:
-        initial_fin_time = time(0, 0)
+    try: initial_fin_time = datetime.strptime(current_franja_details.get('fin_hora', '00:00'), "%H:%M").time()
+    except ValueError: initial_fin_time = time(0, 0)
 
-    # Restringir la edición de horas solo a administradores
-    if st.session_state.get('roles') == 'admin':
-        with col_inicio_hora:
-            new_inicio_time = st.time_input("Hora de Inicio:", value=initial_inicio_time, key=f"{selected_franja}_inicio_time_input")
-        with col_fin_hora:
-            new_fin_time = st.time_input("Hora de Fin:", value=initial_fin_time, key=f"{selected_franja}_fin_time_input")
-    else: # Para usuarios no admin, solo mostrar el horario
-        with col_inicio_hora:
-            st.info(f"Inicio: {initial_inicio_time.strftime('%H:%M')}")
-        with col_fin_hora:
-            st.info(f"Fin: {initial_fin_time.strftime('%H:%M')}")
-        new_inicio_time = initial_inicio_time # Mantener los valores para el guardado de umbrales
-        new_fin_time = initial_fin_time # Mantener los valores para el guardado de umbrales
+    with col_inicio_hora:
+        new_inicio_time = st.time_input("Hora de Inicio:", value=initial_inicio_time, key=f"{selected_franja}_inicio_time_input", disabled=not es_admin)
+    with col_fin_hora:
+        new_fin_time = st.time_input("Hora de Fin:", value=initial_fin_time, key=f"{selected_franja}_fin_time_input", disabled=not es_admin)
 
 
     st.markdown(f"Ajusta los valores mínimos y máximos para las métricas en la franja **{selected_franja}**.")
@@ -248,16 +270,15 @@ def display_franja_config_form(current_config, franjas_horarias_data):
         initial_max = current_umbrales.get(variable_key, {}).get('max', default_thresholds_for_display[variable_key]['max'])
         
         with col_min:
-            new_min = st.number_input(f"Mínimo para {display_name}", value=float(initial_min), format="%.2f", key=f"{selected_franja}_{variable_key}_min_input")
+            new_min = st.number_input(f"Mínimo para {display_name}", value=float(initial_min), format="%.2f", key=f"{selected_franja}_{variable_key}_min_input", disabled=not es_admin)
         with col_max:
-            new_max = st.number_input(f"Máximo para {display_name}", value=float(initial_max), format="%.2f", key=f"{selected_franja}_{variable_key}_max_input")
+            new_max = st.number_input(f"Máximo para {display_name}", value=float(initial_max), format="%.2f", key=f"{selected_franja}_{variable_key}_max_input", disabled=not es_admin)
         
         nuevos_umbrales_para_franja[variable_key] = {'min': new_min, 'max': new_max}
 
-    # --- Sección de Notificaciones Generales (Solo para Administradores) ---
     st.divider()
     
-    if st.session_state.get('roles') == 'admin':
+    if es_admin:
         st.subheader("✉️ Configuración de Notificaciones Generales")
         notificaciones_activas = current_config.get("notificaciones_generales", False)
         current_digest_interval = current_config.get("alert_digest_interval_minutes", 1440)
@@ -295,34 +316,19 @@ def display_franja_config_form(current_config, franjas_horarias_data):
             
             if save_config(current_config):
                 st.success("✅ Configuración de umbrales y notificaciones actualizada correctamente.")
-                time.sleep(3)
+                time_module.sleep(2) # Usar el alias
                 st.rerun()
             else:
                 st.error("❌ Error al guardar la configuración general.")
-        return True
     else: # Usuario no administrador
-        if st.button("💾 Guardar Umbrales (Solo Umbrales)", use_container_width=True):
-            config_data_non_admin = load_config()
-            if config_data_non_admin:
-                franjas_a_guardar_non_admin = config_data_non_admin.get('franjas_horarias', {}).copy()
-                if selected_franja in franjas_a_guardar_non_admin:
-                    if 'umbrales' not in franjas_a_guardar_non_admin[selected_franja]:
-                        franjas_a_guardar_non_admin[selected_franja]['umbrales'] = {}
-
-                    franjas_a_guardar_non_admin[selected_franja]['umbrales'] = nuevos_umbrales_para_franja
-                    config_data_non_admin['franjas_horarias'] = franjas_a_guardar_non_admin
-
-                    if save_config(config_data_non_admin):
-                        st.success("✅ Umbrales actualizados correctamente.")
-                        time.sleep(3)
-                        st.rerun()
-                    else:
-                        st.error("❌ Error al guardar los umbrales.")
-                else:
-                    st.error(f"❌ La franja horaria '{selected_franja}' no existe en la configuración y no puede ser modificada por un usuario regular.")
-            else:
-                st.error("❌ No se pudo cargar la configuración para guardar los umbrales.")
-        return True
+        st.info("ℹ️ Como usuario normal, solo puedes visualizar esta configuración.")
+        admins = [uname for uname, udata in current_config.get('credentials', {}).get('usernames', {}).items() if udata.get('roles') == 'admin']
+        if admins:
+            msg = "Si necesitas un cambio, por favor contacta a un administrador:\n"
+            for admin_name in admins:
+                admin_email = current_config['credentials']['usernames'][admin_name].get('email', 'Email no disponible')
+                msg += f"\n- **{admin_name}**: `{admin_email}`"
+            st.markdown(msg)
 
 
 # --- Función para el Wizard de Configuración Inicial de Franjas Horarias ---
@@ -421,7 +427,7 @@ def wizard_configuracion_franjas(current_config):
         is_valid_cycle = False
         if (dia_fin_min + 1) % 1440 == noche_inicio_min % 1440 and \
            (noche_fin_min + 1) % 1440 == dia_inicio_min % 1440:
-           is_valid_cycle = True
+            is_valid_cycle = True
         
         if not is_valid_cycle:
             st.warning("Advertencia: Las franjas horarias no cubren un ciclo completo de 24 horas o se superponen. Esto puede causar comportamientos inesperados en las alertas. Por favor, revisa las horas.")
@@ -430,7 +436,7 @@ def wizard_configuracion_franjas(current_config):
         current_config['franjas_horarias'] = nuevas_franjas_config
         if save_config(current_config):
             st.success("✅ Franjas horarias configuradas exitosamente. Puedes continuar.")
-            time.sleep(2)
+            time_module.sleep(2) # Usar el alias
             st.rerun()
         else:
             st.error("❌ Error al guardar la configuración de franjas horarias.")
@@ -526,7 +532,7 @@ def editar_perfil_usuario():
 
             if save_usuarios(usuarios):
                 st.success("Tu perfil ha sido actualizado correctamente.")
-                time.sleep(3)
+                time_module.sleep(2) # Usar el alias
                 st.rerun()
             else:
                 st.error("❌ Error al guardar los cambios en el perfil.")
@@ -654,6 +660,7 @@ def gestionar_usuarios():
             if st.button(f"🔴 Eliminar Usuario {user_to_delete} PERMANENTEMENTE", type="secondary", use_container_width=True):
                 # --- Lógica de Eliminación ---
                 # 1. Eliminar de config.yaml
+                deleted_user_email = None
                 if user_to_delete in config_data['credentials']['usernames']:
                     deleted_user_email = config_data['credentials']['usernames'][user_to_delete].get('email')
                     del config_data['credentials']['usernames'][user_to_delete]
@@ -680,7 +687,7 @@ def gestionar_usuarios():
                             st.warning("⚠️ Error al limpiar tokens de restablecimiento asociados.")
                 
                 st.success(f"✅ Usuario '{user_to_delete}' eliminado exitosamente y datos asociados limpiados.")
-                time.sleep(3)
+                time_module.sleep(3) # Usar el alias
                 st.rerun()
 
 # --- Funciones de Gráficos y Dashboard ---
@@ -804,7 +811,7 @@ def main():
         st.divider()
 
         with st.spinner('Cargando datos desde InfluxDB...'):
-            df = load_data(None, st.session_state.data_version)
+            df = load_data(data_version=st.session_state.data_version)
 
         if df is None or df.empty:
             st.error("❌ No se pudieron cargar los datos de InfluxDB.")
@@ -855,12 +862,6 @@ def main():
             show_currents = st.checkbox("Corrientes", value=True)
             show_power = st.checkbox("Potencia Activa", value=True)
             
-            # --- SECCIÓN ELIMINADA: "Campos disponibles:" ---
-            # st.subheader("📋 Campos disponibles:")
-            # available_fields = [col for col in df.columns if col != 'timestamp']
-            # for field in available_fields:
-            #     st.caption(f"• {field}")
-
         if len(date_range) == 2:
             start, end = date_range
             mask = (
@@ -1004,7 +1005,7 @@ def main():
                                         power_data = data_copy[power_cols_with_time].copy()
                                         power_data = clean_datetime_columns(power_data)
                                         power_data.to_excel(writer, sheet_name='Potencia', index=False)
-                            
+                                    
                         except Exception as e:
                             st.error(f"Error al crear Excel avanzado: {str(e)}")
                             buffer = BytesIO()
@@ -1085,16 +1086,6 @@ def main():
 
     st.divider()
     st.caption(f"© {datetime.today().year} Schneider Electric - Power Monitoring System | v2.0 | Datos de InfluxDB")
-
-    # Eliminada la checkbox de "Modo Debug"
-    # if st.sidebar.checkbox("🔧 Modo Debug"):
-    #     st.sidebar.subheader("Debug Info")
-    #     st.sidebar.json({
-    #         "URL": INFLUX_URL,
-    #         "Bucket": INFLUX_BUCKET,
-    #         "Org": INFLUX_ORG,
-    #         "Columnas disponibles": list(df.columns) if 'df' in locals() and df is not None else []
-    #     })
 
 if __name__ == "__main__":
     main()

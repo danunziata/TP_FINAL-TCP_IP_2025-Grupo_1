@@ -1,113 +1,6 @@
 [
     {
-        "timestamp": "2025-06-19T02:04:29.905949",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:05:30.013289",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:06:30.121674",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:07:30.243875",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:08:30.360996",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:09:30.483962",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:10:30.620214",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:11:30.745166",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:12:30.862336",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:13:31.009020",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:14:31.124594",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:15:31.241679",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T02:16:31.358750",
-        "variable": "voltaje",
-        "valor": 1.0,
-        "umbral": "Min: 200.0, Max: 240.0",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T12:59:32.978396",
-        "variable": "active_power",
-        "valor": 1.0,
-        "umbral": "Min: 500.0, Max: 8000.0",
-        "franja_horaria": "DIA",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T12:59:32.987334",
-        "variable": "current_l1",
-        "valor": 1.0,
-        "umbral": "Min: 5.0, Max: 40.0",
-        "franja_horaria": "DIA",
-        "tipo_ejecucion": "automatico"
-    },
-    {
-        "timestamp": "2025-06-19T12:59:33.012156",
+        "timestamp": "2025-06-19T13:30:43.886363",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -115,7 +8,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:00:34.437086",
+        "timestamp": "2025-06-19T13:31:44.029879",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -123,7 +16,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:00:34.443091",
+        "timestamp": "2025-06-19T13:31:44.037092",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -131,7 +24,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:00:34.448809",
+        "timestamp": "2025-06-19T13:31:44.043439",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -139,7 +32,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:01:34.588392",
+        "timestamp": "2025-06-19T13:32:44.188210",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -147,7 +40,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:01:34.594504",
+        "timestamp": "2025-06-19T13:32:44.194330",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -155,7 +48,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:01:34.599714",
+        "timestamp": "2025-06-19T13:32:44.199989",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -163,7 +56,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:02:34.742297",
+        "timestamp": "2025-06-19T13:33:44.353358",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -171,7 +64,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:02:34.750490",
+        "timestamp": "2025-06-19T13:33:44.363212",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -179,7 +72,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:02:34.757243",
+        "timestamp": "2025-06-19T13:33:44.370048",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -187,7 +80,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:03:34.895134",
+        "timestamp": "2025-06-19T13:34:44.598247",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -195,7 +88,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:03:34.902744",
+        "timestamp": "2025-06-19T13:34:44.606883",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -203,7 +96,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:03:34.910758",
+        "timestamp": "2025-06-19T13:34:44.615120",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -211,7 +104,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:04:35.077611",
+        "timestamp": "2025-06-19T13:35:44.778468",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -219,7 +112,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:04:35.084670",
+        "timestamp": "2025-06-19T13:35:44.788109",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -227,7 +120,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:04:35.090743",
+        "timestamp": "2025-06-19T13:35:44.795804",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -235,7 +128,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:05:35.253693",
+        "timestamp": "2025-06-19T13:36:44.939747",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -243,7 +136,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:05:35.261104",
+        "timestamp": "2025-06-19T13:36:44.945964",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -251,7 +144,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:05:35.267468",
+        "timestamp": "2025-06-19T13:36:44.951449",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -259,7 +152,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:06:35.408248",
+        "timestamp": "2025-06-19T13:37:45.093389",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -267,7 +160,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:06:35.414927",
+        "timestamp": "2025-06-19T13:37:45.099784",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -275,7 +168,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:06:35.420825",
+        "timestamp": "2025-06-19T13:37:45.105564",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -283,7 +176,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:07:35.574012",
+        "timestamp": "2025-06-19T13:38:45.248257",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -291,7 +184,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:07:35.581896",
+        "timestamp": "2025-06-19T13:38:45.256112",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -299,7 +192,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:07:35.588379",
+        "timestamp": "2025-06-19T13:38:45.262829",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -307,7 +200,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:08:35.753342",
+        "timestamp": "2025-06-19T13:39:45.431471",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -315,7 +208,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:08:35.760631",
+        "timestamp": "2025-06-19T13:39:45.438111",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -323,7 +216,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:08:35.767154",
+        "timestamp": "2025-06-19T13:39:45.443741",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -331,7 +224,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:09:36.014645",
+        "timestamp": "2025-06-19T13:40:46.781256",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -339,7 +232,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:09:36.024389",
+        "timestamp": "2025-06-19T13:40:46.789648",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -347,7 +240,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:09:36.033986",
+        "timestamp": "2025-06-19T13:40:46.795920",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -355,7 +248,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:10:37.612314",
+        "timestamp": "2025-06-19T13:41:46.946260",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -363,7 +256,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:10:37.622254",
+        "timestamp": "2025-06-19T13:41:46.952733",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -371,7 +264,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:10:37.630240",
+        "timestamp": "2025-06-19T13:41:46.958402",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -379,7 +272,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:11:37.784074",
+        "timestamp": "2025-06-19T13:42:47.101893",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -387,7 +280,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:11:37.790384",
+        "timestamp": "2025-06-19T13:42:47.108209",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -395,7 +288,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:11:37.795718",
+        "timestamp": "2025-06-19T13:42:47.113933",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -403,7 +296,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:12:37.949543",
+        "timestamp": "2025-06-19T13:43:47.305670",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -411,7 +304,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:12:37.956975",
+        "timestamp": "2025-06-19T13:43:47.313551",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -419,7 +312,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:12:37.962728",
+        "timestamp": "2025-06-19T13:43:47.320227",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -427,7 +320,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:13:38.155018",
+        "timestamp": "2025-06-19T13:44:47.505440",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -435,7 +328,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:13:38.161389",
+        "timestamp": "2025-06-19T13:44:47.514458",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -443,7 +336,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:13:38.166977",
+        "timestamp": "2025-06-19T13:44:47.522708",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -451,7 +344,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:14:38.315411",
+        "timestamp": "2025-06-19T13:45:47.676987",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -459,7 +352,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:14:38.321501",
+        "timestamp": "2025-06-19T13:45:47.684432",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -467,7 +360,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:14:38.327169",
+        "timestamp": "2025-06-19T13:45:47.691245",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -475,7 +368,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:15:38.480859",
+        "timestamp": "2025-06-19T13:46:47.891865",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -483,7 +376,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:15:38.487873",
+        "timestamp": "2025-06-19T13:46:47.902139",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -491,7 +384,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:15:38.495189",
+        "timestamp": "2025-06-19T13:46:47.911511",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -499,7 +392,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:16:38.667996",
+        "timestamp": "2025-06-19T13:47:48.048214",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -507,7 +400,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:16:38.677127",
+        "timestamp": "2025-06-19T13:47:48.054395",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -515,7 +408,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:16:38.686413",
+        "timestamp": "2025-06-19T13:47:48.059155",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -523,7 +416,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:17:38.851316",
+        "timestamp": "2025-06-19T13:48:48.211915",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -531,7 +424,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:17:38.858212",
+        "timestamp": "2025-06-19T13:48:48.221958",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -539,7 +432,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:17:38.864468",
+        "timestamp": "2025-06-19T13:48:48.228401",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -547,7 +440,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:18:39.113698",
+        "timestamp": "2025-06-19T13:49:48.416045",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -555,7 +448,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:18:39.126825",
+        "timestamp": "2025-06-19T13:49:48.424897",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -563,7 +456,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:18:39.137135",
+        "timestamp": "2025-06-19T13:49:48.434648",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -571,7 +464,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:19:39.303692",
+        "timestamp": "2025-06-19T13:50:49.876789",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -579,7 +472,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:19:39.310765",
+        "timestamp": "2025-06-19T13:50:49.881315",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -587,7 +480,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:19:39.318655",
+        "timestamp": "2025-06-19T13:50:49.885517",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -595,7 +488,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:20:40.867659",
+        "timestamp": "2025-06-19T13:51:50.006522",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -603,7 +496,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:20:40.873737",
+        "timestamp": "2025-06-19T13:51:50.010829",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -611,7 +504,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:20:40.879169",
+        "timestamp": "2025-06-19T13:51:50.014532",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -619,7 +512,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:21:41.032066",
+        "timestamp": "2025-06-19T13:52:50.150020",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -627,7 +520,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:21:41.039525",
+        "timestamp": "2025-06-19T13:52:50.154486",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -635,7 +528,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:21:41.046084",
+        "timestamp": "2025-06-19T13:52:50.158219",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -643,7 +536,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:22:41.188661",
+        "timestamp": "2025-06-19T13:53:50.296097",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -651,7 +544,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:22:41.194796",
+        "timestamp": "2025-06-19T13:53:50.301266",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -659,7 +552,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:22:41.200086",
+        "timestamp": "2025-06-19T13:53:50.305692",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -667,7 +560,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:23:41.340930",
+        "timestamp": "2025-06-19T13:54:50.426701",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -675,7 +568,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:23:41.348112",
+        "timestamp": "2025-06-19T13:54:50.432817",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -683,7 +576,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:23:41.354897",
+        "timestamp": "2025-06-19T13:54:50.438093",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -691,7 +584,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:24:41.495647",
+        "timestamp": "2025-06-19T13:55:50.570727",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -699,7 +592,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:24:41.501247",
+        "timestamp": "2025-06-19T13:55:50.575761",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -707,7 +600,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:24:41.506482",
+        "timestamp": "2025-06-19T13:55:50.579846",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -715,7 +608,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:25:41.711509",
+        "timestamp": "2025-06-19T13:56:50.721712",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -723,7 +616,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:25:41.722742",
+        "timestamp": "2025-06-19T13:56:50.727453",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -731,7 +624,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:25:41.731804",
+        "timestamp": "2025-06-19T13:56:50.732889",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -739,7 +632,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:26:41.896812",
+        "timestamp": "2025-06-19T13:57:50.846050",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -747,7 +640,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:26:41.905361",
+        "timestamp": "2025-06-19T13:57:50.850915",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -755,7 +648,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:26:41.913326",
+        "timestamp": "2025-06-19T13:57:50.854926",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",
@@ -763,7 +656,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:27:42.065406",
+        "timestamp": "2025-06-19T14:00:36.708573",
         "variable": "active_power",
         "valor": 1.0,
         "umbral": "Min: 500.0, Max: 8000.0",
@@ -771,7 +664,7 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:27:42.071611",
+        "timestamp": "2025-06-19T14:00:36.716801",
         "variable": "current_l1",
         "valor": 1.0,
         "umbral": "Min: 5.0, Max: 40.0",
@@ -779,7 +672,1591 @@
         "tipo_ejecucion": "automatico"
     },
     {
-        "timestamp": "2025-06-19T13:27:42.077078",
+        "timestamp": "2025-06-19T14:00:36.722677",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:01:38.121737",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:01:38.128128",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:01:38.133958",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:02:38.272992",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:02:38.278755",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:02:38.283332",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:03:38.439687",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:03:38.447237",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:03:38.452165",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:04:38.597451",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:04:38.605595",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:04:38.614585",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:05:38.723990",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:05:38.729670",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:05:38.734280",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:06:38.877819",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:06:38.882788",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:06:38.887499",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:07:39.034123",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:07:39.041237",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:07:39.047695",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:08:39.186936",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:08:39.193749",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:08:39.199271",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:09:39.393718",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:09:39.400654",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:09:39.405617",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:10:39.533218",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:10:39.538390",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:10:39.542816",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:11:41.164852",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:11:41.171573",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:11:41.177216",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:12:41.366439",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:12:41.374675",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:12:41.381863",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:13:41.533987",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:13:41.540249",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:13:41.546086",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:14:41.680971",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:14:41.688044",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:14:41.694091",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:15:41.845782",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:15:41.851939",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:15:41.856931",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:16:42.013081",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:16:42.020514",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:16:42.027139",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:17:42.128181",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:17:42.134330",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:17:42.140047",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:18:42.308972",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:18:42.315925",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:18:42.321398",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:19:42.462391",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:19:42.469869",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:19:42.476031",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:20:42.662882",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:20:42.670164",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:20:42.675484",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:21:44.076812",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:21:44.085423",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:21:44.093814",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:22:44.233711",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:22:44.239721",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:22:44.244776",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:23:44.429683",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:23:44.438824",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:23:44.445940",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:24:44.581966",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:24:44.587410",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:24:44.592121",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:25:44.745512",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:25:44.751842",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:25:44.757178",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:26:44.880190",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:26:44.885431",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:26:44.890050",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:27:45.033852",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:27:45.065291",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:27:45.070596",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:28:45.212592",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:28:45.219509",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:28:45.229409",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:29:45.362633",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:29:45.369701",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:29:45.376278",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:30:45.552425",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:30:45.560749",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:30:45.567881",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:31:46.862596",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:31:46.868532",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:31:46.873733",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:32:47.096468",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:32:47.106162",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:32:47.114986",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:33:47.339122",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:33:47.351256",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:33:47.359223",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:34:47.583415",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:34:47.593371",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:34:47.600381",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:35:47.761584",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:35:47.767643",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:35:47.772946",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:36:47.965490",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:36:47.976342",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:36:47.984388",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:37:48.217431",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:37:48.226941",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:37:48.233604",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:38:48.399795",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:38:48.408069",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:38:48.413795",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:39:48.586069",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:39:48.593984",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:39:48.600894",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:40:48.771554",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:40:48.779231",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:40:48.785931",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:41:50.302615",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:41:50.310798",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:41:50.318977",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:42:50.448361",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:42:50.454398",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:42:50.459706",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:43:50.616773",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:43:50.624663",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:43:50.631549",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:44:50.763807",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:44:50.770011",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:44:50.775464",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:45:50.897843",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:45:50.902991",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:45:50.907410",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:46:51.039278",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:46:51.046556",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:46:51.053471",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:47:51.200766",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:47:51.206993",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:47:51.216415",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:48:51.396374",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:48:51.404489",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:48:51.410891",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:49:51.540289",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:49:51.546198",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:49:51.551332",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:50:51.730367",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:50:51.739378",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:50:51.749407",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:51:54.361238",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:51:54.367624",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:51:54.373131",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:52:54.543547",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:52:54.556942",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:52:54.569462",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:53:54.714308",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:53:54.721345",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:53:54.728065",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:54:54.852962",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:54:54.858167",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:54:54.863043",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:55:54.984789",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:55:54.991971",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:55:54.998000",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:56:55.126986",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:56:55.132511",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:56:55.137242",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:57:55.270614",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:57:55.276826",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:57:55.282035",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:58:55.446547",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:58:55.458798",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:58:55.468600",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:59:55.604956",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:59:55.612368",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T14:59:55.618566",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:00:55.767890",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:00:55.775245",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:00:55.781042",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:01:58.696666",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:01:58.703127",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:01:58.708031",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:02:58.849958",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:02:58.859462",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:02:58.865958",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:03:59.015549",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:03:59.025110",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:03:59.036025",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:04:16.144640",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "manual"
+    },
+    {
+        "timestamp": "2025-06-19T15:04:16.150376",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "manual"
+    },
+    {
+        "timestamp": "2025-06-19T15:04:16.155792",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "manual"
+    },
+    {
+        "timestamp": "2025-06-19T15:04:59.248551",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:04:59.268318",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:04:59.277909",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.0, Max: 235.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:05:59.410711",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.0, Max: 8000.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:05:59.416949",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.0, Max: 40.0",
+        "franja_horaria": "DIA",
+        "tipo_ejecucion": "automatico"
+    },
+    {
+        "timestamp": "2025-06-19T15:05:59.422178",
         "variable": "voltaje",
         "valor": 1.0,
         "umbral": "Min: 210.0, Max: 235.0",

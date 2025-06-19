@@ -1,4 +1,4 @@
-print("DEBUG: Script prueba_login.py iniciando...")
+# print("DEBUG: Script prueba_login.py iniciando...")
 
 import os
 import json
@@ -136,7 +136,8 @@ authenticator = stauth.Authenticate(
 print("DEBUG: Objeto Authenticate inicializado.")
 
 # Cargar los tokens de restablecimiento al inicio del script desde el archivo
-st.session_state.reset_tokens = load_reset_tokens()
+if 'reset_tokens' not in st.session_state:
+    st.session_state.reset_tokens = load_reset_tokens()
 
 
 # --- Funciones de Callback para Reseteo de Contraseña ---
@@ -215,11 +216,8 @@ def display_register_form():
     email_of_registered_user, username_of_registered_user, name_of_registered_user = None, None, None
 
     try:
-        # Usamos register_user_form para obtener los datos de entrada
-        # No usamos authenticator.register_user directamente aquí porque no podemos
-        # controlar la normalización del username antes de que la librería lo procese.
-        # En su lugar, construimos un formulario manual.
-        with st.form(key='register_form'):
+        ### CAMBIO AQUÍ: Añadido clear_on_submit=True para limpiar el formulario ###
+        with st.form(key='register_form', clear_on_submit=True):
             st.markdown("### Formulario de Registro")
             reg_first_name = st.text_input("Nombre:", key="reg_first_name_input")
             reg_last_name = st.text_input("Apellido:", key="reg_last_name_input")
@@ -241,10 +239,8 @@ def display_register_form():
                     st.error("Error: Solo se permiten registros con correos electrónicos de '@ing.unrc.edu.ar'.")
                     st.stop()
 
-                # Normalizar el nombre de usuario a minúsculas ANTES de guardarlo
                 username_to_register = reg_username.lower()
 
-                # Verificar si el nombre de usuario ya existe (insensible a mayúsculas/minúsculas)
                 current_config_for_register_check = load_config_local()
                 if not current_config_for_register_check:
                     st.error("Error al cargar la configuración para verificar usuarios existentes.")
@@ -254,42 +250,36 @@ def display_register_form():
                     st.error(f"El nombre de usuario '{reg_username}' ya está en uso. Por favor, elige otro.")
                     st.stop()
                 
-                # También verificar por email si ya existe un usuario con ese email (para evitar duplicados por email)
                 for existing_user, user_data in current_config_for_register_check['credentials']['usernames'].items():
                     if user_data.get('email', '').lower() == reg_email.lower():
                         st.error(f"Ya existe una cuenta registrada con el correo electrónico '{reg_email}'.")
                         st.stop()
 
-                # Hashear la contraseña
                 hashed_password = bcrypt.hashpw(reg_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
-                # Cargar el config_data más reciente para evitar sobrescribir
                 config_data_to_update = load_config_local()
                 if not config_data_to_update:
                     st.error("Error: No se pudo recargar la configuración para guardar el nuevo usuario.")
                     st.stop()
 
-                # Añadir el nuevo usuario al diccionario
                 config_data_to_update['credentials']['usernames'][username_to_register] = {
                     'email': reg_email,
                     'first_name': reg_first_name,
                     'last_name': reg_last_name,
                     'password': hashed_password,
                     'password_hint': reg_password_hint if reg_password_hint else None,
-                    'logged_in': False, # Nuevo usuario por defecto no logueado
-                    'roles': None # Nuevo usuario por defecto rol normal (None)
+                    'logged_in': False,
+                    'roles': None
                 }
                 
                 if not save_config_local(config_data_to_update):
                     st.error("Error: No se pudo guardar el nuevo usuario en config.yaml.")
                     st.stop()
 
-                # Guardar en usuarios.json (para preferencias de notificación)
                 usuarios_path = USUARIOS_FILE
                 nuevo_usuario_data = {
-                    "login_email": reg_email, # Usamos el email como identificador único en usuarios.json
+                    "login_email": reg_email,
                     "nombre": f"{reg_first_name} {reg_last_name}".strip(),
-                    "alert_email": reg_email, # Por defecto, el email de login es también el de alerta
+                    "alert_email": reg_email,
                     "recibir_notificaciones": recibir_notificaciones
                 }
 
@@ -299,11 +289,10 @@ def display_register_form():
                         with open(usuarios_path, "r", encoding="utf-8") as f:
                             usuarios_data = json.load(f)
                     
-                    # Evitar duplicados en usuarios.json si el email ya existe
                     user_exists_in_usuarios_json = False
                     for i, u in enumerate(usuarios_data):
                         if u.get('login_email', '').lower() == reg_email.lower():
-                            usuarios_data[i] = nuevo_usuario_data # Actualizar si ya existe
+                            usuarios_data[i] = nuevo_usuario_data
                             user_exists_in_usuarios_json = True
                             break
                     if not user_exists_in_usuarios_json:
@@ -313,20 +302,18 @@ def display_register_form():
                         json.dump(usuarios_data, f, indent=4)
                     print(f"DEBUG: Preferencias de notificación guardadas para {reg_email} en usuarios.json.")
 
-                    st.success('Usuario registrado exitosamente. Ahora puedes iniciar sesión con tu nombre de usuario en minúsculas.')
-                    st.rerun() # Recargar la página para limpiar el formulario y actualizar la UI
+                    st.session_state['just_registered'] = True
+                    st.rerun()
+
                 except Exception as e:
                     st.error(f"Error al guardar preferencias de notificación en usuarios.json: {e}")
-                    # En caso de error aquí, podríamos intentar revertir el usuario de config.yaml si no se guardó completamente
                     if username_to_register in config_data_to_update['credentials']['usernames']:
                         del config_data_to_update['credentials']['usernames'][username_to_register]
-                        save_config_local(config_data_to_update) # Intentar deshacer
-                    st.stop() # Added st.stop()
-
+                        save_config_local(config_data_to_update)
+                    st.stop()
 
     except Exception as e:
         st.error(f"Error durante el registro de usuario: {e}")
-
 
 # --- Lógica Principal de Autenticación y Enrutamiento ---
 
@@ -343,10 +330,12 @@ if 'email' not in st.session_state:
     st.session_state['email'] = None
 if 'roles' not in st.session_state:
     st.session_state['roles'] = None
-# Inicializar la bandera para el mensaje de contraseña cambiada
 if 'password_changed_success' not in st.session_state:
     st.session_state['password_changed_success'] = False
 
+if st.session_state.get('just_registered', False):
+    st.success("✅ ¡Usuario creado exitosamente! Por favor, inicia sesión.")
+    del st.session_state['just_registered']
 
 # 1. Manejar el flujo de restablecimiento de contraseña si hay un token en la URL
 if "token" in query_params:
@@ -354,9 +343,8 @@ if "token" in query_params:
     print(f"DEBUG: Token detectado en URL: {token_from_query}")
     
     now = datetime.now()
-    # Filtramos por tokens válidos, asumiendo que 'expiry' es un objeto datetime en memoria
     st.session_state.reset_tokens = {k: v for k, v in st.session_state.reset_tokens.items() if v['expiry'] > now}
-    save_reset_tokens(st.session_state.reset_tokens) # Guardar tokens limpios de nuevo al archivo
+    save_reset_tokens(st.session_state.reset_tokens)
 
     if token_from_query in st.session_state.reset_tokens:
         reset_info = st.session_state.reset_tokens[token_from_query]
@@ -375,7 +363,6 @@ if "token" in query_params:
                             hashed_new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
                             print(f"DEBUG: Nueva contraseña hasheada: {hashed_new_password}")
                             
-                            # update_password_callback ya maneja la normalización del username a minúsculas
                             password_updated_successfully = update_password_callback(reset_info['username'], hashed_new_password)
                             
                             if password_updated_successfully:
@@ -403,7 +390,6 @@ if "token" in query_params:
                         print("DEBUG: Campos de nueva contraseña vacíos.")
         else:
             st.error("El enlace de restablecimiento ha expirado. Por favor, solicita uno nuevo.")
-            print("DEBUG: Token expirado al segundo chequeo.")
             st.query_params.pop("token") # Limpiar el token de la URL
             st.rerun()
     else:
@@ -428,7 +414,6 @@ else:
             submit_login_button = st.form_submit_button("Iniciar Sesión")
 
             if submit_login_button:
-                # Normalizar el nombre de usuario de login a minúsculas
                 login_username_normalized = login_username.lower()
 
                 print(f"DEBUG: Formulario de login enviado para usuario: {login_username_normalized}")
@@ -443,7 +428,6 @@ else:
                     st.rerun()
                     st.stop()
 
-                # Buscar credenciales usando el nombre de usuario normalizado
                 user_credentials = current_config_for_login['credentials']['usernames'].get(login_username_normalized)
                 
                 if user_credentials and 'password' in user_credentials:
@@ -497,7 +481,6 @@ else:
             submit_forgot_password = st.form_submit_button("Solicitar Restablecimiento")
 
             if submit_forgot_password:
-                # Normalizar el nombre de usuario de olvido a minúsculas
                 forgot_username_input_normalized = forgot_username_input.lower()
 
                 print(f"DEBUG: Solicitud de restablecimiento para usuario: {forgot_username_input_normalized}")
@@ -509,20 +492,17 @@ else:
                         st.error("Error: No se pudo cargar la configuración para restablecer contraseña.")
                         st.stop()
 
-                    # Buscar credenciales usando el nombre de usuario normalizado
                     if forgot_username_input_normalized in current_config_for_reset['credentials']['usernames']:
                         user_data_from_config = current_config_for_reset['credentials']['usernames'][forgot_username_input_normalized]
                         user_email = user_data_from_config.get('email')
                         user_found = True
                         print(f"DEBUG: Usuario '{forgot_username_input_normalized}' encontrado en config.yaml con email: {user_email}")
                     
-                    # Si no se encontró en config.yaml, buscar en usuarios.json por login_email
                     if not user_found and os.path.exists(USUARIOS_FILE):
                         try:
                             with open(USUARIOS_FILE, "r", encoding="utf-8") as f:
                                 usuarios_data = json.load(f)
                             for u in usuarios_data:
-                                # Comparar también el login_email normalizado
                                 if u.get('login_email') and u['login_email'].lower() == forgot_username_input_normalized:
                                     user_email = u.get('alert_email') or u.get('login_email')
                                     if user_email:
@@ -560,5 +540,12 @@ else:
         
         display_register_form()
     else: # Si authentication_status es True (ya autenticado)
+        with st.sidebar:
+            st.markdown("---")
+            st.write(f"Usuario: **{st.session_state['name']}**")
+            # Mostramos el rol, si no tiene, es 'normal'. Usamos capitalize() para que se vea mejor.
+            rol_usuario = st.session_state.get('roles', 'normal') or 'normal'
+            st.write(f"Rol: **{rol_usuario.capitalize()}**")
+            
         authenticator.logout("Cerrar Sesión", "sidebar")
         app_final()

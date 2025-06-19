@@ -12,6 +12,14 @@ credentials:
       logged_in: false
       password: $2b$12$wS9jRHnQORcK2EEnhH5gSOq2zC6wgASEr34Nyg69dhBGOIwtkcg1G
       password_hint: null
+      roles: normal
+    fperez:
+      email: fperez@ing.unrc.edu.ar
+      first_name: Francisco
+      last_name: Perez
+      logged_in: false
+      password: $2b$12$41yR.U/aN7nwsYc.7HAyoeukosq4LUCAnL2grtcwK0YJ7TGK3dbpu
+      password_hint: Francisco1234!
       roles: null
     ipsepadmin:
       email: admin@ing.unrc.edu.ar
@@ -20,6 +28,14 @@ credentials:
       logged_in: false
       password: $2b$12$icwHPZERS/eqJdXWVGj5IekYET8jeXKsjFKCrl9nvxdnx.B5ytdEq
       roles: admin
+    jrosales:
+      email: jrosales@ing.unrc.edu.ar
+      first_name: Juan
+      last_name: Rosales
+      logged_in: false
+      password: $2b$12$QdCMXCNHRn/MRuZdD.txperEijWiraHEmLk9py/iCniNvjrZzlc6e
+      password_hint: null
+      roles: null
     usuariomate:
       email: mate@ing.unrc.edu.ar
       first_name: mate
@@ -27,7 +43,7 @@ credentials:
       logged_in: false
       password: $2b$12$QpN06a/7Zos/FVWSc5CMR.GiwuQ2P9Wet4qAsoYqXtVuNzutCo1/6
       password_hint: 1234Admin!
-      roles: null
+      roles: normal
     vmora:
       email: vmora@ing.unrc.edu.ar
       first_name: Vale
@@ -35,7 +51,7 @@ credentials:
       logged_in: false
       password: $2b$12$hgjtlaei.y2mtqkPSpAWIu0vg50Bx9ZtpLIznDLBPJHkx51TKiZl2
       password_hint: 2422321Elias!
-      roles: null
+      roles: normal
 default_franjas_horarias:
   DIA:
     fin_hora: '20:00'
