@@ -16,15 +16,22 @@ env/
 .env/
 *.env # Ignorar cualquier archivo .env para configuraciones locales
 
-# Archivos de logs y estado generados por la aplicación
-# Ahora que los archivos están en la raíz, las rutas son más cortas:
-Streamlit/logs_alertas.json
-Streamlit/last_digest_sent_state.json
-Streamlit/pending_alerts_buffer.json
-Streamlit/reset_tokens.json
-# Si alert_cooldown_state.json se regenerara por alguna razón (debería estar eliminado):
+# ####################################################################
+# SE RECOMIENDA NO IGNORAR LOS SIGUIENTES ARCHIVOS JSON.
+# Son necesarios para el primer arranque de la aplicación.
+# En su lugar, se debe hacer commit de una versión inicial vacía de ellos.
+# Por ejemplo: logs_alertas.json con el contenido "[]".
+#
+# Streamlit/logs_alertas.json
+# Streamlit/last_digest_sent_state.json
+# Streamlit/pending_alerts_buffer.json
+# Streamlit/reset_tokens.json
+# ####################################################################
+
+# Archivos obsoletos que deberían ser eliminados del repositorio
+# Si alert_cooldown_state.json y umbral_config.json siguen en el repo,
+# elimínalos con 'git rm --cached <archivo>' y luego haz commit.
 Streamlit/alert_cooldown_state.json
-# Si umbral_config.json aún existiera y no fuera eliminado:
 Streamlit/umbral_config.json
 
 # Archivos de caché de Streamlit
@@ -59,11 +66,6 @@ dist/
 .classpath
 .settings/
 
-# Directorios de pruebas antiguos o de backups que has movido/limpiado
-# Puedes eliminar o mantener estas líneas dependiendo de si quieres seguir rastreando Pruebas18Jun/
-# Si quieres eliminar completamente la carpeta Pruebas18Jun/ del repositorio:
+# Directorios de pruebas y backups
+# Se ignora la carpeta completa para mantener el repositorio limpio.
 Pruebas18Jun/
-# Si solo quieres ignorar su contenido pero mantener la carpeta Pruebas18Jun/ sin rastrear sus archivos:
-# Pruebas18Jun/backups/
-# Pruebas18Jun/Last_Release/
-# Pruebas18Jun/README.md

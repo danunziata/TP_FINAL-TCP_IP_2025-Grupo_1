@@ -16,5 +16,11 @@
         "nombre": "Vale Mora",
         "alert_email": "vmora@ing.unrc.edu.ar",
         "recibir_notificaciones": false
+    },
+    {
+        "login_email": "capo@ing.unrc.edu.ar",
+        "nombre": "capo universidad",
+        "alert_email": "capo@ing.unrc.edu.ar",
+        "recibir_notificaciones": false
     }
 ]

@@ -5,6 +5,14 @@ cookie:
   name: your_cookie_name
 credentials:
   usernames:
+    capo:
+      email: capo@ing.unrc.edu.ar
+      first_name: capo
+      last_name: universidad
+      logged_in: false
+      password: $2b$12$wS9jRHnQORcK2EEnhH5gSOq2zC6wgASEr34Nyg69dhBGOIwtkcg1G
+      password_hint: null
+      roles: null
     ipsepadmin:
       email: admin@ing.unrc.edu.ar
       first_name: IPSEP

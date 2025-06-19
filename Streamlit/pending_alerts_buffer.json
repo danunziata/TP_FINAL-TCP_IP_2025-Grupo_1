@@ -1,0 +1,194 @@
+[
+    {
+        "timestamp": "2025-06-19T13:20:40.869418",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:20:40.874927",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:20:40.880503",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:21:41.034232",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:21:41.040990",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:21:41.047435",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:22:41.190488",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:22:41.195907",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:22:41.201198",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:23:41.342948",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:23:41.349525",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:23:41.356583",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:24:41.497142",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:24:41.502481",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:24:41.507839",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:25:41.714340",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:25:41.724736",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:25:41.733355",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:26:41.899155",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:26:41.906764",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:26:41.914949",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:27:42.067053",
+        "variable": "active_power",
+        "valor": 1.0,
+        "umbral": "Min: 500.00, Max: 8000.00",
+        "motivo": "active_power (1.00) est\u00e1 por debajo del umbral m\u00ednimo (500.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:27:42.072820",
+        "variable": "current_l1",
+        "valor": 1.0,
+        "umbral": "Min: 5.00, Max: 40.00",
+        "motivo": "current_l1 (1.00) est\u00e1 por debajo del umbral m\u00ednimo (5.00).",
+        "franja_horaria": "DIA"
+    },
+    {
+        "timestamp": "2025-06-19T13:27:42.078384",
+        "variable": "voltaje",
+        "valor": 1.0,
+        "umbral": "Min: 210.00, Max: 235.00",
+        "motivo": "voltaje (1.00) est\u00e1 por debajo del umbral m\u00ednimo (210.00).",
+        "franja_horaria": "DIA"
+    }
+]
