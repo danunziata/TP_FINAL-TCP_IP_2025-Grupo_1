@@ -7,7 +7,6 @@ Desktop.ini
 __pycache__/
 *.py[cod]
 *.pyo
-*.pyd
 .Python/
 
 # Archivos de entorno virtual
@@ -18,18 +17,17 @@ env/
 *.env # Ignorar cualquier archivo .env para configuraciones locales
 
 # Archivos de logs y estado generados por la aplicación
-# Estos archivos se crean o actualizan en runtime y no deben ir al repositorio.
-Pruebas18Jun/Last_Release/Streamlit/logs_alertas.json
-Pruebas18Jun/Last_Release/Streamlit/last_digest_sent_state.json
-Pruebas18Jun/Last_Release/Streamlit/pending_alerts_buffer.json
-Pruebas18Jun/Last_Release/Streamlit/reset_tokens.json
-# Si alert_cooldown_state.json se regenerara por alguna razón (aunque ya no se usa):
-Pruebas18Jun/Last_Release/Streamlit/alert_cooldown_state.json
-# Si umbral_config.json aún existiera y no fuera eliminado (debería eliminarse):
-Pruebas18Jun/Last_Release/Streamlit/umbral_config.json
+# Ahora que los archivos están en la raíz, las rutas son más cortas:
+Streamlit/logs_alertas.json
+Streamlit/last_digest_sent_state.json
+Streamlit/pending_alerts_buffer.json
+Streamlit/reset_tokens.json
+# Si alert_cooldown_state.json se regenerara por alguna razón (debería estar eliminado):
+Streamlit/alert_cooldown_state.json
+# Si umbral_config.json aún existiera y no fuera eliminado:
+Streamlit/umbral_config.json
 
 # Archivos de caché de Streamlit
-# Streamlit puede crear carpetas .streamlit/ en varios lugares.
 .streamlit/
 
 # Archivos de instalación y paquetes temporales de Python
@@ -61,12 +59,11 @@ dist/
 .classpath
 .settings/
 
-# Carpetas y archivos de prueba antiguos o específicos que no son parte del release oficial
-# (Ajusta estas rutas según tu estructura real si no son en la raíz)
-PruebasViejas/
-Prueba/
-Pruebas/backups/
-Pruebas/10Jun/
-# Si "Pruebas18Jun" es solo una carpeta de trabajo temporal para la nueva versión,
-# y no quieres que vaya a la rama final, podrías ignorarla completamente:
-# Pruebas18Jun/
+# Directorios de pruebas antiguos o de backups que has movido/limpiado
+# Puedes eliminar o mantener estas líneas dependiendo de si quieres seguir rastreando Pruebas18Jun/
+# Si quieres eliminar completamente la carpeta Pruebas18Jun/ del repositorio:
+Pruebas18Jun/
+# Si solo quieres ignorar su contenido pero mantener la carpeta Pruebas18Jun/ sin rastrear sus archivos:
+# Pruebas18Jun/backups/
+# Pruebas18Jun/Last_Release/
+# Pruebas18Jun/README.md
