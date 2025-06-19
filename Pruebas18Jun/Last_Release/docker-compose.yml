@@ -66,6 +66,7 @@ services:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
+    command: ["streamlit", "run", "login.py"] # <--- LÍNEA MODIFICADA
     ports:
       - "8501:8501" # Puerto expuesto para acceso local
     volumes:

@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time # Importar time específicamente
 import os
 from influxdb_client import InfluxDBClient
 import json
@@ -29,6 +29,9 @@ RESET_TOKENS_FILE_PATH = Path(__file__).parent / "reset_tokens.json"
 def load_config():
     """Carga el archivo config.yaml."""
     try:
+        if not CONFIG_FILE_PATH.exists():
+            st.error(f"Error: El archivo de configuración '{CONFIG_FILE_PATH}' no existe.")
+            return None
         with CONFIG_FILE_PATH.open("r", encoding="utf-8") as f:
             return yaml.load(f, Loader=SafeLoader)
     except Exception as e:
@@ -152,73 +155,113 @@ def mostrar_alertas_activas():
             else:
                 df_logs = pd.DataFrame(logs)
                 df_logs['timestamp'] = pd.to_datetime(df_logs['timestamp'])
-                st.dataframe(df_logs.tail(10).sort_values(by='timestamp', ascending=False),
+                # Reorganizar columnas para mostrar franja_horaria
+                columns_order = ['timestamp', 'variable', 'valor', 'umbral', 'franja_horaria', 'tipo_ejecucion']
+                # Asegurarse de que todas las columnas existan antes de reordenar
+                existing_columns = [col for col in columns_order if col in df_logs.columns]
+                st.dataframe(df_logs[existing_columns].tail(10).sort_values(by='timestamp', ascending=False),
                              use_container_width=True, height=250)
         else:
             st.info("El archivo 'logs_alertas.json' no existe. No hay alertas registradas.")
     except Exception as e:
         st.error(f"Error al leer el historial de alertas: {e}")
 
-def editar_umbrales_y_notificaciones():
-    st.subheader("⚙️ Configuración de Umbrales")
-    umbrales_path = "umbral_config.json"
+# Mapeo de nombres internos a nombres amigables para el usuario
+display_names = {
+    'voltaje': 'Voltaje',
+    'current_l1': 'Corriente L1',
+    'active_power': 'Potencia Activa'
+}
+
+# Variables que queremos configurar, con valores por defecto si no existen
+default_thresholds_for_display = {
+    'voltaje': {'min': 0.0, 'max': 0.0},
+    'current_l1': {'min': 0.0, 'max': 0.0},
+    'active_power': {'min': 0.0, 'max': 0.0}
+}
+
+def display_franja_config_form(current_config, franjas_horarias_data):
+    """
+    Muestra el formulario para configurar o editar las franjas horarias y sus umbrales.
+    `franjas_horarias_data` son los datos actuales de las franjas (pueden ser los default).
+    """
+    st.subheader("⚙️ Configuración de Umbrales por Franja Horaria")
+    
+    if not franjas_horarias_data:
+        st.warning("No se encontraron franjas horarias configuradas. Por favor, asegúrate de que config.yaml tenga la sección 'franjas_horarias' o 'default_franjas_horarias' para iniciar.")
+        return False # Indicar que la configuración no pudo proceder
+    
+    franjas_names = list(franjas_horarias_data.keys())
+    
+    if not franjas_names:
+        st.error("No hay franjas horarias definidas en la configuración. Por favor, define al menos una en 'config.yaml'.")
+        return False
+
+    selected_franja = st.selectbox(
+        "Seleccionar Franja Horaria a configurar:",
+        options=franjas_names,
+        key="franja_horaria_selector"
+    )
+
+    current_franja_details = franjas_horarias_data.get(selected_franja, {})
+    current_umbrales = current_franja_details.get("umbrales", {})
+
+    # --- INPUTS PARA HORAS DE FRANJA (Solo para Administradores) ---
+    st.markdown(f"**Horario de la franja '{selected_franja}'**")
+    col_inicio_hora, col_fin_hora = st.columns(2)
+    
+    # Intentar parsear las horas, si no existen, usar un valor por defecto o 00:00
+    try:
+        initial_inicio_time = datetime.strptime(current_franja_details.get('inicio_hora', '00:00'), "%H:%M").time()
+    except ValueError:
+        initial_inicio_time = time(0, 0)
     
     try:
-        if os.path.exists(umbrales_path):
-            with open(umbrales_path, "r", encoding="utf-8") as f:
-                umbrales = json.load(f)
-        else:
-            umbrales = {}
-    except json.JSONDecodeError:
-        st.warning("El archivo 'umbral_config.json' está corrupto o vacío. Se inicializará con valores por defecto.")
-        umbrales = {}
-    
-    # Mapeo de nombres internos a nombres amigables para el usuario
-    display_names = {
-        'voltaje': 'Voltaje',
-        'current_l1': 'Corriente L1',
-        'active_power': 'Potencia Activa'
-    }
+        initial_fin_time = datetime.strptime(current_franja_details.get('fin_hora', '00:00'), "%H:%M").time()
+    except ValueError:
+        initial_fin_time = time(0, 0)
 
-    # Valores por defecto, si el umbral_config.json está vacío o faltan claves
-    default_thresholds = {
-        'voltaje': {'min': 200.0, 'max': 240.0},
-        'current_l1': {'min': 0.0, 'max': 50.0},
-        'active_power': {'min': 0.0, 'max': 6000.0}
-    }
+    # Restringir la edición de horas solo a administradores
+    if st.session_state.get('roles') == 'admin':
+        with col_inicio_hora:
+            new_inicio_time = st.time_input("Hora de Inicio:", value=initial_inicio_time, key=f"{selected_franja}_inicio_time_input")
+        with col_fin_hora:
+            new_fin_time = st.time_input("Hora de Fin:", value=initial_fin_time, key=f"{selected_franja}_fin_time_input")
+    else: # Para usuarios no admin, solo mostrar el horario
+        with col_inicio_hora:
+            st.info(f"Inicio: {initial_inicio_time.strftime('%H:%M')}")
+        with col_fin_hora:
+            st.info(f"Fin: {initial_fin_time.strftime('%H:%M')}")
+        new_inicio_time = initial_inicio_time # Mantener los valores para el guardado de umbrales
+        new_fin_time = initial_fin_time # Mantener los valores para el guardado de umbrales
 
-    st.markdown("Ajusta los valores mínimos y máximos para las métricas. Deja vacío si no aplica.")
+
+    st.markdown(f"Ajusta los valores mínimos y máximos para las métricas en la franja **{selected_franja}**.")
     
-    nuevos_umbrales = {}
-    for variable_key, defaults in default_thresholds.items(): # Iteramos sobre las claves internas
-        display_name = display_names.get(variable_key, variable_key) # Obtenemos el nombre amigable
-        st.write(f"**{display_name}**") # Mostramos el nombre amigable
+    nuevos_umbrales_para_franja = {}
+    for variable_key in default_thresholds_for_display.keys():
+        display_name = display_names.get(variable_key, variable_key)
+        st.write(f"**{display_name}**")
         col_min, col_max = st.columns(2)
         
-        current_min = umbrales.get(variable_key, {}).get('min', defaults.get('min'))
-        current_max = umbrales.get(variable_key, {}).get('max', defaults.get('max'))
+        initial_min = current_umbrales.get(variable_key, {}).get('min', default_thresholds_for_display[variable_key]['min'])
+        initial_max = current_umbrales.get(variable_key, {}).get('max', default_thresholds_for_display[variable_key]['max'])
         
         with col_min:
-            new_min = st.number_input(f"Mínimo para {display_name}", value=current_min, format="%.2f", key=f"{variable_key}_min_input")
+            new_min = st.number_input(f"Mínimo para {display_name}", value=float(initial_min), format="%.2f", key=f"{selected_franja}_{variable_key}_min_input")
         with col_max:
-            new_max = st.number_input(f"Máximo para {display_name}", value=current_max, format="%.2f", key=f"{variable_key}_max_input")
+            new_max = st.number_input(f"Máximo para {display_name}", value=float(initial_max), format="%.2f", key=f"{selected_franja}_{variable_key}_max_input")
         
-        nuevos_umbrales[variable_key] = {'min': new_min, 'max': new_max} # Guardamos con la clave interna original
+        nuevos_umbrales_para_franja[variable_key] = {'min': new_min, 'max': new_max}
 
     # --- Sección de Notificaciones Generales (Solo para Administradores) ---
     st.divider()
     
     if st.session_state.get('roles') == 'admin':
         st.subheader("✉️ Configuración de Notificaciones Generales")
-        config_data = load_config() # Cargar la configuración aquí
+        notificaciones_activas = current_config.get("notificaciones_generales", False)
+        current_digest_interval = current_config.get("alert_digest_interval_minutes", 1440)
         
-        if config_data:
-            notificaciones_activas = config_data.get("notificaciones_generales", False)
-            current_digest_interval = config_data.get("alert_digest_interval_minutes", 60)
-        else:
-            notificaciones_activas = False
-            current_digest_interval = 60
-
         activar_mail_general = st.checkbox(
             "**Activar envío de correos de alerta (configuración global)**",
             value=notificaciones_activas,
@@ -228,38 +271,169 @@ def editar_umbrales_y_notificaciones():
         new_digest_interval = st.number_input(
             "Frecuencia de Envío de Resumen de Alertas (minutos):",
             min_value=1,
-            max_value=10080, # 7 días * 24 horas/día * 60 minutos/hora = 10080 minutos
+            max_value=10080,
             value=current_digest_interval,
             help="Cada cuánto tiempo se enviará un único correo con el resumen de todas las alertas detectadas en ese período.",
             key="alert_digest_interval_input"
         )
         
         if st.button("💾 Guardar Configuración", use_container_width=True):
-            with open(umbrales_path, "w", encoding="utf-8") as f:
-                json.dump(nuevos_umbrales, f, indent=4)
+            franjas_a_guardar = current_config.get('franjas_horarias', {}).copy()
+            if selected_franja not in franjas_a_guardar:
+                franjas_a_guardar[selected_franja] = franjas_horarias_data.get(selected_franja, {
+                    'inicio_hora': '00:00', 'fin_hora': '00:00', 'umbrales': {}
+                }).copy()
             
-            # Usar la config_data cargada y modificarla
-            if config_data: # Asegurarse de que config_data no sea None
-                config_data['notificaciones_generales'] = activar_mail_general
-                config_data['alert_digest_interval_minutes'] = new_digest_interval
-                if save_config(config_data): # Guardar y verificar
-                    st.success("✅ Configuración de umbrales y notificaciones actualizada correctamente.")
-                    time.sleep(3)
-                    st.rerun()
-                else:
-                    st.error("❌ Error al guardar la configuración general.")
-            else:
-                st.error("❌ No se pudo cargar la configuración para guardar los cambios.")
-    else:
-        # Si no es admin, solo permitir guardar umbrales, y el botón de guardar es para umbrales.
-        # No mostrar la sección de "Configuración de Notificaciones Generales".
-        if st.button("💾 Guardar Umbrales", use_container_width=True):
-            with open(umbrales_path, "w", encoding="utf-8") as f:
-                json.dump(nuevos_umbrales, f, indent=4)
-            st.success("✅ Umbrales actualizados correctamente.")
-            time.sleep(3)
-            st.rerun()
+            franjas_a_guardar[selected_franja]['inicio_hora'] = new_inicio_time.strftime("%H:%M")
+            franjas_a_guardar[selected_franja]['fin_hora'] = new_fin_time.strftime("%H:%M")
+            franjas_a_guardar[selected_franja]['umbrales'] = nuevos_umbrales_para_franja
 
+            current_config['franjas_horarias'] = franjas_a_guardar
+            
+            current_config['notificaciones_generales'] = activar_mail_general
+            current_config['alert_digest_interval_minutes'] = new_digest_interval
+            
+            if save_config(current_config):
+                st.success("✅ Configuración de umbrales y notificaciones actualizada correctamente.")
+                time.sleep(3)
+                st.rerun()
+            else:
+                st.error("❌ Error al guardar la configuración general.")
+        return True
+    else: # Usuario no administrador
+        if st.button("💾 Guardar Umbrales (Solo Umbrales)", use_container_width=True):
+            config_data_non_admin = load_config()
+            if config_data_non_admin:
+                franjas_a_guardar_non_admin = config_data_non_admin.get('franjas_horarias', {}).copy()
+                if selected_franja in franjas_a_guardar_non_admin:
+                    if 'umbrales' not in franjas_a_guardar_non_admin[selected_franja]:
+                        franjas_a_guardar_non_admin[selected_franja]['umbrales'] = {}
+
+                    franjas_a_guardar_non_admin[selected_franja]['umbrales'] = nuevos_umbrales_para_franja
+                    config_data_non_admin['franjas_horarias'] = franjas_a_guardar_non_admin
+
+                    if save_config(config_data_non_admin):
+                        st.success("✅ Umbrales actualizados correctamente.")
+                        time.sleep(3)
+                        st.rerun()
+                    else:
+                        st.error("❌ Error al guardar los umbrales.")
+                else:
+                    st.error(f"❌ La franja horaria '{selected_franja}' no existe en la configuración y no puede ser modificada por un usuario regular.")
+            else:
+                st.error("❌ No se pudo cargar la configuración para guardar los umbrales.")
+        return True
+
+
+# --- Función para el Wizard de Configuración Inicial de Franjas Horarias ---
+def wizard_configuracion_franjas(current_config):
+    """
+    Wizard para la configuración inicial de franjas horarias.
+    Solo para administradores en la primera ejecución.
+    """
+    st.title("Asistente de Configuración Inicial de Franjas Horarias")
+    st.warning("Parece que es la primera vez que configuras las franjas horarias de alerta o no están definidas.")
+    st.info("Por favor, configura las franjas horarias y sus umbrales por defecto.")
+    st.markdown("Puedes ajustar estos valores más tarde en la sección 'Alertas y Logs'.")
+
+    # Obtener las franjas por defecto de config.yaml
+    default_franjas = current_config.get("default_franjas_horarias", {})
+    if not default_franjas:
+        st.error("Error: No se encontraron franjas horarias por defecto en 'config.yaml'. Por favor, revisa el archivo.")
+        return # No se puede continuar sin defaults
+
+    st.subheader("Definición de Franjas Horarias")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    # Inputs para DIA
+    with col1:
+        st.markdown("**Franja DIA**")
+        dia_inicio = st.time_input("Inicio DIA", value=datetime.strptime(default_franjas['DIA']['inicio_hora'], "%H:%M").time(), key="wiz_dia_inicio")
+    with col2:
+        st.markdown(" ") # Espacio para alinear
+        dia_fin = st.time_input("Fin DIA", value=datetime.strptime(default_franjas['DIA']['fin_hora'], "%H:%M").time(), key="wiz_dia_fin")
+
+    # Inputs para NOCHE
+    with col3:
+        st.markdown("**Franja NOCHE**")
+        noche_inicio = st.time_input("Inicio NOCHE", value=datetime.strptime(default_franjas['NOCHE']['inicio_hora'], "%H:%M").time(), key="wiz_noche_inicio")
+    with col4:
+        st.markdown(" ") # Espacio para alinear
+        noche_fin = st.time_input("Fin NOCHE", value=datetime.strptime(default_franjas['NOCHE']['fin_hora'], "%H:%M").time(), key="wiz_noche_fin")
+
+    st.subheader("Umbrales por Defecto para Franjas")
+
+    # Mostrar y permitir editar los umbrales predefinidos
+    nuevas_franjas_config = {}
+    
+    # Franja DIA
+    st.markdown("---")
+    st.markdown("**Umbrales para DIA**")
+    umbrales_dia = {}
+    for variable_key in default_thresholds_for_display.keys():
+        display_name = display_names.get(variable_key, variable_key)
+        col_min, col_max = st.columns(2)
+        with col_min:
+            min_val = st.number_input(f"Mínimo {display_name} (DIA)", value=float(default_franjas['DIA']['umbrales'].get(variable_key, {}).get('min', 0.0)), format="%.2f", key=f"wiz_dia_{variable_key}_min")
+        with col_max:
+            max_val = st.number_input(f"Máximo {display_name} (DIA)", value=float(default_franjas['DIA']['umbrales'].get(variable_key, {}).get('max', 0.0)), format="%.2f", key=f"wiz_dia_{variable_key}_max")
+        umbrales_dia[variable_key] = {'min': min_val, 'max': max_val}
+    
+    nuevas_franjas_config['DIA'] = {
+        'inicio_hora': dia_inicio.strftime("%H:%M"),
+        'fin_hora': dia_fin.strftime("%H:%M"),
+        'umbrales': umbrales_dia
+    }
+
+    # Franja NOCHE
+    st.markdown("---")
+    st.markdown("**Umbrales para NOCHE**")
+    umbrales_noche = {}
+    for variable_key in default_thresholds_for_display.keys():
+        display_name = display_names.get(variable_key, variable_key)
+        col_min, col_max = st.columns(2)
+        with col_min:
+            min_val = st.number_input(f"Mínimo {display_name} (NOCHE)", value=float(default_franjas['NOCHE']['umbrales'].get(variable_key, {}).get('min', 0.0)), format="%.2f", key=f"wiz_noche_{variable_key}_min")
+        with col_max:
+            max_val = st.number_input(f"Máximo {display_name} (NOCHE)", value=float(default_franjas['NOCHE']['umbrales'].get(variable_key, {}).get('max', 0.0)), format="%.2f", key=f"wiz_noche_{variable_key}_max")
+        umbrales_noche[variable_key] = {'min': min_val, 'max': max_val}
+    
+    nuevas_franjas_config['NOCHE'] = {
+        'inicio_hora': noche_inicio.strftime("%H:%M"),
+        'fin_hora': noche_fin.strftime("%H:%M"),
+        'umbrales': umbrales_noche
+    }
+
+    st.markdown("---")
+    if st.button("💾 Guardar Configuración Inicial de Franjas", use_container_width=True, type="primary"):
+        # Validaciones básicas de solapamiento y orden de horas
+        if dia_inicio >= dia_fin:
+            st.error("Error: La hora de inicio del DIA debe ser anterior a la hora de fin del DIA.")
+            return
+        
+        # Validar que las franjas cubran las 24 horas y no se superpongan
+        dia_inicio_min = dia_inicio.hour * 60 + dia_inicio.minute
+        dia_fin_min = dia_fin.hour * 60 + dia_fin.minute
+        noche_inicio_min = noche_inicio.hour * 60 + noche_inicio.minute
+        noche_fin_min = noche_fin.hour * 60 + noche_fin.minute
+
+        is_valid_cycle = False
+        if (dia_fin_min + 1) % 1440 == noche_inicio_min % 1440 and \
+           (noche_fin_min + 1) % 1440 == dia_inicio_min % 1440:
+           is_valid_cycle = True
+        
+        if not is_valid_cycle:
+            st.warning("Advertencia: Las franjas horarias no cubren un ciclo completo de 24 horas o se superponen. Esto puede causar comportamientos inesperados en las alertas. Por favor, revisa las horas.")
+
+        # Guardar en config.yaml
+        current_config['franjas_horarias'] = nuevas_franjas_config
+        if save_config(current_config):
+            st.success("✅ Franjas horarias configuradas exitosamente. Puedes continuar.")
+            time.sleep(2)
+            st.rerun()
+        else:
+            st.error("❌ Error al guardar la configuración de franjas horarias.")
 
 
 def ejecutar_checker_manual():
@@ -292,7 +466,7 @@ def ejecutar_checker_manual():
             except Exception as e:
                 st.error(f"Error inesperado al ejecutar checker.py: {e}")
 
-# --- Nueva función para Editar Perfil ---
+# --- Funciones de Edición de Perfil y Gestión de Usuarios ---
 def editar_perfil_usuario():
     st.title("👤 Editar Perfil de Usuario")
     st.markdown("**Actualiza tu información personal, preferencias de notificación y contraseña**")
@@ -305,7 +479,7 @@ def editar_perfil_usuario():
         st.warning("No se pudo detectar el email o nombre de usuario del usuario actual. Por favor, asegúrate de haber iniciado sesión correctamente.")
         return
 
-    usuarios = load_usuarios() # Usar función auxiliar
+    usuarios = load_usuarios()
     
     usuario_idx = -1
     usuario_actual_data = None
@@ -350,7 +524,7 @@ def editar_perfil_usuario():
             usuarios[usuario_idx]["alert_email"] = nuevo_email_alertas
             usuarios[usuario_idx]["recibir_notificaciones"] = nueva_preferencia_notificacion
 
-            if save_usuarios(usuarios): # Usar función auxiliar
+            if save_usuarios(usuarios):
                 st.success("Tu perfil ha sido actualizado correctamente.")
                 time.sleep(3)
                 st.rerun()
@@ -375,8 +549,8 @@ def editar_perfil_usuario():
             elif new_password == current_password:
                 st.warning("La nueva contraseña no puede ser igual a la actual.")
             else:
-                current_config = load_config() # Usar función auxiliar
-                if not current_config: # Si no se pudo cargar la config
+                current_config = load_config()
+                if not current_config:
                     return
 
                 username_from_config = st.session_state.get('username')
@@ -396,14 +570,14 @@ def editar_perfil_usuario():
                         
                         current_config['credentials']['usernames'][username_from_config]['password'] = new_hashed_password
                         
-                        if save_config(current_config): # Usar función auxiliar
+                        if save_config(current_config):
                             st.session_state['password_changed_success'] = True
 
                             st.session_state['authentication_status'] = None
                             st.session_state['username'] = None
                             st.session_state['name'] = None
                             st.session_state['email'] = None
-                            st.session_state['roles'] = None # Limpiar el rol también
+                            st.session_state['roles'] = None
                             st.rerun()
                         else:
                             st.error(f"Error al guardar la nueva contraseña en config.yaml.")
@@ -428,7 +602,7 @@ def gestionar_usuarios():
 
     config_data = load_config()
     usuarios_data = load_usuarios()
-    reset_tokens_data = load_reset_tokens_file() # Cargar tokens de restablecimiento
+    reset_tokens_data = load_reset_tokens_file()
 
     if not config_data or not usuarios_data:
         st.error("No se pudieron cargar los datos de configuración o de usuarios.")
@@ -443,7 +617,7 @@ def gestionar_usuarios():
             "Username": username,
             "Nombre Completo": f"{creds.get('first_name', '')} {creds.get('last_name', '')}".strip(),
             "Email de Login": creds.get('email', 'N/A'),
-            "Rol": creds.get('roles', 'normal') or 'normal' # 'null' de YAML se convierte a None, lo mapeamos a 'normal'
+            "Rol": creds.get('roles', 'normal') or 'normal'
         }
         # Añadir info de usuarios.json si existe
         matching_user_in_usuarios = next((u for u in usuarios_data if u.get('login_email') == creds.get('email')), None)
@@ -462,9 +636,9 @@ def gestionar_usuarios():
     st.subheader("Eliminar Usuario")
     st.warning("🚨 ¡CUIDADO! Esta acción eliminará permanentemente al usuario del sistema.")
 
-    users_to_delete = [user['Username'] for user in display_users if user['Rol'] != 'admin'] # No permitir eliminar administradores
+    users_to_delete = [user['Username'] for user in display_users if user['Rol'] != 'admin']
     
-    if st.session_state.get('username') == 'ipsepadmin': # Asegurar que el admin no se pueda eliminar a sí mismo
+    if st.session_state.get('username') == 'ipsepadmin':
         users_to_delete = [u for u in users_to_delete if u != 'ipsepadmin']
 
 
@@ -485,7 +659,7 @@ def gestionar_usuarios():
                     del config_data['credentials']['usernames'][user_to_delete]
                     if not save_config(config_data):
                         st.error("❌ Error al eliminar usuario de config.yaml.")
-                        st.rerun() # Detener para mostrar el error
+                        st.rerun()
                 else:
                     st.warning(f"Usuario {user_to_delete} no encontrado en config.yaml. Continuando con usuarios.json...")
 
@@ -494,22 +668,22 @@ def gestionar_usuarios():
                     usuarios_data = [u for u in usuarios_data if u.get('login_email') != deleted_user_email]
                     if not save_usuarios(usuarios_data):
                         st.error("❌ Error al eliminar usuario de usuarios.json.")
-                        st.rerun() # Detener para mostrar el error
+                        st.rerun()
                 else:
                     st.warning(f"No se encontró email de login para {user_to_delete} en config.yaml, no se pudo eliminar de usuarios.json.")
 
                 # 3. Limpiar tokens de restablecimiento asociados
                 if reset_tokens_data:
                     tokens_to_keep = {token: info for token, info in reset_tokens_data.items() if info.get('username') != user_to_delete}
-                    if len(tokens_to_keep) < len(reset_tokens_data): # Si se eliminó algún token
+                    if len(tokens_to_keep) < len(reset_tokens_data):
                         if not save_reset_tokens_file(tokens_to_keep):
                             st.warning("⚠️ Error al limpiar tokens de restablecimiento asociados.")
                 
                 st.success(f"✅ Usuario '{user_to_delete}' eliminado exitosamente y datos asociados limpiados.")
                 time.sleep(3)
-                st.rerun() # Recargar la página para actualizar la lista de usuarios
+                st.rerun()
 
-# --- Funciones de Gráficos y Dashboard (sin cambios) ---
+# --- Funciones de Gráficos y Dashboard ---
 def create_multi_series_chart(data, title, y_columns, y_title, colors=None):
     fig = go.Figure()
     
@@ -594,6 +768,21 @@ def main():
         st.error("No se pudo detectar la sesión del usuario. Por favor, asegúrate de haber iniciado sesión correctamente.")
         st.stop()
 
+    # --- Lógica de Wizard para configuración inicial de franjas horarias ---
+    current_config = load_config()
+    if not current_config:
+        st.error("Error crítico: No se pudo cargar el archivo de configuración.")
+        st.stop()
+
+    # Solo el administrador ve el wizard
+    if st.session_state.get('roles') == 'admin':
+        # Verificar si 'franjas_horarias' existe y no está vacío
+        if not current_config.get('franjas_horarias'):
+            wizard_configuracion_franjas(current_config) # Llamada a la función del wizard
+            st.stop() # Detener la ejecución del resto del main mientras el wizard está activo
+    # --- Fin de la lógica del Wizard ---
+
+
     st.sidebar.title("Menú Principal")
     
     # Opciones de navegación para todos los usuarios
@@ -666,10 +855,11 @@ def main():
             show_currents = st.checkbox("Corrientes", value=True)
             show_power = st.checkbox("Potencia Activa", value=True)
             
-            st.subheader("📋 Campos disponibles:")
-            available_fields = [col for col in df.columns if col != 'timestamp']
-            for field in available_fields:
-                st.caption(f"• {field}")
+            # --- SECCIÓN ELIMINADA: "Campos disponibles:" ---
+            # st.subheader("📋 Campos disponibles:")
+            # available_fields = [col for col in df.columns if col != 'timestamp']
+            # for field in available_fields:
+            #     st.caption(f"• {field}")
 
         if len(date_range) == 2:
             start, end = date_range
@@ -868,7 +1058,20 @@ def main():
 
         mostrar_alertas_activas()
         st.divider()
-        editar_umbrales_y_notificaciones() # Esta función contiene la lógica para mostrar/ocultar la sección
+        
+        # Llama a la función de configuración de umbrales
+        config_data_for_thresholds = load_config()
+        if config_data_for_thresholds:
+            # Pasa la sección 'franjas_horarias' si existe, si no, pasa los defaults
+            franjas_to_display = config_data_for_thresholds.get('franjas_horarias')
+            if not franjas_to_display: # Si 'franjas_horarias' no existe o está vacío
+                franjas_to_display = config_data_for_thresholds.get('default_franjas_horarias', {}) # Usar defaults
+
+            display_franja_config_form(config_data_for_thresholds, franjas_to_display)
+        else:
+            st.error("No se pudo cargar la configuración de franjas horarias.")
+
+
         st.divider()
         ejecutar_checker_manual()
         st.divider()
@@ -883,14 +1086,15 @@ def main():
     st.divider()
     st.caption(f"© {datetime.today().year} Schneider Electric - Power Monitoring System | v2.0 | Datos de InfluxDB")
 
-    if st.sidebar.checkbox("🔧 Modo Debug"):
-        st.sidebar.subheader("Debug Info")
-        st.sidebar.json({
-            "URL": INFLUX_URL,
-            "Bucket": INFLUX_BUCKET,
-            "Org": INFLUX_ORG,
-            "Columnas disponibles": list(df.columns) if 'df' in locals() and df is not None else []
-        })
+    # Eliminada la checkbox de "Modo Debug"
+    # if st.sidebar.checkbox("🔧 Modo Debug"):
+    #     st.sidebar.subheader("Debug Info")
+    #     st.sidebar.json({
+    #         "URL": INFLUX_URL,
+    #         "Bucket": INFLUX_BUCKET,
+    #         "Org": INFLUX_ORG,
+    #         "Columnas disponibles": list(df.columns) if 'df' in locals() and df is not None else []
+    #     })
 
 if __name__ == "__main__":
     main()

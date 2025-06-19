@@ -1,1 +1,72 @@
+# Archivos del sistema operativo
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# Caché y compilados de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python/
+
+# Archivos de entorno virtual
+venv/
+.venv/
+env/
+.env/
+*.env # Ignorar cualquier archivo .env para configuraciones locales
+
+# Archivos de logs y estado generados por la aplicación
+# Estos archivos se crean o actualizan en runtime y no deben ir al repositorio.
+Pruebas18Jun/Last_Release/Streamlit/logs_alertas.json
+Pruebas18Jun/Last_Release/Streamlit/last_digest_sent_state.json
+Pruebas18Jun/Last_Release/Streamlit/pending_alerts_buffer.json
+Pruebas18Jun/Last_Release/Streamlit/reset_tokens.json
+# Si alert_cooldown_state.json se regenerara por alguna razón (aunque ya no se usa):
+Pruebas18Jun/Last_Release/Streamlit/alert_cooldown_state.json
+# Si umbral_config.json aún existiera y no fuera eliminado (debería eliminarse):
+Pruebas18Jun/Last_Release/Streamlit/umbral_config.json
+
+# Archivos de caché de Streamlit
+# Streamlit puede crear carpetas .streamlit/ en varios lugares.
+.streamlit/
+
+# Archivos de instalación y paquetes temporales de Python
+*.egg-info/
+.coverage
+.pytest_cache/
+htmlcov/
+build/
+dist/
+
+# Archivos de backup, temporales, comprimidos
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.bak
+*~ # Archivos de backup de editores como Vim
+*.swp # Archivos swap de Vim
+
+# Archivos de bases de datos locales o de desarrollo
+*.sqlite3
+*.db
+
+# Directorios específicos de IDEs
+.idea/ # IntelliJ IDEA
+.vscode/ # Visual Studio Code
+.project
+.classpath
+.settings/
+
+# Carpetas y archivos de prueba antiguos o específicos que no son parte del release oficial
+# (Ajusta estas rutas según tu estructura real si no son en la raíz)
+PruebasViejas/
+Prueba/
+Pruebas/backups/
+Pruebas/10Jun/
+# Si "Pruebas18Jun" es solo una carpeta de trabajo temporal para la nueva versión,
+# y no quieres que vaya a la rama final, podrías ignorarla completamente:
+# Pruebas18Jun/
