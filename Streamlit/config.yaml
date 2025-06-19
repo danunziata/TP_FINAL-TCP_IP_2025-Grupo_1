@@ -13,6 +13,14 @@ credentials:
       password: $2b$12$wS9jRHnQORcK2EEnhH5gSOq2zC6wgASEr34Nyg69dhBGOIwtkcg1G
       password_hint: null
       roles: normal
+    fermate:
+      email: fermate@ing.unrc.edu.ar
+      first_name: Fernando
+      last_name: Mate
+      logged_in: false
+      password: $2b$12$DPJlblWeLMtc/vT../OjQeRKYNLidoMzqZK2AjFi9oRI190cgceVm
+      password_hint: 1234Fer!
+      roles: null
     fperez:
       email: fperez@ing.unrc.edu.ar
       first_name: Francisco

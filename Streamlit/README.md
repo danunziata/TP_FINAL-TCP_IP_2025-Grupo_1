@@ -675,6 +675,7 @@ Lógica: Pide el nombre de usuario y la nueva contraseña. Hashea la nueva contr
 Streamlit/test_email.py
 Propósito: Un script simple para probar la funcionalidad de envío de correos electrónicos de forma aislada, sin tener que disparar una alerta real en el sistema.
 Lógica: Simplemente llama a emailsender.enviar_alerta() con datos de prueba predefinidos.
+
 Streamlit/umbral_config.json y Streamlit/alert_cooldown_state.json
 Estado Actual: Estos archivos ya no son utilizados por las versiones más recientes de checker.py y pagina.py. Sus funcionalidades (umbrales y cooldown) han sido migradas a config.yaml y a la lógica del buffer en checker.py, respectivamente.
 Recomendación: Deben ser eliminados del proyecto.

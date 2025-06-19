@@ -34,5 +34,11 @@
         "nombre": "Francisco Perez",
         "alert_email": "fperez@ing.unrc.edu.ar",
         "recibir_notificaciones": true
+    },
+    {
+        "login_email": "fermate@ing.unrc.edu.ar",
+        "nombre": "Fernando Mate",
+        "alert_email": "fermate@ing.unrc.edu.ar",
+        "recibir_notificaciones": true
     }
 ]
