@@ -1,4 +1,3 @@
-# reset_password_admin.py
 import bcrypt
 import yaml
 from pathlib import Path

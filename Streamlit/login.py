@@ -1,5 +1,3 @@
-# print("DEBUG: Script prueba_login.py iniciando...")
-
 import os
 import json
 import yaml
