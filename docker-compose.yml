@@ -66,6 +66,7 @@ services:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
+    command: ["streamlit", "run", "login.py"] # <--- LÍNEA MODIFICADA
     ports:
       - "8501:8501" # Puerto expuesto para acceso local
     volumes:
@@ -98,6 +99,7 @@ services:
       - INFLUXDB_ORG=power_logic
       - RESEND_API_KEY=re_T2f6KPsP_NNRYnqEFC5JffPL7rWxXgiYa
       - RESEND_FROM=alertas@galasandbox.com.ar
+      - TZ=America/Argentina/Buenos_Aires # <-- Añade esta línea
     volumes:
       - ./Streamlit:/app
     networks:

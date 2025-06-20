@@ -1,4 +1,4 @@
-print("DEBUG: Script prueba_login.py iniciando...")
+# print("DEBUG: Script prueba_login.py iniciando...")
 
 import os
 import json
@@ -22,6 +22,9 @@ USUARIOS_FILE = "usuarios.json" # Para la función de registro
 def load_config_local():
     """Carga el archivo config.yaml."""
     try:
+        if not CONFIG_FILE_PATH.exists():
+            print(f"ERROR: El archivo '{CONFIG_FILE_PATH}' no existe. No se puede cargar la configuración localmente.")
+            return None
         with CONFIG_FILE_PATH.open("r", encoding="utf-8") as f:
             return yaml.load(f, Loader=SafeLoader)
     except Exception as e:
@@ -53,15 +56,16 @@ def load_reset_tokens():
             valid_tokens = {}
             for token, info in tokens_data.items():
                 try:
-                    expiry_dt = datetime.fromisoformat(info['expiry'])
+                    # Asegurarse de que 'expiry' es un string antes de fromisoformat
+                    expiry_dt = datetime.fromisoformat(str(info['expiry']))
                     if expiry_dt > now:
                         valid_tokens[token] = {
                             'username': info['username'],
                             'email': info['email'],
                             'expiry': expiry_dt
                         }
-                except (ValueError, KeyError):
-                    print(f"DEBUG: Token con formato incorrecto en {RESET_TOKENS_FILE}: {token}: {info}")
+                except (ValueError, KeyError) as e:
+                    print(f"DEBUG: Token con formato incorrecto en {RESET_TOKENS_FILE} (Error: {e}): {token}: {info}")
                     continue
             return valid_tokens
         except (json.JSONDecodeError, FileNotFoundError) as e:
@@ -127,12 +131,13 @@ authenticator = stauth.Authenticate(
     config['cookie']['name'],
     config['cookie']['key'],
     config['cookie']['expiry_days'],
-    auto_hash=False
+    auto_hash=False # Mantenemos auto_hash en False porque hasheamos manualmente con bcrypt para control
 )
 print("DEBUG: Objeto Authenticate inicializado.")
 
 # Cargar los tokens de restablecimiento al inicio del script desde el archivo
-st.session_state.reset_tokens = load_reset_tokens()
+if 'reset_tokens' not in st.session_state:
+    st.session_state.reset_tokens = load_reset_tokens()
 
 
 # --- Funciones de Callback para Reseteo de Contraseña ---
@@ -141,7 +146,7 @@ def send_reset_password_email_callback(username, email, key):
     Envía un correo electrónico con el enlace de restablecimiento de contraseña.
     """
     try:
-        base_url = "http://localhost:8501"
+        base_url = "http://localhost:8501" # Asumiendo que esta es la URL de la app
         reset_link = f"{base_url}/?token={key}"
 
         asunto = "Restablece tu contraseña de PowerLogic Monitor"
@@ -156,7 +161,7 @@ def send_reset_password_email_callback(username, email, key):
         <p>Gracias,<br>El equipo de PowerLogic Monitor</p>
         """
 
-        enviar_alerta(email, asunto, html_mensaje)
+        enviar_alerta(email, asunto, html_mensaje) # Usamos la función de emailsender.py
         st.success("Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada (y la carpeta de spam).")
         return True
     except Exception as e:
@@ -175,12 +180,14 @@ def update_password_callback(username, new_hashed_password):
         if not current_config:
             return False
         
-        if username in current_config['credentials']['usernames']:
-            current_config['credentials']['usernames'][username]['password'] = new_hashed_password
+        # Aseguramos que el username en el config esté en minúsculas para la búsqueda
+        username_lower = username.lower()
+        if username_lower in current_config['credentials']['usernames']:
+            current_config['credentials']['usernames'][username_lower]['password'] = new_hashed_password
 
             if save_config_local(current_config):
-                print(f"DEBUG: Contraseña para '{username}' guardada en el archivo config.yaml.")
-                print(f"DEBUG: Verificado hash en archivo después de guardar: {current_config['credentials']['usernames'][username]['password']}")
+                print(f"DEBUG: Contraseña para '{username_lower}' guardada en el archivo config.yaml.")
+                print(f"DEBUG: Verificado hash en archivo después de guardar: {current_config['credentials']['usernames'][username_lower]['password']}")
                 return True
             else:
                 st.error("Error al guardar la nueva contraseña en config.yaml.")
@@ -209,83 +216,104 @@ def display_register_form():
     email_of_registered_user, username_of_registered_user, name_of_registered_user = None, None, None
 
     try:
-        # authenticator.register_user modifica el objeto 'config' global en memoria
-        register_user_result = authenticator.register_user(
-            location='main',
-            pre_authorized=None,
-            fields={'First name': 'Nombre', 'Last name': 'Apellido', 'Form name': 'Formulario de Registro',
-                    'Email': 'Correo Electrónico', 'Username': 'Nombre de Usuario', 'Password': 'Contraseña',
-                    'Repeat password': 'Repetir Contraseña', 'Password hint': 'Ayuda en caso de olvidar contraseña',
-                    'Register': 'Registrarse'}
-        )
+        ### CAMBIO AQUÍ: Añadido clear_on_submit=True para limpiar el formulario ###
+        with st.form(key='register_form', clear_on_submit=True):
+            st.markdown("### Formulario de Registro")
+            reg_first_name = st.text_input("Nombre:", key="reg_first_name_input")
+            reg_last_name = st.text_input("Apellido:", key="reg_last_name_input")
+            reg_email = st.text_input("Correo Electrónico:", key="reg_email_input")
+            reg_username = st.text_input("Nombre de Usuario:", key="reg_username_input")
+            reg_password = st.text_input("Contraseña:", type="password", key="reg_password_input")
+            reg_repeat_password = st.text_input("Repetir Contraseña:", type="password", key="reg_repeat_password_input")
+            reg_password_hint = st.text_input("Ayuda en caso de olvidar contraseña (opcional):", key="reg_password_hint_input")
+            submit_register_button = st.form_submit_button("Registrarse")
 
-        if register_user_result is not None:
-            email_of_registered_user, username_of_registered_user, name_of_registered_user = register_user_result
-            
-            # Usar el objeto `config` global (que fue modificado por authenticator.register_user)
-            # Asegurarse de que el usuario haya sido añadido por register_user en la configuración en memoria
-            if username_of_registered_user not in config['credentials']['usernames']:
-                 st.error(f"Error interno: Usuario '{username_of_registered_user}' no fue añadido a la configuración en memoria por la librería de autenticación.")
-                 st.stop() # Added st.stop()
-            
-            if email_of_registered_user:
-                if not email_of_registered_user.endswith('@ing.unrc.edu.ar'):
+            if submit_register_button:
+                if not (reg_first_name and reg_last_name and reg_email and reg_username and reg_password and reg_repeat_password):
+                    st.error("Por favor, completa todos los campos requeridos para el registro.")
+                    st.stop()
+                if reg_password != reg_repeat_password:
+                    st.error("Las contraseñas no coinciden.")
+                    st.stop()
+                if not reg_email.endswith('@ing.unrc.edu.ar'):
                     st.error("Error: Solo se permiten registros con correos electrónicos de '@ing.unrc.edu.ar'.")
-                    # Si el registro falla por el dominio, asegurar que no quede en config.yaml
-                    if username_of_registered_user in config['credentials']['usernames']: # Usar el global config
-                        del config['credentials']['usernames'][username_of_registered_user]
-                        if save_config_local(config): # Guardar el global config modificado
-                            print(f"DEBUG: Usuario '{username_of_registered_user}' eliminado de config.yaml por dominio no permitido.")
-                        else:
-                            print(f"ERROR: No se pudo eliminar usuario '{username_of_registered_user}' de config.yaml tras dominio inválido.")
-                    st.rerun() # Refresh in case of domain error
-                    st.stop() # Added st.stop()
-                else:
-                    # El dominio es válido. Guardar las credenciales actualizadas del objeto `config` global
-                    if not save_config_local(config): # Guardar el objeto `config` global modificado
-                        st.error("Error: No se pudo guardar el nuevo usuario en config.yaml.")
-                        st.stop() # Added st.stop()
+                    st.stop()
 
-                    # Guardar en usuarios.json
-                    usuarios_path = USUARIOS_FILE
-                    nuevo_usuario_data = {
-                        "login_email": email_of_registered_user,
-                        "nombre": name_of_registered_user,
-                        "alert_email": email_of_registered_user,
-                        "recibir_notificaciones": recibir_notificaciones
-                    }
+                username_to_register = reg_username.lower()
 
-                    try:
-                        if os.path.exists(usuarios_path):
-                            with open(usuarios_path, "r", encoding="utf-8") as f:
-                                usuarios = json.load(f)
-                        else:
-                            usuarios = []
+                current_config_for_register_check = load_config_local()
+                if not current_config_for_register_check:
+                    st.error("Error al cargar la configuración para verificar usuarios existentes.")
+                    st.stop()
 
-                        actualizado = False
-                        for u in usuarios:
-                            if u.get("login_email") == email_of_registered_user:
-                                u.update(nuevo_usuario_data)
-                                actualizado = True
-                                break
+                if username_to_register in current_config_for_register_check['credentials']['usernames']:
+                    st.error(f"El nombre de usuario '{reg_username}' ya está en uso. Por favor, elige otro.")
+                    st.stop()
+                
+                for existing_user, user_data in current_config_for_register_check['credentials']['usernames'].items():
+                    if user_data.get('email', '').lower() == reg_email.lower():
+                        st.error(f"Ya existe una cuenta registrada con el correo electrónico '{reg_email}'.")
+                        st.stop()
 
-                        if not actualizado:
-                            usuarios.append(nuevo_usuario_data)
+                hashed_password = bcrypt.hashpw(reg_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                config_data_to_update = load_config_local()
+                if not config_data_to_update:
+                    st.error("Error: No se pudo recargar la configuración para guardar el nuevo usuario.")
+                    st.stop()
 
-                        with open(usuarios_path, "w", encoding="utf-8") as f:
-                            json.dump(usuarios, f, indent=4)
-                        print(f"DEBUG: Preferencias de notificación guardadas para {email_of_registered_user} en usuarios.json.")
+                config_data_to_update['credentials']['usernames'][username_to_register] = {
+                    'email': reg_email,
+                    'first_name': reg_first_name,
+                    'last_name': reg_last_name,
+                    'password': hashed_password,
+                    'password_hint': reg_password_hint if reg_password_hint else None,
+                    'logged_in': False,
+                    'roles': None
+                }
+                
+                if not save_config_local(config_data_to_update):
+                    st.error("Error: No se pudo guardar el nuevo usuario en config.yaml.")
+                    st.stop()
 
-                        st.success("Tu preferencia de notificación ha sido guardada en usuarios.json.")
-                        st.success('Usuario registrado exitosamente. Ahora puedes iniciar sesión.') # Consolidar mensaje de éxito
-                        st.rerun() # Recargar la página para limpiar el formulario y actualizar la UI
-                        st.stop() # Added st.stop()
-                    except Exception as e:
-                        st.error(f"Error al guardar preferencias de notificación en usuarios.json: {e}")
-                        st.stop() # Added st.stop()
+                usuarios_path = USUARIOS_FILE
+                nuevo_usuario_data = {
+                    "login_email": reg_email,
+                    "nombre": f"{reg_first_name} {reg_last_name}".strip(),
+                    "alert_email": reg_email,
+                    "recibir_notificaciones": recibir_notificaciones
+                }
+
+                try:
+                    usuarios_data = []
+                    if os.path.exists(usuarios_path):
+                        with open(usuarios_path, "r", encoding="utf-8") as f:
+                            usuarios_data = json.load(f)
+                    
+                    user_exists_in_usuarios_json = False
+                    for i, u in enumerate(usuarios_data):
+                        if u.get('login_email', '').lower() == reg_email.lower():
+                            usuarios_data[i] = nuevo_usuario_data
+                            user_exists_in_usuarios_json = True
+                            break
+                    if not user_exists_in_usuarios_json:
+                        usuarios_data.append(nuevo_usuario_data)
+
+                    with open(usuarios_path, "w", encoding="utf-8") as f:
+                        json.dump(usuarios_data, f, indent=4)
+                    print(f"DEBUG: Preferencias de notificación guardadas para {reg_email} en usuarios.json.")
+
+                    st.session_state['just_registered'] = True
+                    st.rerun()
+
+                except Exception as e:
+                    st.error(f"Error al guardar preferencias de notificación en usuarios.json: {e}")
+                    if username_to_register in config_data_to_update['credentials']['usernames']:
+                        del config_data_to_update['credentials']['usernames'][username_to_register]
+                        save_config_local(config_data_to_update)
+                    st.stop()
+
     except Exception as e:
         st.error(f"Error durante el registro de usuario: {e}")
-
 
 # --- Lógica Principal de Autenticación y Enrutamiento ---
 
@@ -302,10 +330,12 @@ if 'email' not in st.session_state:
     st.session_state['email'] = None
 if 'roles' not in st.session_state:
     st.session_state['roles'] = None
-# Inicializar la bandera para el mensaje de contraseña cambiada
 if 'password_changed_success' not in st.session_state:
     st.session_state['password_changed_success'] = False
 
+if st.session_state.get('just_registered', False):
+    st.success("✅ ¡Usuario creado exitosamente! Por favor, inicia sesión.")
+    del st.session_state['just_registered']
 
 # 1. Manejar el flujo de restablecimiento de contraseña si hay un token en la URL
 if "token" in query_params:
@@ -319,7 +349,7 @@ if "token" in query_params:
     if token_from_query in st.session_state.reset_tokens:
         reset_info = st.session_state.reset_tokens[token_from_query]
         print(f"DEBUG: Token encontrado en reset_tokens. Detalles: {reset_info['username']}, expira en: {reset_info['expiry']}")
-        if reset_info['expiry'] > now:
+        if reset_info['expiry'] > now: # Volvemos a chequear expiración
             st.subheader(f"Restablecer Contraseña para {reset_info['username']}")
             with st.form("set_new_password_form"):
                 new_password = st.text_input("Nueva Contraseña", type="password", key="new_password_input")
@@ -341,13 +371,14 @@ if "token" in query_params:
                                 print(f"DEBUG: Contraseña para '{reset_info['username']}' actualizada con éxito.")
                                 del st.session_state.reset_tokens[token_from_query]
                                 save_reset_tokens(st.session_state.reset_tokens)
-                                st.query_params.pop("token")
+                                st.query_params.pop("token") # Limpiar el token de la URL
+                                # Reinicializar estado de sesión para forzar re-login
                                 st.session_state['authentication_status'] = None
                                 st.session_state['username'] = None
                                 st.session_state['name'] = None
                                 st.session_state['email'] = None
                                 st.session_state['roles'] = None
-                                st.rerun()
+                                st.rerun() # Recargar para ir a la pantalla de login limpia
                             else:
                                 st.error("Hubo un problema al actualizar la contraseña. Inténtalo de nuevo.")
                                 print("DEBUG: Fallo al actualizar la contraseña en update_password_callback.")
@@ -359,13 +390,12 @@ if "token" in query_params:
                         print("DEBUG: Campos de nueva contraseña vacíos.")
         else:
             st.error("El enlace de restablecimiento ha expirado. Por favor, solicita uno nuevo.")
-            print("DEBUG: Token expirado al segundo chequeo.")
-            st.query_params.pop("token")
+            st.query_params.pop("token") # Limpiar el token de la URL
             st.rerun()
     else:
         st.error("Token de restablecimiento inválido o ya utilizado. Por favor, solicita uno nuevo.")
         print("DEBUG: Token no encontrado en st.session_state.reset_tokens. Probablemente ya usado o inválido.")
-        st.query_params.pop("token")
+        st.query_params.pop("token") # Limpiar el token de la URL
         st.rerun()
     
 else:
@@ -373,7 +403,7 @@ else:
     if st.session_state['authentication_status'] != True:
         if st.session_state.get('password_changed_success', False):
             st.success("Contraseña cambiada correctamente. Por favor, inicia sesión con tu nueva contraseña.")
-            st.session_state['password_changed_success'] = False
+            st.session_state['password_changed_success'] = False # Limpiar la bandera
             print("DEBUG: Mensaje de contraseña cambiada mostrado en login.")
 
         print("DEBUG: Intentando renderizar formulario de login.")
@@ -384,7 +414,9 @@ else:
             submit_login_button = st.form_submit_button("Iniciar Sesión")
 
             if submit_login_button:
-                print(f"DEBUG: Formulario de login enviado para usuario: {login_username}")
+                login_username_normalized = login_username.lower()
+
+                print(f"DEBUG: Formulario de login enviado para usuario: {login_username_normalized}")
                 current_config_for_login = load_config_local()
                 if not current_config_for_login:
                     st.error("Error: No se pudo cargar la configuración para el login.")
@@ -396,7 +428,7 @@ else:
                     st.rerun()
                     st.stop()
 
-                user_credentials = current_config_for_login['credentials']['usernames'].get(login_username)
+                user_credentials = current_config_for_login['credentials']['usernames'].get(login_username_normalized)
                 
                 if user_credentials and 'password' in user_credentials:
                     stored_hashed_password = user_credentials['password']
@@ -406,12 +438,12 @@ else:
                         
                         if bcrypt.checkpw(login_password.encode('utf-8'), stored_hashed_password):
                             st.session_state['authentication_status'] = True
-                            st.session_state['username'] = login_username
-                            st.session_state['name'] = user_credentials.get('first_name', login_username)
+                            st.session_state['username'] = login_username_normalized # Guardar normalizado
+                            st.session_state['name'] = user_credentials.get('first_name', login_username_normalized)
                             st.session_state['email'] = user_credentials.get('email')
                             st.session_state['roles'] = user_credentials.get('roles')
                             st.success(f"Bienvenido, {st.session_state['name']}!")
-                            print(f"DEBUG: Autenticación exitosa para {login_username}. Estado: True, Email: {st.session_state['email']}, Rol: {st.session_state['roles']}")
+                            print(f"DEBUG: Autenticación exitosa para {login_username_normalized}. Estado: True, Email: {st.session_state['email']}, Rol: {st.session_state['roles']}")
                             st.rerun()
                         else:
                             st.session_state['authentication_status'] = False
@@ -420,7 +452,7 @@ else:
                             st.session_state['email'] = None
                             st.session_state['roles'] = None
                             st.error("Usuario/Contraseña incorrecta.")
-                            print(f"DEBUG: Contraseña incorrecta para {login_username}.")
+                            print(f"DEBUG: Contraseña incorrecta para {login_username_normalized}.")
                     except Exception as e:
                         st.session_state['authentication_status'] = False
                         st.session_state['username'] = None
@@ -428,7 +460,7 @@ else:
                         st.session_state['email'] = None
                         st.session_state['roles'] = None
                         st.error("Error en la verificación de contraseña. Intenta de nuevo.")
-                        print(f"DEBUG: Error durante bcrypt.checkpw para {login_username}: {e}")
+                        print(f"DEBUG: Error durante bcrypt.checkpw para {login_username_normalized}: {e}")
                 else:
                     st.session_state['authentication_status'] = False
                     st.session_state['username'] = None
@@ -436,7 +468,7 @@ else:
                     st.session_state['email'] = None
                     st.session_state['roles'] = None
                     st.error("Usuario/Contraseña incorrecta.")
-                    print(f"DEBUG: Usuario '{login_username}' no encontrado o sin contraseña.")
+                    print(f"DEBUG: Usuario '{login_username_normalized}' no encontrado o sin contraseña.")
         
         if st.session_state['authentication_status'] is None:
             st.warning("Por favor, ingresá tu Usuario y Contraseña")
@@ -449,31 +481,33 @@ else:
             submit_forgot_password = st.form_submit_button("Solicitar Restablecimiento")
 
             if submit_forgot_password:
-                print(f"DEBUG: Solicitud de restablecimiento para usuario: {forgot_username_input}")
-                if forgot_username_input:
+                forgot_username_input_normalized = forgot_username_input.lower()
+
+                print(f"DEBUG: Solicitud de restablecimiento para usuario: {forgot_username_input_normalized}")
+                if forgot_username_input_normalized:
                     user_found = False
                     user_email = None
                     current_config_for_reset = load_config_local()
                     if not current_config_for_reset:
                         st.error("Error: No se pudo cargar la configuración para restablecer contraseña.")
-                        st.stop() # Added st.stop()
+                        st.stop()
 
-                    if forgot_username_input in current_config_for_reset['credentials']['usernames']:
-                        user_data_from_config = current_config_for_reset['credentials']['usernames'][forgot_username_input]
+                    if forgot_username_input_normalized in current_config_for_reset['credentials']['usernames']:
+                        user_data_from_config = current_config_for_reset['credentials']['usernames'][forgot_username_input_normalized]
                         user_email = user_data_from_config.get('email')
                         user_found = True
-                        print(f"DEBUG: Usuario '{forgot_username_input}' encontrado en config.yaml con email: {user_email}")
+                        print(f"DEBUG: Usuario '{forgot_username_input_normalized}' encontrado en config.yaml con email: {user_email}")
                     
                     if not user_found and os.path.exists(USUARIOS_FILE):
                         try:
                             with open(USUARIOS_FILE, "r", encoding="utf-8") as f:
                                 usuarios_data = json.load(f)
                             for u in usuarios_data:
-                                if u.get('login_email') == forgot_username_input:
+                                if u.get('login_email') and u['login_email'].lower() == forgot_username_input_normalized:
                                     user_email = u.get('alert_email') or u.get('login_email')
                                     if user_email:
                                         user_found = True
-                                        print(f"DEBUG: Usuario '{forgot_username_input}' encontrado en usuarios.json con email: {user_email}")
+                                        print(f"DEBUG: Usuario '{forgot_username_input_normalized}' encontrado en usuarios.json con email: {user_email}")
                                         break
                         except Exception as e:
                             st.error(f"Error al leer usuarios.json: {e}")
@@ -485,26 +519,33 @@ else:
                         print(f"DEBUG: Token generado: {reset_token}, expira en: {expiry_time}")
 
                         st.session_state.reset_tokens[reset_token] = {
-                            'username': forgot_username_input,
+                            'username': forgot_username_input_normalized, # Guardar normalizado
                             'email': user_email,
                             'expiry': expiry_time
                         }
                         save_reset_tokens(st.session_state.reset_tokens)
 
                         send_reset_password_email_callback(
-                            forgot_username_input,
+                            forgot_username_input_normalized, # Pasar normalizado al correo
                             user_email,
                             reset_token
                         )
                         st.success("Si el nombre de usuario existe y tiene un correo electrónico válido, se ha enviado un enlace de restablecimiento.")
                     else:
                         st.error("Nombre de usuario no encontrado o no tiene un correo electrónico asociado para restablecer la contraseña.")
-                        print(f"DEBUG: Usuario '{forgot_username_input}' no encontrado o sin email asociado.")
+                        print(f"DEBUG: Usuario '{forgot_username_input_normalized}' no encontrado o sin email asociado.")
                 else:
                     st.error("Por favor, ingresa tu nombre de usuario.")
                     print("DEBUG: Campo de nombre de usuario vacío en solicitud de restablecimiento.")
         
         display_register_form()
     else: # Si authentication_status es True (ya autenticado)
+        with st.sidebar:
+            st.markdown("---")
+            st.write(f"Usuario: **{st.session_state['name']}**")
+            # Mostramos el rol, si no tiene, es 'normal'. Usamos capitalize() para que se vea mejor.
+            rol_usuario = st.session_state.get('roles', 'normal') or 'normal'
+            st.write(f"Rol: **{rol_usuario.capitalize()}**")
+            
         authenticator.logout("Cerrar Sesión", "sidebar")
         app_final()

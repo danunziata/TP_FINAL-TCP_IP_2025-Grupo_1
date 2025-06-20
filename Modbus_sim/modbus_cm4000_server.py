@@ -25,6 +25,7 @@ REGISTERS = {
     'apparent_power': 8,# 0x0008
     'frequency': 9,     # 0x0009
     'energy': 10,       # 0x000A
+    
 }
 
 # Generador de datos aleatorios realistas
