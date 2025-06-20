@@ -1,44 +1,8 @@
 [
     {
-        "login_email": "eliascoranti3@gmail.com",
-        "nombre": "elias",
-        "alert_email": "elias.a.coranti@gmail.com",
-        "recibir_notificaciones": true
-    },
-    {
         "login_email": "admin@ing.unrc.edu.ar",
         "nombre": "IPSEP Admin",
         "alert_email": null,
         "recibir_notificaciones": false
-    },
-    {
-        "login_email": "vmora@ing.unrc.edu.ar",
-        "nombre": "Vale Mora",
-        "alert_email": "vmora@ing.unrc.edu.ar",
-        "recibir_notificaciones": false
-    },
-    {
-        "login_email": "capo@ing.unrc.edu.ar",
-        "nombre": "capo universidad",
-        "alert_email": "capo@ing.unrc.edu.ar",
-        "recibir_notificaciones": false
-    },
-    {
-        "login_email": "jrosales@ing.unrc.edu.ar",
-        "nombre": "Juan Rosales",
-        "alert_email": "jrosales@ing.unrc.edu.ar",
-        "recibir_notificaciones": true
-    },
-    {
-        "login_email": "fperez@ing.unrc.edu.ar",
-        "nombre": "Francisco Perez",
-        "alert_email": "fperez@ing.unrc.edu.ar",
-        "recibir_notificaciones": true
-    },
-    {
-        "login_email": "fermate@ing.unrc.edu.ar",
-        "nombre": "Fernando Mate",
-        "alert_email": "fermate@ing.unrc.edu.ar",
-        "recibir_notificaciones": true
     }
 ]
