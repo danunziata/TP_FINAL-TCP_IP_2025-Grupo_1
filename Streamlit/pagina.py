@@ -18,6 +18,8 @@ from io import BytesIO
 from openpyxl import Workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.utils import get_column_letter
+import glob
+import shutil
 
 # --- Configuración de InfluxDB desde variables de entorno ---
 INFLUX_URL = os.getenv('INFLUXDB_URL', 'http://influxdb:8086')
@@ -827,6 +829,66 @@ def main():
             display_franja_config_form(config_data, franjas)
         st.divider()
         ejecutar_checker_manual()
+
+        # --- FUNCIONALIDAD DE RESTAURAR BACKUP SOLO PARA ADMIN ---
+        if st.session_state.get('roles') == 'admin':
+            st.divider()
+            st.subheader("🗄️ Restaurar BackUp de InfluxDB (solo admin)")
+            backup_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backups_influx'))
+            if not os.path.exists(backup_dir):
+                st.warning(f"La carpeta de backups no existe: {backup_dir}")
+            else:
+                # Buscar carpetas tipo backup-YYYY-MM-DD
+                backups = sorted([os.path.basename(f) for f in glob.glob(os.path.join(backup_dir, 'backup-*')) if os.path.isdir(os.path.join(backup_dir, f))])
+                if not backups:
+                    st.info("No hay backups disponibles en la carpeta 'backups_influx'.")
+                else:
+                    selected_backup = st.selectbox("Selecciona un backup para restaurar:", backups, key="select_backup_restore")
+                    if st.button("Cargar BackUp", use_container_width=True, type="primary"):
+                        with st.spinner("Restaurando backup, esto puede demorar unos minutos..."):
+                            # Definir nombres y comandos
+                            backup_src = os.path.join(backup_dir, selected_backup)
+                            fecha_actual = datetime.now().strftime('%Y-%m-%d')
+                            backup_dst_name = f"backup-{fecha_actual}"
+                            backup_dst = os.path.join(backup_dir, backup_dst_name)
+                            # Copiar el backup a una carpeta con la fecha actual (si es necesario)
+                            if backup_src != backup_dst:
+                                try:
+                                    if os.path.exists(backup_dst):
+                                        shutil.rmtree(backup_dst)
+                                    shutil.copytree(backup_src, backup_dst)
+                                    st.info(f"Backup copiado a {backup_dst_name} para restaurar con la fecha actual.")
+                                except Exception as e:
+                                    st.error(f"Error al copiar el backup: {e}")
+                                    st.stop()
+                            else:
+                                st.info(f"Restaurando backup {backup_dst_name} (ya tiene la fecha actual)")
+                            # Ejecutar los comandos de restauración
+                            try:
+                                # 1. Copiar al contenedor
+                                cmd_cp = [
+                                    'docker', 'cp', backup_dst, '15jun_server-influxdb-1:tmp/backup_restore'
+                                ]
+                                subprocess.check_call(cmd_cp)
+                                # 2. Restaurar dentro del contenedor
+                                cmd_restore = [
+                                    'docker', 'exec', '15jun_server-influxdb-1',
+                                    'influx', 'restore', '--full', 'tmp/backup_restore'
+                                ]
+                                subprocess.check_call(cmd_restore)
+                                # 3. Esperar 10 segundos
+                                time_module.sleep(10)
+                                # 4. Borrar la carpeta temporal en el contenedor
+                                cmd_rm = [
+                                    'docker', 'exec', '15jun_server-influxdb-1',
+                                    'rm', '-rf', 'tmp/backup_restore'
+                                ]
+                                subprocess.check_call(cmd_rm)
+                                st.success(f"Backup restaurado correctamente desde {backup_dst_name}.")
+                            except subprocess.CalledProcessError as e:
+                                st.error(f"Error al ejecutar el comando: {e}")
+                            except Exception as e:
+                                st.error(f"Error inesperado: {e}")
 
     elif seccion == "👤 Editar Perfil":
         editar_perfil_usuario()
