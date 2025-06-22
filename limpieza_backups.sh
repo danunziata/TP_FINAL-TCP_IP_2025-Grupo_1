@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Directorio donde están las carpetas de backup
-ruta=$(pwd)
-backup_dir="$ruta/backups_influx"
+# Obtiene la ruta absoluta del directorio donde está el script
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+backup_dir="$script_dir/backups_influx"
 
 # Fecha de corte: 30 días atrás
 fecha_limite=$(date -d '30 days ago' +%Y-%m-%d)
