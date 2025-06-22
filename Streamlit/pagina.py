@@ -113,26 +113,33 @@ def load_data(_file_mod=None, data_version=0):
 
         # Aplicar el mapeo de nombres solicitado por el usuario
         field_mapping = {
-            '_time': 'timestamp', # Aunque ya se renombra '_time' a 'timestamp' antes, se mantiene para consistencia si se desea usar este mapeo general
-            'corriente_a': 'Corriente A (A)',
-            'corriente_b': 'Corriente B (A)',
-            'corriente_c': 'Corriente C (A)',
-            'voltaje_a_n': 'Voltaje A-N (V)',
-            'voltaje_b_n': 'Voltaje B-N (V)',
-            'voltaje_c_n': 'Voltaje C-N (V)',
-            'potencia_activa_a': 'Potencia Activa A (W)',
-            'potencia_activa_b': 'Potencia Activa B (W)',
-            'potencia_activa_c': 'Potencia Activa C (W)',
+            '_time': 'timestamp',
+            'corriente_a': 'Corriente Fase A (A)',
+            'corriente_b': 'Corriente Fase B (A)',
+            'corriente_c': 'Corriente Fase C (A)',
+            'corriente_neutro': 'Corriente Neutro (A)',
+            'voltaje_a_n': 'Tensión A-N (V)',
+            'voltaje_b_n': 'Tensión B-N (V)',
+            'voltaje_c_n': 'Tensión C-N (V)',
+            'tension_linea_a': 'Tensión Línea A (V)',
+            'tension_linea_b': 'Tensión Línea B (V)',
+            'tension_linea_c': 'Tensión Línea C (V)',
+            'potencia_activa_a': 'Potencia Activa Fase A (W)',
+            'potencia_activa_b': 'Potencia Activa Fase B (W)',
+            'potencia_activa_c': 'Potencia Activa Fase C (W)',
             'potencia_activa_total': 'Potencia Activa Total (W)',
-            'potencia_reactiva_a': 'Potencia Reactiva A (VAR)',
-            'potencia_reactiva_b': 'Potencia Reactiva B (VAR)',
-            'potencia_reactiva_c': 'Potencia Reactiva C (VAR)',
+            'potencia_reactiva_a': 'Potencia Reactiva Fase A (VAR)',
+            'potencia_reactiva_b': 'Potencia Reactiva Fase B (VAR)',
+            'potencia_reactiva_c': 'Potencia Reactiva Fase C (VAR)',
             'potencia_reactiva_total': 'Potencia Reactiva Total (VAR)',
-            'potencia_aparente_a': 'Potencia Aparente A (VA)',
-            'potencia_aparente_b': 'Potencia Aparente B (VA)',
-            'potencia_aparente_c': 'Potencia Aparente C (VA)',
+            'potencia_aparente_a': 'Potencia Aparente Fase A (VA)',
+            'potencia_aparente_b': 'Potencia Aparente Fase B (VA)',
+            'potencia_aparente_c': 'Potencia Aparente Fase C (VA)',
             'potencia_aparente_total': 'Potencia Aparente Total (VA)',
-            'demanda_potencia_real_3_fases_running': 'Demanda Potencia Real (W)'
+            'factor_potencia_a': 'Factor de Potencia Fase A',
+            'factor_potencia_b': 'Factor de Potencia Fase B',
+            'factor_potencia_c': 'Factor de Potencia Fase C',
+            'factor_potencia_total': 'Factor de Potencia Total',
         }
         df.rename(columns=field_mapping, inplace=True)
         
@@ -152,12 +159,13 @@ def detect_columns(df):
     
     # CORRECCIÓN: Se añaden patrones en inglés y español para ser más robustos.
     detected = {
-        'Voltajes': [col for col in columns_to_scan if any(p in col.lower() for p in ['voltaje', 'voltage'])],
-        'Corrientes': [col for col in columns_to_scan if any(p in col.lower() for p in ['corriente', 'current'])],
-        'Potencia Activa': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia activa', 'active_power'])],
-        'Potencia Reactiva': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia reactiva', 'reactive_power'])],
-        'Potencia Aparente': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia aparente', 'apparent_power'])],
-        'Demanda': [col for col in columns_to_scan if any(p in col.lower() for p in ['demanda', 'demand'])]
+        'Voltajes': [col for col in columns_to_scan if any(p in col.lower() for p in ['voltaje', 'tension', 'tensión'])],
+        'Corrientes': [col for col in columns_to_scan if any(p in col.lower() for p in ['corriente'])],
+        'Potencia Activa': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia activa'])],
+        'Potencia Reactiva': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia reactiva'])],
+        'Potencia Aparente': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia aparente'])],
+        'Demanda': [col for col in columns_to_scan if any(p in col.lower() for p in ['demanda'])],
+        'Factor de Potencia': [col for col in columns_to_scan if any(p in col.lower() for p in ['factor de potencia'])],
     }
     # Filtrar categorías que no encontraron ninguna columna
     detected = {k: v for k, v in detected.items() if v}
