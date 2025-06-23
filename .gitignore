@@ -19,6 +19,9 @@ __pycache__/
 # Carpetas de backup
 backups_influx/
 
+# Logs de mkdocs
+mkdocs.log
+
 # --- Archivos generados localmente por la aplicación ---
 # Logs de alertas
 logs_alertas.json

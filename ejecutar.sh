@@ -29,3 +29,10 @@ comando_borrado="20 0 * * 1,3,5 docker exec $docker_influx rm -rf /backups/"
 # Borrar backups 3 veces al mes (días 1, 14 y 28 a las 00:20hs)
 borrado_mensual="20 00 1,14,28 * * $ruta/limpieza_backups.sh"
 (crontab -l 2>/dev/null; echo "$borrado_mensual") | sort -u | crontab -
+
+# Levantar MkDocs para el manual de usuario
+pip install -r Manual/requirements.txt
+cd Manual/manual
+# Lo levanta en segundo plano, si se cierra la terminal no se termina
+nohup mkdocs serve > mkdocs.log 2>&1 &
+
