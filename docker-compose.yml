@@ -1,6 +1,9 @@
+version: "3.9"
+
 services:
   influxdb:
     image: influxdb:2.7
+    container_name: influxdb
     ports:
       - "8086:8086"
     volumes:
@@ -13,40 +16,71 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=mensualx6
       - DOCKER_INFLUXDB_INIT_RETENTION=180d
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=token_telegraf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
     restart: unless-stopped
+    networks:
+      - default # Se agregó para consistencia, ya que otros servicios lo usan.
 
   influxdb-init:
     image: influxdb:2.7
+    container_name: influxdb-init
     depends_on:
-      - influxdb
+      influxdb:
+        condition: service_healthy
     volumes:
       - ./influxdb/init.sh:/init.sh:ro
     entrypoint: [ "sh", "/init.sh" ]
+    networks:
+      - default
 
   telegraf:
-    image: telegraf:1.28
+    image: telegraf:1.34.4
+    container_name: telegraf
     volumes:
       - ./Telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./Telegraf/telegraf_onetime.conf:/etc/telegraf/telegraf_onetime.conf:ro
+      - ./Telegraf/entrypoint.sh:/entrypoint.sh:ro
+    command: /bin/bash /entrypoint.sh
     environment:
       - INFLUX_TOKEN=token_telegraf
       - INFLUX_ORG=power_logic
     depends_on:
-      - influxdb
-      - modbus-sim
+      influxdb:
+        condition: service_healthy
+      influxdb-init:
+        condition: service_completed_successfully
+      modbus-sim:
+        condition: service_started
     restart: unless-stopped
     networks:
       - default
 
   telegraf-warnings: # Servicio para recolectar datos de alta frecuencia para alertas
-    image: telegraf:1.28
+    image: telegraf:1.34.4
+    container_name: telegraf-warnings # Añadido para consistencia
     volumes:
       - ./Telegraf/telegraf_warnings.conf:/etc/telegraf/telegraf.conf:ro
     environment:
       - INFLUX_TOKEN=token_telegraf
       - INFLUX_ORG=power_logic
     depends_on:
-      - influxdb
-      - modbus-sim
+      influxdb:
+        condition: service_healthy
+      influxdb-init:
+        condition: service_completed_successfully
+      modbus-sim:
+        condition: service_started
+    healthcheck: # <-- ¡NUEVO HEALTHCHECK para telegraf-warnings!
+      test: ["CMD-SHELL", "telegraf --version || exit 1"] # Un chequeo simple que Telegraf esté ejecutándose
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
     networks:
       - default
@@ -55,6 +89,7 @@ services:
     build:
       context: ./Modbus_sim
       dockerfile: Dockerfile
+    container_name: modbus-sim # Añadido para consistencia
     command: ["sh", "-c", "while true; do python modbus_cm4000_server.py; sleep 900; done"]
     ports:
       - "5020:5020"
@@ -66,14 +101,19 @@ services:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
-    command: ["streamlit", "run", "login.py"] # <--- LÍNEA MODIFICADA
+    container_name: streamlit # Añadido para consistencia
+    command: ["streamlit", "run", "login.py"]
     ports:
-      - "8501:8501" # Puerto expuesto para acceso local
+      - "8501:8501"
     volumes:
       - ./Streamlit:/app
     depends_on:
-      - influxdb
-      - telegraf-warnings
+      influxdb:
+        condition: service_healthy
+      influxdb-init:
+        condition: service_completed_successfully
+      telegraf-warnings: # <-- ¡Aquí se aplica la condición!
+        condition: service_healthy # Espera que telegraf-warnings esté operativo
     environment:
       - INFLUXDB_URL=http://influxdb:8086
       - INFLUXDB_TOKEN=token_telegraf
@@ -85,21 +125,26 @@ services:
     networks:
       - default
 
-  checker_service: # Servicio para ejecutar checker.py automáticamente
+  checker_service:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
+    container_name: checker_service # Añadido para consistencia
     command: ["sh", "-c", "while true; do python checker.py; sleep 60; done"]
     depends_on:
-      - influxdb
-      - telegraf-warnings
+      influxdb:
+        condition: service_healthy
+      influxdb-init:
+        condition: service_completed_successfully
+      telegraf-warnings: # <-- ¡Aquí se aplica la condición!
+        condition: service_healthy # Espera que telegraf-warnings esté operativo
     environment:
       - INFLUXDB_URL=http://influxdb:8086
       - INFLUXDB_TOKEN=token_telegraf
       - INFLUXDB_ORG=power_logic
       - RESEND_API_KEY=re_T2f6KPsP_NNRYnqEFC5JffPL7rWxXgiYa
       - RESEND_FROM=alertas@galasandbox.com.ar
-      - TZ=America/Argentina/Buenos_Aires # <-- Añade esta línea
+      - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./Streamlit:/app
     networks:
@@ -107,7 +152,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  influxdb-data:
+  influxdb-data: {}
 
 networks:
   default:
