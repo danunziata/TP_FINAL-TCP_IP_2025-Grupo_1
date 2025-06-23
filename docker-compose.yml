@@ -3,7 +3,6 @@ version: "3.9"
 services:
   influxdb:
     image: influxdb:2.7
-    container_name: influxdb
     ports:
       - "8086:8086"
     volumes:
@@ -28,7 +27,6 @@ services:
 
   influxdb-init:
     image: influxdb:2.7
-    container_name: influxdb-init
     depends_on:
       influxdb:
         condition: service_healthy
@@ -40,7 +38,6 @@ services:
 
   telegraf:
     image: telegraf:1.34.4
-    container_name: telegraf
     volumes:
       - ./Telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - ./Telegraf/telegraf_onetime.conf:/etc/telegraf/telegraf_onetime.conf:ro
@@ -62,7 +59,6 @@ services:
 
   telegraf-warnings: # Servicio para recolectar datos de alta frecuencia para alertas
     image: telegraf:1.34.4
-    container_name: telegraf-warnings # Añadido para consistencia
     volumes:
       - ./Telegraf/telegraf_warnings.conf:/etc/telegraf/telegraf.conf:ro
     environment:
@@ -89,7 +85,6 @@ services:
     build:
       context: ./Modbus_sim
       dockerfile: Dockerfile
-    container_name: modbus-sim # Añadido para consistencia
     command: ["sh", "-c", "while true; do python modbus_cm4000_server.py; sleep 900; done"]
     ports:
       - "5020:5020"
@@ -101,7 +96,6 @@ services:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
-    container_name: streamlit # Añadido para consistencia
     command: ["streamlit", "run", "login.py"]
     ports:
       - "8501:8501"
@@ -129,7 +123,6 @@ services:
     build:
       context: ./Streamlit
       dockerfile: Dockerfile
-    container_name: checker_service # Añadido para consistencia
     command: ["sh", "-c", "while true; do python checker.py; sleep 60; done"]
     depends_on:
       influxdb:
