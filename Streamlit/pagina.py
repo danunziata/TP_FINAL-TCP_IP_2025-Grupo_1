@@ -113,26 +113,33 @@ def load_data(_file_mod=None, data_version=0):
 
         # Aplicar el mapeo de nombres solicitado por el usuario
         field_mapping = {
-            '_time': 'timestamp', # Aunque ya se renombra '_time' a 'timestamp' antes, se mantiene para consistencia si se desea usar este mapeo general
-            'corriente_a': 'Corriente A (A)',
-            'corriente_b': 'Corriente B (A)',
-            'corriente_c': 'Corriente C (A)',
-            'voltaje_a_n': 'Voltaje A-N (V)',
-            'voltaje_b_n': 'Voltaje B-N (V)',
-            'voltaje_c_n': 'Voltaje C-N (V)',
-            'potencia_activa_a': 'Potencia Activa A (W)',
-            'potencia_activa_b': 'Potencia Activa B (W)',
-            'potencia_activa_c': 'Potencia Activa C (W)',
+            '_time': 'timestamp',
+            'corriente_a': 'Corriente Fase A (A)',
+            'corriente_b': 'Corriente Fase B (A)',
+            'corriente_c': 'Corriente Fase C (A)',
+            'corriente_neutro': 'Corriente Neutro (A)',
+            'voltaje_a_n': 'Tensión A-N (V)',
+            'voltaje_b_n': 'Tensión B-N (V)',
+            'voltaje_c_n': 'Tensión C-N (V)',
+            'tension_linea_a': 'Tensión Línea A (V)',
+            'tension_linea_b': 'Tensión Línea B (V)',
+            'tension_linea_c': 'Tensión Línea C (V)',
+            'potencia_activa_a': 'Potencia Activa Fase A (W)',
+            'potencia_activa_b': 'Potencia Activa Fase B (W)',
+            'potencia_activa_c': 'Potencia Activa Fase C (W)',
             'potencia_activa_total': 'Potencia Activa Total (W)',
-            'potencia_reactiva_a': 'Potencia Reactiva A (VAR)',
-            'potencia_reactiva_b': 'Potencia Reactiva B (VAR)',
-            'potencia_reactiva_c': 'Potencia Reactiva C (VAR)',
+            'potencia_reactiva_a': 'Potencia Reactiva Fase A (VAR)',
+            'potencia_reactiva_b': 'Potencia Reactiva Fase B (VAR)',
+            'potencia_reactiva_c': 'Potencia Reactiva Fase C (VAR)',
             'potencia_reactiva_total': 'Potencia Reactiva Total (VAR)',
-            'potencia_aparente_a': 'Potencia Aparente A (VA)',
-            'potencia_aparente_b': 'Potencia Aparente B (VA)',
-            'potencia_aparente_c': 'Potencia Aparente C (VA)',
+            'potencia_aparente_a': 'Potencia Aparente Fase A (VA)',
+            'potencia_aparente_b': 'Potencia Aparente Fase B (VA)',
+            'potencia_aparente_c': 'Potencia Aparente Fase C (VA)',
             'potencia_aparente_total': 'Potencia Aparente Total (VA)',
-            'demanda_potencia_real_3_fases_running': 'Demanda Potencia Real (W)'
+            'factor_potencia_a': 'Factor de Potencia Fase A',
+            'factor_potencia_b': 'Factor de Potencia Fase B',
+            'factor_potencia_c': 'Factor de Potencia Fase C',
+            'factor_potencia_total': 'Factor de Potencia Total',
         }
         df.rename(columns=field_mapping, inplace=True)
         
@@ -152,12 +159,13 @@ def detect_columns(df):
     
     # CORRECCIÓN: Se añaden patrones en inglés y español para ser más robustos.
     detected = {
-        'Voltajes': [col for col in columns_to_scan if any(p in col.lower() for p in ['voltaje', 'voltage'])],
-        'Corrientes': [col for col in columns_to_scan if any(p in col.lower() for p in ['corriente', 'current'])],
-        'Potencia Activa': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia activa', 'active_power'])],
-        'Potencia Reactiva': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia reactiva', 'reactive_power'])],
-        'Potencia Aparente': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia aparente', 'apparent_power'])],
-        'Demanda': [col for col in columns_to_scan if any(p in col.lower() for p in ['demanda', 'demand'])]
+        'Voltajes': [col for col in columns_to_scan if any(p in col.lower() for p in ['voltaje', 'tension', 'tensión'])],
+        'Corrientes': [col for col in columns_to_scan if any(p in col.lower() for p in ['corriente'])],
+        'Potencia Activa': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia activa'])],
+        'Potencia Reactiva': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia reactiva'])],
+        'Potencia Aparente': [col for col in columns_to_scan if any(p in col.lower() for p in ['potencia aparente'])],
+        'Demanda': [col for col in columns_to_scan if any(p in col.lower() for p in ['demanda'])],
+        'Factor de Potencia': [col for col in columns_to_scan if any(p in col.lower() for p in ['factor de potencia'])],
     }
     # Filtrar categorías que no encontraron ninguna columna
     detected = {k: v for k, v in detected.items() if v}
@@ -238,8 +246,10 @@ def create_excel_file(data, detected_columns):
 
     # Hojas por Categoría
     for category, cols in detected_columns.items():
-        if cols:
-            df_category = data[['timestamp'] + cols]
+        # Solo incluir columnas que realmente existen en el DataFrame filtrado
+        cols_presentes = [col for col in cols if col in data.columns]
+        if cols_presentes:
+            df_category = data[['timestamp'] + cols_presentes] if 'timestamp' in data.columns else data[cols_presentes]
             sheet_name = category.replace('_', ' ').title()[:31]
             ws_cat = wb.create_sheet(title=sheet_name)
             for r in dataframe_to_rows(df_category, index=False, header=True):
@@ -758,37 +768,22 @@ def main():
                 st.subheader("📊 Datos Detallados")
 
                 # --- INICIO DEL NUEVO CÓDIGO PARA SELECCIÓN DE COLUMNAS EN LA BARRA LATERAL ---
-                # Genera una lista de todas las columnas de datos que existen en el DataFrame filtrado,
-                # excluyendo el timestamp temporalmente para la selección.
-                # Usa `filtered_df.columns` después del field_mapping para obtener los nombres amigables.
                 all_data_cols = [col for col in filtered_df.columns if col != 'timestamp']
                 
-                with st.sidebar: # Este bloque debe estar correctamente indentado
+                with st.sidebar:
                     st.subheader("Opciones de Tabla:")
-                    # Agrega un checkbox para seleccionar/deseleccionar todo
                     select_all_cols = st.checkbox("Seleccionar todas las columnas", value=True, key="select_all_cols_table")
-                    
-                    # Estado inicial de los checkboxes basado en 'seleccionar todas' o sesión anterior
                     default_selected_cols = all_data_cols if select_all_cols else st.session_state.get('selected_table_cols', all_data_cols)
-
-                    # Crear checkboxes para cada columna, incluyendo las categorizadas y las no categorizadas
                     selected_columns_for_table = []
                     st.markdown("Columnas a mostrar en la tabla:")
                     for col_name in all_data_cols:
-                        # Mantener el estado si no se seleccionó "todas"
                         is_selected = col_name in default_selected_cols if not select_all_cols else select_all_cols
                         if st.checkbox(col_name, value=is_selected, key=f"table_col_{col_name}"):
                             selected_columns_for_table.append(col_name)
-                    
-                    # Guardar la selección en el estado de la sesión
                     st.session_state['selected_table_cols'] = selected_columns_for_table
 
-                # Asegurarse de que 'timestamp' siempre esté en la lista
                 if 'timestamp' not in selected_columns_for_table:
-                    selected_columns_for_table.insert(0, 'timestamp') # Asegura que timestamp sea la primera
-                
-                # Filtrar el DataFrame final basándose en la selección del usuario
-                # Solo incluir columnas que realmente existen en el DataFrame filtrado
+                    selected_columns_for_table.insert(0, 'timestamp')
                 final_cols_to_display = [col for col in selected_columns_for_table if col in filtered_df.columns]
 
                 if not final_cols_to_display:
@@ -800,17 +795,11 @@ def main():
                 st.subheader("📥 Exportar Datos")
                 col1_exp, col2_exp = st.columns(2)
                 with col1_exp:
-                    # Asegurarse de exportar solo las columnas seleccionadas si se desea
                     csv_data = filtered_df[final_cols_to_display].to_csv(index=False).encode('utf-8')
                     st.download_button("📄 Descargar CSV", data=csv_data, file_name=f"powerlogic_data_{start}_{end}.csv", mime="text/csv", use_container_width=True)
-                
                 with col2_exp:
-                    # Para Excel Avanzado, la función create_excel_file ya maneja categories/columns
-                    # Si quieres que el Excel exporte SÓLO las columnas seleccionadas en la tabla,
-                    # tendrías que modificar create_excel_file para aceptar una lista de columnas.
-                    # Por ahora, la exportación de Excel seguirá incluyendo todas las columnas disponibles
-                    # por categoría, lo cual suele ser deseable para un "reporte completo".
-                    excel_data = create_excel_file(filtered_df, detected_columns)
+                    # Exportar solo las columnas seleccionadas en la tabla al Excel
+                    excel_data = create_excel_file(filtered_df[final_cols_to_display], detected_columns)
                     st.download_button("📊 Descargar Excel Avanzado", data=excel_data, file_name=f"powerlogic_completo_{start}_{end}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
         else: # Este 'else' corresponde al 'if len(date_range) == 2'
             st.error("❌ Por favor selecciona un rango de fechas válido")
@@ -829,66 +818,6 @@ def main():
             display_franja_config_form(config_data, franjas)
         st.divider()
         ejecutar_checker_manual()
-
-        # --- FUNCIONALIDAD DE RESTAURAR BACKUP SOLO PARA ADMIN ---
-        if st.session_state.get('roles') == 'admin':
-            st.divider()
-            st.subheader("🗄️ Restaurar BackUp de InfluxDB (solo admin)")
-            backup_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backups_influx'))
-            if not os.path.exists(backup_dir):
-                st.warning(f"La carpeta de backups no existe: {backup_dir}")
-            else:
-                # Buscar carpetas tipo backup-YYYY-MM-DD
-                backups = sorted([os.path.basename(f) for f in glob.glob(os.path.join(backup_dir, 'backup-*')) if os.path.isdir(os.path.join(backup_dir, f))])
-                if not backups:
-                    st.info("No hay backups disponibles en la carpeta 'backups_influx'.")
-                else:
-                    selected_backup = st.selectbox("Selecciona un backup para restaurar:", backups, key="select_backup_restore")
-                    if st.button("Cargar BackUp", use_container_width=True, type="primary"):
-                        with st.spinner("Restaurando backup, esto puede demorar unos minutos..."):
-                            # Definir nombres y comandos
-                            backup_src = os.path.join(backup_dir, selected_backup)
-                            fecha_actual = datetime.now().strftime('%Y-%m-%d')
-                            backup_dst_name = f"backup-{fecha_actual}"
-                            backup_dst = os.path.join(backup_dir, backup_dst_name)
-                            # Copiar el backup a una carpeta con la fecha actual (si es necesario)
-                            if backup_src != backup_dst:
-                                try:
-                                    if os.path.exists(backup_dst):
-                                        shutil.rmtree(backup_dst)
-                                    shutil.copytree(backup_src, backup_dst)
-                                    st.info(f"Backup copiado a {backup_dst_name} para restaurar con la fecha actual.")
-                                except Exception as e:
-                                    st.error(f"Error al copiar el backup: {e}")
-                                    st.stop()
-                            else:
-                                st.info(f"Restaurando backup {backup_dst_name} (ya tiene la fecha actual)")
-                            # Ejecutar los comandos de restauración
-                            try:
-                                # 1. Copiar al contenedor
-                                cmd_cp = [
-                                    'docker', 'cp', backup_dst, '15jun_server-influxdb-1:tmp/backup_restore'
-                                ]
-                                subprocess.check_call(cmd_cp)
-                                # 2. Restaurar dentro del contenedor
-                                cmd_restore = [
-                                    'docker', 'exec', '15jun_server-influxdb-1',
-                                    'influx', 'restore', '--full', 'tmp/backup_restore'
-                                ]
-                                subprocess.check_call(cmd_restore)
-                                # 3. Esperar 10 segundos
-                                time_module.sleep(10)
-                                # 4. Borrar la carpeta temporal en el contenedor
-                                cmd_rm = [
-                                    'docker', 'exec', '15jun_server-influxdb-1',
-                                    'rm', '-rf', 'tmp/backup_restore'
-                                ]
-                                subprocess.check_call(cmd_rm)
-                                st.success(f"Backup restaurado correctamente desde {backup_dst_name}.")
-                            except subprocess.CalledProcessError as e:
-                                st.error(f"Error al ejecutar el comando: {e}")
-                            except Exception as e:
-                                st.error(f"Error inesperado: {e}")
 
     elif seccion == "👤 Editar Perfil":
         editar_perfil_usuario()
