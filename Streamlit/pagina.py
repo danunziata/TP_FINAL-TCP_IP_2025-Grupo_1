@@ -246,8 +246,10 @@ def create_excel_file(data, detected_columns):
 
     # Hojas por Categoría
     for category, cols in detected_columns.items():
-        if cols:
-            df_category = data[['timestamp'] + cols]
+        # Solo incluir columnas que realmente existen en el DataFrame filtrado
+        cols_presentes = [col for col in cols if col in data.columns]
+        if cols_presentes:
+            df_category = data[['timestamp'] + cols_presentes] if 'timestamp' in data.columns else data[cols_presentes]
             sheet_name = category.replace('_', ' ').title()[:31]
             ws_cat = wb.create_sheet(title=sheet_name)
             for r in dataframe_to_rows(df_category, index=False, header=True):
@@ -766,37 +768,22 @@ def main():
                 st.subheader("📊 Datos Detallados")
 
                 # --- INICIO DEL NUEVO CÓDIGO PARA SELECCIÓN DE COLUMNAS EN LA BARRA LATERAL ---
-                # Genera una lista de todas las columnas de datos que existen en el DataFrame filtrado,
-                # excluyendo el timestamp temporalmente para la selección.
-                # Usa `filtered_df.columns` después del field_mapping para obtener los nombres amigables.
                 all_data_cols = [col for col in filtered_df.columns if col != 'timestamp']
                 
-                with st.sidebar: # Este bloque debe estar correctamente indentado
+                with st.sidebar:
                     st.subheader("Opciones de Tabla:")
-                    # Agrega un checkbox para seleccionar/deseleccionar todo
                     select_all_cols = st.checkbox("Seleccionar todas las columnas", value=True, key="select_all_cols_table")
-                    
-                    # Estado inicial de los checkboxes basado en 'seleccionar todas' o sesión anterior
                     default_selected_cols = all_data_cols if select_all_cols else st.session_state.get('selected_table_cols', all_data_cols)
-
-                    # Crear checkboxes para cada columna, incluyendo las categorizadas y las no categorizadas
                     selected_columns_for_table = []
                     st.markdown("Columnas a mostrar en la tabla:")
                     for col_name in all_data_cols:
-                        # Mantener el estado si no se seleccionó "todas"
                         is_selected = col_name in default_selected_cols if not select_all_cols else select_all_cols
                         if st.checkbox(col_name, value=is_selected, key=f"table_col_{col_name}"):
                             selected_columns_for_table.append(col_name)
-                    
-                    # Guardar la selección en el estado de la sesión
                     st.session_state['selected_table_cols'] = selected_columns_for_table
 
-                # Asegurarse de que 'timestamp' siempre esté en la lista
                 if 'timestamp' not in selected_columns_for_table:
-                    selected_columns_for_table.insert(0, 'timestamp') # Asegura que timestamp sea la primera
-                
-                # Filtrar el DataFrame final basándose en la selección del usuario
-                # Solo incluir columnas que realmente existen en el DataFrame filtrado
+                    selected_columns_for_table.insert(0, 'timestamp')
                 final_cols_to_display = [col for col in selected_columns_for_table if col in filtered_df.columns]
 
                 if not final_cols_to_display:
@@ -808,17 +795,11 @@ def main():
                 st.subheader("📥 Exportar Datos")
                 col1_exp, col2_exp = st.columns(2)
                 with col1_exp:
-                    # Asegurarse de exportar solo las columnas seleccionadas si se desea
                     csv_data = filtered_df[final_cols_to_display].to_csv(index=False).encode('utf-8')
                     st.download_button("📄 Descargar CSV", data=csv_data, file_name=f"powerlogic_data_{start}_{end}.csv", mime="text/csv", use_container_width=True)
-                
                 with col2_exp:
-                    # Para Excel Avanzado, la función create_excel_file ya maneja categories/columns
-                    # Si quieres que el Excel exporte SÓLO las columnas seleccionadas en la tabla,
-                    # tendrías que modificar create_excel_file para aceptar una lista de columnas.
-                    # Por ahora, la exportación de Excel seguirá incluyendo todas las columnas disponibles
-                    # por categoría, lo cual suele ser deseable para un "reporte completo".
-                    excel_data = create_excel_file(filtered_df, detected_columns)
+                    # Exportar solo las columnas seleccionadas en la tabla al Excel
+                    excel_data = create_excel_file(filtered_df[final_cols_to_display], detected_columns)
                     st.download_button("📊 Descargar Excel Avanzado", data=excel_data, file_name=f"powerlogic_completo_{start}_{end}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
         else: # Este 'else' corresponde al 'if len(date_range) == 2'
             st.error("❌ Por favor selecciona un rango de fechas válido")
