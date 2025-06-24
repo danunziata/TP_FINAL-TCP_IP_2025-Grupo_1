@@ -33,6 +33,7 @@ borrado_mensual="20 00 1,14,28 * * $ruta/limpieza_backups.sh"
 # Levantar MkDocs para el manual de usuario
 pip install -r Manual/requirements.txt
 cd Manual/manual
-# Lo levanta en segundo plano, si se cierra la terminal no se termina
-nohup mkdocs serve > mkdocs.log 2>&1 &
+# Lo levanta en segundo plano con &, si se cierra la terminal no se termina con nohup
+# Además se permite que accedan otros dispositivos desde afuera con --dev-addr
+nohup mkdocs serve --dev-addr=0.0.0.0:8000 > mkdocs.log 2>&1 &
 
