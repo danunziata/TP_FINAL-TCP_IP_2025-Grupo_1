@@ -32,7 +32,7 @@ Fecha del backup:
 ```
 En `Fecha del backup` se debe escribir la fecha del backup de datos que se desee recuperar.
 
-**Advertencia : Éste un proceso destructivo, si hay información dsitinta, se pueden llegar a sobreescribir datos** 
+**Advertencia : Éste un proceso destructivo, si hay información distinta, se pueden llegar a sobreescribir datos** 
 
 ## Ubicación de los Backups
 
