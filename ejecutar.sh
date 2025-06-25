@@ -5,6 +5,9 @@
 # modificaciones, no es necesario --build)
 docker compose up -d
 
+sudo chmod +x limpieza_backups.sh
+sudo chmod +x restaurar_backup.sh
+
 ruta=$(pwd)
 # Nombre del docker de InfluxDB
 docker_influx=tp_final-tcp_ip_2025-grupo_1-influxdb-1
@@ -29,6 +32,11 @@ comando_borrado="20 0 * * 1,3,5 docker exec $docker_influx rm -rf /backups/"
 # Borrar backups 3 veces al mes (días 1, 14 y 28 a las 00:20hs)
 borrado_mensual="20 00 1,14,28 * * $ruta/limpieza_backups.sh"
 (crontab -l 2>/dev/null; echo "$borrado_mensual") | sort -u | crontab -
+
+# Calculo de factor de potencia cada 15 minutos
+pip install influxdb-client==1.49.0
+factor_potencia="*/15 * * * * /usr/bin/python3 $ruta/factor_potencia.py"
+(crontab -l 2>/dev/null; echo "$factor_potencia") | sort -u | crontab -
 
 # Levantar MkDocs para el manual de usuario
 pip install -r Manual/requirements.txt
