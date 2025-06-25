@@ -212,7 +212,7 @@ def create_metrics_dashboard(data, detected_columns):
 
     if 'Potencia Activa' in detected_columns:
         power_data = data[detected_columns['Potencia Activa']].select_dtypes(include=np.number)
-        if not power_data.empty: display_metric("Pot. Activa Prom", power_data.mean().mean(), "W")
+        if not power_data.empty: display_metric("Pot. Activa Prom", power_data.mean().mean(), "KW")
     
     display_metric("Registros", len(data), "")
 
@@ -761,7 +761,18 @@ def main():
                 for category, cols in detected_columns.items():
                     if show_sections.get(category):
                         st.subheader(f"⚡ {category}")
-                        unit = "V" if "Voltaje" in category else "A" if "Corriente" in category else "W" if "Potencia" in category or "Demanda" in category else "VA" if "Aparente" in category else "VAR" if "Reactiva" in category else ""
+                        if "Potencia Activa" in category:
+                            unit = "kW"
+                        elif "Potencia Reactiva" in category:
+                            unit = "kVAr"
+                        elif "Potencia Aparente" in category:
+                            unit = "kVA"
+                        elif "Voltaje" in category or "Tensión" in category:
+                            unit = "V"
+                        elif "Corriente" in category:
+                            unit = "A"
+                        else:
+                            unit = ""
                         chart, count = create_multi_series_chart(filtered_df, category, cols, f"{unit}")
                         if count > 0: st.plotly_chart(chart, use_container_width=True)
                         else: st.info(f"No hay datos de {category.lower()} válidos para mostrar.")
