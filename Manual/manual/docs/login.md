@@ -1,7 +1,7 @@
 # Registro e Inicio de Sesión
 
 ## Acceso a la aplicación
-Para acceder a la aplicación "", se debe insertar en la sección de URL del navegador alguno de los siguientes links :
+Para acceder a la aplicación Visualizador de variables de equipo Power Logic Circuit Monitor Series 4000, se debe insertar en la sección de URL del navegador alguno de los siguientes links :
 
 * **<http://localhost:8501>**
 * 
