@@ -51,8 +51,6 @@ services:
         condition: service_healthy
       influxdb-init:
         condition: service_completed_successfully
-      modbus-sim:
-        condition: service_started
     restart: unless-stopped
     networks:
       - default
@@ -69,25 +67,12 @@ services:
         condition: service_healthy
       influxdb-init:
         condition: service_completed_successfully
-      modbus-sim:
-        condition: service_started
     healthcheck: # <-- ¡NUEVO HEALTHCHECK para telegraf-warnings!
       test: ["CMD-SHELL", "telegraf --version || exit 1"] # Un chequeo simple que Telegraf esté ejecutándose
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-    restart: unless-stopped
-    networks:
-      - default
-
-  modbus-sim:
-    build:
-      context: ./Modbus_sim
-      dockerfile: Dockerfile
-    command: ["sh", "-c", "while true; do python modbus_cm4000_server.py; sleep 900; done"]
-    ports:
-      - "5020:5020"
     restart: unless-stopped
     networks:
       - default
