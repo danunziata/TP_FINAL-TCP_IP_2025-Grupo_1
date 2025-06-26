@@ -33,14 +33,6 @@ comando_borrado="20 0 * * 1,3,5 docker exec $docker_influx rm -rf /backups/"
 borrado_mensual="20 00 1,14,28 * * $ruta/limpieza_backups.sh"
 (crontab -l 2>/dev/null; echo "$borrado_mensual") | sort -u | crontab -
 
-# Calculo de factor de potencia cada 15 minutos
-pip install influxdb-client==1.49.0
-factor_potencia="*/15 * * * * /usr/bin/python3 $ruta/factor_potencia.py"
-(crontab -l 2>/dev/null; echo "$factor_potencia") | sort -u | crontab -
-
-# Ejecución calculo factor potencia en un primer instante
-python3 factor_potencia.py
-
 # Levantar MkDocs para el manual de usuario
 pip install -r Manual/requirements.txt
 cd Manual/manual
