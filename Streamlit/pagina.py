@@ -702,7 +702,7 @@ def main():
     if st.session_state.get('roles') == 'admin':
         nav_options.append("👥 Gestión de Usuarios")
     seccion = st.sidebar.radio("Navegar:", nav_options, index=0)
-    st.sidebar.markdown("[Manual de Usuario](http://localhost:8000/)")
+    st.sidebar.markdown("[Manual de Usuario](http://gstr2.ing.unrc.edu.ar:8000/)")
 
 
     # --- INICIO DE LA SECCIÓN DEL DASHBOARD (LÓGICA MEJORADA) ---

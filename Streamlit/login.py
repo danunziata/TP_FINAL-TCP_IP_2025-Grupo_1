@@ -472,7 +472,7 @@ else:
             st.warning("Por favor, ingresá tu Usuario y Contraseña")
 
         st.markdown("---")
-        st.subheader("[Manual de Usuario](http://localhost:8000/)")
+        st.subheader("[Manual de Usuario](http://gstr2.ing.unrc.edu.ar:8000/)")
         st.markdown("---")
         st.subheader("¿Olvidaste tu contraseña?")
         with st.form("forgot_password_form"):
