@@ -1,5 +1,7 @@
 # Backups y Restauración de la Base de Datos
 
+Éste apartado contiene acciones que pueden ser realizadas solo si se tiene acceo al servidor, por lo que se hará una actualización en la cual se pueda realizar un acceso simple a la misma.
+
 ## Creación Automática de Backups
 
 - Los backups se generan automáticamente mediante un proceso que comienza los **lunes, miércoles y viernes a las 00:10hs** y termina a las **00:20hs**
