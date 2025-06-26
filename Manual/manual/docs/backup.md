@@ -1,6 +1,6 @@
 # Backups y Restauración de la Base de Datos
 
-Éste apartado contiene acciones que pueden ser realizadas solo si se tiene acceo al servidor, por lo que se hará una actualización en la cual se pueda realizar un acceso simple a la misma.
+Éste apartado contiene acciones que pueden ser realizadas solo si se tiene acceso al servidor, por lo que se hará una actualización en la cual se pueda realizar un acceso simple a la misma.
 
 ## Creación Automática de Backups
 
