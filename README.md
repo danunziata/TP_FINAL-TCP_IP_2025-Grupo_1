@@ -51,4 +51,5 @@ Documentación:
 - Pruebas
 Demostrador Tecnológico
 
-
+## Leer el README de la rama develop-implementación
+Allí se encuentra el proyecto final
