@@ -1,7 +1,12 @@
 # Telegraf Agents Configuration
 
-Este directorio contiene los archivos de configuración para los agentes Telegraf utilizados en el sistema de monitoreo.
+A continuación se muestra un diagrama que ilustra la arquitectura y el flujo de datos entre el dispositivo PowerLogic CM4000, el protocolo Modbus-TCP y las distintas configuraciones de Telegraf utilizadas en el sistema:
 
+![Esquema de Telegraf](../img/Esquema-Telegraf.drawio.png)
+
+**Descripción breve del diagrama:**
+
+El diagrama muestra cómo Telegraf recibe datos eléctricos del PowerLogic CM4000 a través de Modbus-TCP, los procesa según diferentes configuraciones y envía toda la información directamente a InfluxDB para su almacenamiento y análisis.
 ## Propósito
 
 Telegraf es un agente de código abierto para la recolección, procesamiento y envío de métricas y eventos. En este proyecto, se utilizan dos instancias de Telegraf para satisfacer diferentes requisitos de recolección de datos y retención en InfluxDB.
