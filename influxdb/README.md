@@ -2,6 +2,12 @@
 
 Este directorio contiene los scripts y configuraciones relacionadas con la base de datos InfluxDB 2.x utilizada en el sistema de monitoreo.
 
+## Esquema de Arquitectura de InfluxDB
+
+A continuación se muestra un diagrama que ilustra la arquitectura y el flujo de datos entre Telegraf, los buckets de InfluxDB y la aplicación Streamlit:
+
+![Esquema de InfluxDB](../img/Esquema-InfluxDB.drawio.png)
+
 ## Propósito
 
 InfluxDB es una base de datos de series temporales (TSDB) optimizada para el almacenamiento y consulta de grandes volúmenes de datos con marca de tiempo, como los generados por sensores y dispositivos de monitoreo. En este proyecto, InfluxDB es el corazón del almacenamiento de datos eléctricos.
