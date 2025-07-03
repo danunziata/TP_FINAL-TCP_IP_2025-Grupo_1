@@ -1,5 +1,9 @@
 # Streamlit Application & Backend Logic
 
+A continuación se muestra un diagrama que ilustra la arquitectura y el flujo de datos entre los principales scripts, archivos de configuración y la interacción con InfluxDB en el sistema Streamlit:
+
+![Esquema de Streamlit](../img/Esquema-Streamlit.drawio.png)
+
 Este directorio contiene la aplicación web principal desarrollada con Streamlit, así como los scripts de backend cruciales para la autenticación, gestión de usuarios, sistema de alertas y envío de notificaciones.
 
 ## Propósito
