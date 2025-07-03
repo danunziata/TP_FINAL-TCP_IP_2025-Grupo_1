@@ -2,6 +2,42 @@
 
 Este proyecto es un sistema integral de **monitoreo** y **alerta** para dispositivos de medición eléctrica.  
 Combina tecnologías modernas de _código abierto_ para la **recolección**, **almacenamiento**, **visualización** y **notificación** de datos; es ideal para laboratorios, entornos industriales o académicos.
+## Contexto y Objetivo
+
+Fue desarrollado como parte del **Parcial Práctico Integrador** de la materia **Aplicaciones TCP/IP 2025** en la Facultad de Ingeniería de la Universidad Nacional de Río Cuarto (UNRC), para el **Instituto de Protecciones de Sistemas Eléctricos de Potencia (IPSEP)**.
+
+**Objetivo:**  
+Desarrollar una aplicación de monitoreo para una unidad de medición de potencia **PowerLogic™ Circuit Monitor Series 4000** (Schneider), utilizando el protocolo **Modbus-TCP** para la comunicación, almacenamiento de datos históricos y visualización web. El sistema busca mejorar la operación de la celda que alimenta a la UNRC y optimizar la toma de decisiones mediante el análisis de datos históricos.
+
+**Consigna:**  
+El desarrollo se realizó siguiendo el proceso de ingeniería de software según el **SWEBOK de la IEEE (Versión 3.0)**, incluyendo documentación completa y un demostrador tecnológico.
+
+## Integrantes
+
+- Abdul, Aaron
+- Carpena, Joaquín
+- Coranti, Elías
+- Mora, Valentín
+- Nuñez, Damián
+- Ponte, Matías
+- Torletti, Lautaro
+- Valenzuela, Martina
+
+## Documentación
+
+- Requerimientos
+- Diseño
+- Implementación
+- Pruebas
+- Demostrador Tecnológico
+
+---
+
+## Esquema de Infraestructura
+
+A continuación se muestra el diagrama completo de la infraestructura del sistema, donde se visualizan todos los componentes y su interacción:
+
+![Esquema de Infraestructura](img/Esquema-Infraestructura.drawio.png)
 
 ---
 
