@@ -1,0 +1,8 @@
+[
+    {
+        "login_email": "admin@ing.unrc.edu.ar",
+        "nombre": "IPSEP Admin",
+        "alert_email": null,
+        "recibir_notificaciones": false
+    }
+]

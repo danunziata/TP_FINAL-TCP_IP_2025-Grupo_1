@@ -1,1 +1,42 @@
-actions-runner/
+# Ignorar archivos del sistema
+.DS_Store
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Archivos de backup
+*.zip
+*.tar
+*.tar.gz
+*.bak
+
+# Archivos de entorno / local
+.env
+*.swp
+
+# Carpetas de backup
+backups_influx/
+
+# Logs de mkdocs
+mkdocs.log
+
+# --- Archivos generados localmente por la aplicación ---
+# Logs de alertas
+logs_alertas.json
+
+# Estado del último resumen de alertas enviado
+last_digest_sent_state.json
+
+# Buffer de alertas pendientes de envío
+pending_alerts_buffer.json
+
+# Tokens de restablecimiento de contraseña
+reset_tokens.json
+
+# Archivos de estado de Streamlit (si se generan fuera de __pycache__)
+.streamlit/
+
+# Archivos de estado de cooldown (si aún existieran o se regeneraran por error)
+alert_cooldown_state.json

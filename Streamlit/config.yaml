@@ -1,0 +1,99 @@
+alert_digest_interval_minutes: 120
+cookie:
+  expiry_days: 30
+  key: your_cookie_key
+  name: your_cookie_name
+credentials:
+  usernames:
+    ipsepadmin:
+      email: admin@ing.unrc.edu.ar
+      first_name: IPSEP
+      last_name: Admin
+      logged_in: false
+      password: $2b$12$icwHPZERS/eqJdXWVGj5IekYET8jeXKsjFKCrl9nvxdnx.B5ytdEq
+      roles: admin
+default_franjas_horarias:
+  DIA:
+    fin_hora: '20:00'
+    inicio_hora: 08:00
+    umbrales:
+      active_power:
+        max: 8000.0
+        min: 500.0
+      current_l1:
+        max: 40.0
+        min: 5.0
+      voltaje:
+        max: 235.0
+        min: 210.0
+  NOCHE:
+    fin_hora: 07:59
+    inicio_hora: '20:01'
+    umbrales:
+      active_power:
+        max: 3000.0
+        min: 100.0
+      current_l1:
+        max: 20.0
+        min: 1.0
+      voltaje:
+        max: 225.0
+        min: 200.0
+franjas_horarias:
+  DIA:
+    fin_hora: '20:00'
+    inicio_hora: 08:00
+    umbrales:
+      corriente_a:
+        alert_enabled: false
+        max: 50.0
+        min: 20.0
+      frequency:
+        alert_enabled: true
+        max: 50.2
+        min: 49.8
+      potencia_activa_total:
+        alert_enabled: false
+        max: 12000.0
+        min: 1200.0
+      potencia_aparente_total:
+        alert_enabled: true
+        max: 13000.0
+        min: 1200.0
+      potencia_reactiva_total:
+        alert_enabled: false
+        max: 5000.0
+        min: 1200.0
+      voltaje_a_n:
+        alert_enabled: false
+        max: 240.0
+        min: 210.0
+  NOCHE:
+    fin_hora: 07:59
+    inicio_hora: '20:01'
+    umbrales:
+      corriente_a:
+        alert_enabled: true
+        max: 20.0
+        min: 1.0
+      frequency:
+        alert_enabled: true
+        max: 50.1
+        min: 49.9
+      potencia_activa_total:
+        alert_enabled: true
+        max: 3000.0
+        min: 100.0
+      potencia_aparente_total:
+        alert_enabled: true
+        max: 4000.0
+        min: 0.0
+      potencia_reactiva_total:
+        alert_enabled: true
+        max: 2000.0
+        min: 0.0
+      voltaje_a_n:
+        alert_enabled: true
+        max: 225.0
+        min: 200.0
+notificaciones_generales: true

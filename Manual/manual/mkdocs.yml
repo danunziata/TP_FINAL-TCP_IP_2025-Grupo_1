@@ -1,0 +1,13 @@
+site_name: Manual de Visualizador de Variables de equipo PowerLogic™ Circuit Monitor Series 4000
+theme:
+  name: material
+  language: es
+
+markdown_extensions:
+  - attr_list
+
+nav:
+  - Inicio: index.md
+  - Login: login.md
+  - Aplicación: app.md
+  - Backup: backup.md
